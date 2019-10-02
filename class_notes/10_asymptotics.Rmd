@@ -1,0 +1,793 @@
+# Asymptotic Evaluations (Chapter 10, with some review of Chapters 5 and 7)
+
+- So far we have considered *finite-sample criteria* for inference about a parameter $\theta$. That is, the distributions of test statistics were valid for finite sample sizes.
+- Asymptotics are concerned with the properties of estimators, random variables, and hypothesis tests as the sample size(s) increases.
+- "asymptotics uncover the most fundamental properties of a procedure and give us a very powerful and general evaluation tool"--C\&B
+- We are concerned with a sequence of estimators $W_n = W_n(X_1,\ldots,X_n)$. Often $W_n = \thetahat_n$ the MLE of $\theta$.
+
+## Consistency $\sim$ relates to the expectation of an estimator
+
+\begin{itemize}
+\item As $n\to\infty$, an estimator should converge to the ``correct" value = the parameter of interest.
+\item Equivalently, bias should go to 0; we want our estimator to be "asymptotically unbiased".
+\item We would not want an inconsistent estimator, since then we are tending towards bias no matter how large of a sample (even the entire population) we obtain.
+\end{itemize}
+
+
+**Definition 10.1.1 Consistency (convergence in probability to a constant)** A sequence of estimators $W_n = W_n(\Xndots)$ is a *consistent sequence of estimators* of the parameter $\theta$ if, $W_n \xrightarrow{p} \theta$.
+
+- Previously we saw that $\Xbar_n \xrightarrow{p} \mu = E(X_i)$ by the WLLN and $S^2_n \xrightarrow{p} \sigma^2 = Var(X_i)$ so these are examples of consistent estimators.
+
+### Mean Square Error $\to 0$ implies consistency
+
+In order to prove consistency, we can also examine the behavior of the finite sample variance and bias of our estimator. Together, this is the mean square error.
+
+\begin{itemize}
+\item For an estimator $\thetahat$ of $\theta$ we wish to  performance or `goodness' of the estimator.
+\item Hence we estimate the deviation from $\thetahat$ to the true value.
+\item The {\em absolute error} $|\thetahat - \theta|$ measures this.
+\item However, the square of this $(\thetahat - \theta)^2$ also measures this deviation but has nicer mathematical properties
+\end{itemize}
+
+\noindent\textbf{Definition} The *mean square error (MSE)* of an estimator $W_n$ of the parameter $\theta$ is the function $E(W_n - \theta)^2$. We can denote this as $MSE_\theta({W_n}).$ This is also called the quadratic loss function.
+
+An important mathematical property of MSE is (from 7.3.1):
+$$MSE_\theta(W_n) = E_\theta[ (W_n - \theta)^2] = E_\theta[(W_n - E_\theta(W_n))^2] + [E_\theta(W_n) - \theta]^2= Var_\theta W_n + [Bias_\theta W_n]^2$$
+
+<!-- %The proof of this is: -->
+<!-- %\begin{align*} -->
+<!-- %E[ (\thetahat - \theta)^2] &= E(\thetahat^2) + E(\theta^2) - 2\theta E(\thetahat)\\ -->
+<!-- %&= E(\thetahat^2) + \theta^2 - 2\theta E(\thetahat)\\ -->
+<!-- %&= E(\thetahat^2) -[ E(\thetahat)]^2 + [ E(\thetahat)]^2 + E(\theta^2) - 2\theta E(\thetahat)\\ -->
+<!-- %&= Var(\thetahat)+ [ E(\thetahat)]^2 + \theta^2 - 2\theta E(\thetahat)\\ -->
+<!-- %&= Var(\thetahat) + [E(\thetahat) - \theta]^2\\ -->
+<!-- %&= Var(\thetahat) + [Bias(\thetahat)]^2 -->
+<!-- %\end{align*} -->
+
+\begin{itemize}
+\item The MSE has two components: the variability of an estimator (precision) and the bias (accuracy)
+\item We need to find estimators that control both variance and bias.
+\item For an unbiased estimator we only need to control variance since then $MSE_\thetahat = Var(\thetahat)$
+\end{itemize}
+ 
+In general when estimating a parameter $\theta$ via $W_n$, if $Var_\theta(W_n) \to 0$ and $Bias_\theta(W_n) \to 0$ as $n\to \infty$, then the estimator is consistent for $\theta$. This can be seen since by using Chebychev's Inequality (Theorem 3.6.1) to link the definition of convergence in probability to the MSE:
+
+$$P_\theta(|W_n - \theta| \geq \delta) \leq \frac{E_\theta[(W_n - \theta)^2]}{\delta^4}$$
+so if, for every $\theta \in \Theta,$
+$$\lim_{n\to\infty} E_\theta [(W_n - \theta)^2] =\lim_{n\to\infty} MSE_\theta(W_n) = 0,$$
+then the sequence of estimators is consistent for $\theta$. Furthermore, by (7.3.1),
+$$MSE_\theta(W_n) = E_\theta[ (W_n - \theta)^2] = Var_\theta W_n + [Bias_\theta W_n]^2$$
+Combining these facts, we have the following theorem:
+
+\noindent\textbf{Theorem 10.1.3} If $W_n$ is a sequence of estimators of a parameter $\theta$ satisfying
+\begin{enumerate}
+\item $\lim_{n\to\infty} Var_\theta W_n = 0,$
+\item $\lim_{n\to\infty} Bias_\theta W_n = 0,$
+\end{enumerate}
+for every $\theta \in \Theta$, then $W_n$ is a consistent sequence of estimators of $\theta$.
+
+In other words, if $MSE_\theta(W_n) \to 0$, then $W_n$ is consistent for $\theta$.
+
+**Example general variance** Let $X_1, X_2, \ldots X_n$ be iid $\Nsc(\mu,\sigma^2)$ with known $\sigma < \infty$. Then $W_n = \Xbar_n$ is an estimator of $\mu$.
+\begin{enumerate}
+\item $\lim_{n\to\infty} Var_\theta \Xbar = \lim_{n\to\infty} \frac{\sigma^2}{n} = 0,$
+\item $\lim_{n\to\infty} Bias_\theta \Xbar = \lim_{n\to\infty} E(\Xbar) - \mu = \mu - \mu = 0,$
+\end{enumerate}
+So by Thm 10.1.3, $\Xbar_n$ is a consistent estimator of $\mu$.
+
+### Linear combinations of consistent estimators
+
+We can also construct consistent estimators from other consistent estimators:
+
+\noindent\textbf{Theorem 10.1.5} Let $W_n$ be a consistent sequence of estimators of a parameter $\theta$. Let $a_1, a_2, \ldots$ and $b_1, b_2,\ldots$ be sequences of constants satisfying
+\begin{enumerate}
+\item $\lim_{n\to\infty} a_n = 1$,
+\item $\lim_{n\to\infty} b_n = 0$.
+\end{enumerate}
+Then the sequence $U_n = a_n W_n + b_n$ is a consistent sequence of estimators of $\theta$.
+
+\noindent\textbf{Proof:} Use Slutsky's theorem from chapter 5.
+
+
+\noindent\textbf{Example: Consistency of Normal variance estimates} Let $\Xndots$ be iid $\Nsc(\mu,\sigma^2)$. Let $S^2 = \frac{1}{n-1} \sumin (X_i - \Xbar)^2$. We have seen that $E_{\mu,\sigma^2}(S^2) = \sigma^2$ and $Var_{\mu,\sigma^2}(S^2) = 2\frac{\sigma^4}{n-1}$. So, $S^2$ is a consistent estimator of $\sigma^2$.
+
+Since $\sigmahat^2 = \frac{1}{n} \sumin(X_i - \Xbar)^2 = \frac{n}{n-1}S^2,$ $\sigmahat^2$ is also a consistent estimator of $\sigma^2$.
+
+We could have also proven this by showing that $\sigmahat^2$ is asymptotically unbiased (even though it has bias in finite samples, the bias goes to 0 as $n \to \infty$) and that the variance of $\sigmahat^2$ goes to 0.
+
+### Consistency of MLEs
+
+A very important result!
+
+\noindent\textbf{Theorem 10.1.6 Consistency of MLEs} Let $X_1, X_2, \ldots$ be iid $f(x|\theta)$, and let $L(\theta|\bx) = \prod_{i=1}^n f(x_i |\theta)$ be the likelihood function. Let $\thetahat$ denote the MLE of $\theta$. Let $\tau(\theta)$ be a continuous function of $\theta$. Under certain regularity conditions on $f(x|\theta)$ and, hence, $L(\theta|\bx)$, for every $\delta >0$ and every $\theta \in \Theta$,
+$$\lim_{n\to\infty} P_\theta(|\tau(\thetahat) - \tau(\theta)| \geq \delta) = 0.$$
+That is, $\tau (\thetahat)$ is a consistent estimator of $\tau(\theta)$.
+
+\noindent\textbf{Proof sketch:} Show that $\frac{1}{n} \log \Lsc(\thetahat | \bx)$ converges almost surely (a stronger convergence than convergence in probability) to $E_\theta(\log f(X|\theta))$ for every $\theta \in \Theta$. This (under some conditions) implies that $\thetahat \xrightarrow{p} \theta$ and, hence $\tau(\thetahat)  \xrightarrow{p} \tau(\theta)$.
+
+For regularity conditions (related to identifiability, differentiable $f$, etc) see Miscellanea 10.6.2.
+
+\begin{itemize}
+\item There are extensions to non-iid settings, for example regression.
+\item So, under regularity conditions, MLE's get closer and closer to the parameters they are estimating as the sample size gets large.
+\end{itemize}
+
+## Efficiency $\sim$ relates to the variance of the estimator
+
+\begin{itemize}
+\item Consistency is concerned with asymptotic accuracy. We should also be concerned with the asymptotic variance of an estimator.
+\item We'd also like the MLE estimator to have small variance for large samples and to have a limiting distribution that we can use for obtaining tests and confidence intervals.
+\item In many cases for an estimator $W_n$, Var$(W_n) \to 0$ as $n\to \infty$ since it is a consistent estimator. So we need to evaluate the variance of $k_n W_n$ where $k_n$ is some normalizing constant to force the variance to a limit that is not 0.
+\end{itemize}
+
+### Efficient Estimator (finite sample property)
+
+Recall \textbf{Fisher's Information} and the three equivalent definitions:
+$$I(\theta) = I_1(\theta) = E_\theta\left[\left(\frac{\partial}{\partial\theta} \log f_X(x|\theta)\right)^2\right] =
+Var_\theta\left[\frac{\partial}{\partial\theta}  \log f_X(x|\theta)\right] = 
+ - E_\theta\left[\frac{\partial^2}{\partial \theta^2} \log f_X(x|\theta)\right]$$
+
+We use the notation $I_n(\theta)$ to denote the information number (expected information) based on a sample of $n$ observations.
+$$I_n(\theta) = - E_\theta\left[\frac{\partial^2}{\partial \theta^2} \sumin \log f_X(x_i|\theta)\right]
+=
+- \sumin E_\theta\left[\frac{\partial^2}{\partial \theta^2}\log f_X(x_i|\theta)\right] = nI_1(\theta)$$
+
+We use Fisher's Information to bound the variance of an estimator with Cramer-Rao's Inequality (a.k.a the information inequality):
+$$Var(\thetahat) \geq \frac{[\frac{\partial}{\partial\theta} E_\theta(\thetahat)]^2}{n I_1(\theta)}$$
+As the information number increases, we can bound the variance with a smaller number.
+
+\noindent\textbf{Definition:} When the equality holds, that is, $Var(\thetahat) = \frac{[\frac{\partial}{\partial\theta} E_\theta(\thetahat)]^2}{n I(\theta)}$, the estimator $\thetahat$ is said to be an *efficient estimator* of its expectation $E_\theta(\thetahat)$. If $E_\theta(\thetahat) = \theta$ then $\thetahat$ is an efficient estimator of $\theta$.  If an estimator is unbiased and its variance reaches the CR lower bound, then it is the minimum variance unbiased estimator (MVUE).
+
+### Asymptotic variance
+
+<!-- \noindent\textbf{Definition 10.1.7} For an estimator $T_n$, if $\lim_{n\to\infty} k_n Var T_n = \tau^2 < \infty$, where $\{ k_n\}$ is a sequence of constants, then $\tau^2$ is called the {\em limiting variance} or the {\em limit of the variances}. -->
+
+<!-- \noindent\textbf{Example 10.1.8 Limiting variances} For $\Xndots$ iid $\Nsc(\mu,\sigma^2)$ we have $Var(\Xbar_n) = \frac{\sigma^2}{n} \to 0$ as $n \to \infty$ so it isn't useful to describe the limiting variance of $\Xbar_n$ without `normalizing' it by multiplying by a suitable constant. In particular $$\lim_{n\to\infty} n Var(\Xbar_n) = \lim_{n\to\infty} Var(\sqrt{n} \Xbar_n) = \lim_{n\to\infty}\sigma^2 = \sigma^2$$ so we say the limiting variance is $\sigma^2$. -->
+
+\begin{itemize}
+\item In many cases for an estimator $W_n$, Var$(W_n) \to 0$ as $n\to \infty$ since it is a consistent estimator. So we need to evaluate the variance of $k_n W_n$ where $k_n$ is some normalizing constant (function of $n$) to force the variance to a limit that is not 0.
+\item In particular, we want to choose $\{ k_n\}$ such that we have an asymptotically normal distribution with a particular asymptotic variance.
+\item Then we can compare variances of the asymptotic distributions for different estimators to see which is smallest.
+\end{itemize}
+
+
+\noindent\textbf{Definition 10.1.9} For an estimator $W_n$, suppose that $k_n (W_n - \tau(\theta)) \xrightarrow{d} \Nsc(0,\sigma^2)$) in distribution. That is,
+$$
+\lim_{n\to\infty} \mbox{cdf of } k_n (W_n - \tau(\theta)) = \mbox{ cdf of } \Nsc(0,\sigma^2).$$
+The parameter $\sigma^2$ is called the *asymptotic variance* of $W_n$.
+
+\begin{itemize}
+\item If two estimators have the same asymptotic distribution and the same asymptotic mean but different asymptotic variances, we prefer the estimator with the smaller variance.
+\end{itemize}
+
+<!-- \noindent\textbf{Example 10.1.10 Large-sample mixture variances} The hierarchical model -->
+<!-- $$\left[Y_n | W_n = w_n \right] \sim \Nsc(0, w_n + (1-w_n)\sigma^2_n),$$ -->
+<!-- $$W_n \sim \mbox{Bernoulli}(p_n),$$ -->
+<!-- can exhibit big discrepancies between the asymptotic and limiting variances. -->
+
+<!-- This is also sometimes described as a mixture model, where we observe $Y_n \sim \Nsc(0,1)$ with probability $p_n$ and $Y_n \sim \Nsc(0,\sigma_n^2)$ with probability $1-p_n$. -->
+
+<!-- Remember $Var X = E(Var(X|Y)) + Var(E(X|Y))$. Hence, -->
+<!-- $$Var(Y_n) = E(Var (Y_n | W_n)) + Var(E(Y_n|W_n)) = E(w_n + (1-w_n)\sigma^2_n) = p_n + (1-p_n) \sigma_n^2$$  -->
+<!-- It follows that the limiting variance of $Y_n$ is finite only if $\lim_{n\to\infty}(1-p_n)\sigma_n^2< \infty.$ -->
+
+<!-- On the other hand, the asymptotic distribution of $Y_n$ can be directly calculated using -->
+<!-- $$P(Y_n < a) = p_n P(Z < a) + (1-p_n) P(Z < a/\sigma_n).$$ -->
+<!-- Suppose now we let $p_n \to 1$ and $\sigma_n \to \infty$ in such a way that $(1-p_n)\sigma_n^2 \to \infty$. It then follows that -->
+<!-- $P(Y_n < a) \to P(Z<a)$, that is, $Y_n \to \Nsc(0,1)$, and we have\\ -->
+<!-- \indent limiting variance = $\lim_{n\to\infty} p_n + (1-p_n)\sigma_n^2 = \infty$,\\ -->
+<!-- \indent asymptotic variance = 1. -->
+
+\noindent\textbf{Definition 10.1.11} Let $W_n$ be a sequence of estimators based on $\Xndots \sim_{iid} f(x|\theta)$. $W_n$ is *asymptotically efficient* for a parameter $\tau(\theta)$ if $\sqrt{n} (W_n - \tau(\theta)) \to \Nsc(0, v[\tau(\theta)])$ in distribution where $v[\tau(\theta)] >0$ and
+$$v[\tau(\theta)] = \frac{[\tau^\prime(\theta)]^2}{E_\theta((\frac{\partial}{\partial\theta} \log f(X|\theta))^2)} = \frac{[\tau^\prime(\theta)]^2}{I_1(\theta)}.$$
+That is, the asymptotic variance of $W_n$ achieves the Cramer-Rao Lower Bound for unbiased estimators of $\tau(\theta)$.
+
+When $\tau(\theta) = \theta$, then $\tau^\prime(\theta) = 1$ so
+$$v[\theta] = \frac{1}{I_1(\theta)}.$$
+
+\begin{itemize}
+\item Note, because we are multiplying by $\sqrt{n}$ we don't need the $n$ in the CRLB-- we use the density for a {\em single observation} in the $iid$ case. That is why the quantity in the denominator is based on the pdf (pmf) of a single observation.
+\item Theorem 10.1.6 stated that MLEs are consistent (under general conditions). Under somewhat stronger regularity conditions, we have similar result for asymptotic efficiency.
+\end{itemize}
+
+<!-- First, recall the Delta Method:\\ -->
+<!-- \noindent\textbf{Theorem 5.5.24: Delta Method} Let $W_n$ be a sequence of random variables that satisfies -->
+<!-- $$\sqrt{n}(W_n - \theta) \xrightarrow{d} \Nsc(0,\sigma^2).$$ -->
+<!-- For a given function $g$ and a specific value of $\theta$, assuming $g^\prime(\theta)$ exists and is not 0, then: -->
+<!-- $$\sqrt{n}\left[g(X_n) - g(\theta)\right] \xrightarrow{d} \Nsc(0, \sigma^2[g^\prime(\theta)]^2).$$ -->
+
+\noindent\textbf{Theorem 10.1.12 Asymptotic efficiency of MLEs}: Let $X_1, X_2, \ldots$ be $\sim_{iid} f(x|\theta)$, let $\thetahat$ denote the MLE of $\theta$, and let $\tau(\theta)$ be a continuous function of $\theta$. Under the regularity conditions in Misc. 10.6.2 on $f(x|\theta)$ and hence, $\Lsc(\theta|\bx) = \prod_{i=1}^n f(x_i|\theta)$,
+$$\sqrt{n} [\tau(\thetahat) - \tau(\theta)] \xrightarrow{d} \Nsc[0,v[\tau(\theta)]$$
+where $v[\tau(\theta)]$ is the Cramer-Rao Lower Bound. That is, $\tau(\thetahat)$ is a consistent and asymptotically efficient estimator of $\tau(\theta)$. (!)
+
+So, the asymptotic variance of the MLE achieves the smallest possible variance among unbiased estimators of $\tau(\theta)$.
+
+\noindent\textbf{Proof:} We first outline the proof showing the case that $\tau(\theta) = \theta$ to show that $\thetahat$ is asymptotically efficient.
+
+Let $\ell(\theta|\bx) = \sumin \log f(\bx_i |\theta)$ denote the log-likelihood function and denote its derivatives by $\ell^\prime, \ell^{\prime\prime}, \ldots$. Obtain a Taylor's expansion of the first derivative about the true value $\theta_0$:
+$$\ell^\prime(\theta|\bx) = \ell^\prime(\theta_0 | \bx) + (\theta - \theta_0) \ell^{\prime\prime}(\theta_0 |\bx) + Remainder$$
+where $Remainder$ represents the remaining terms that converge to 0 (specifically, they have the property $Remainder/n \to 0$ as $n\to \infty$ under the regularity conditions).
+<!-- %o(n) replaced with Remainder to reduce notation -->
+
+Substitute $\thetahat$ for $\theta$:
+$$\ell^\prime(\thetahat|\bx) = \ell^\prime(\theta_0 | \bx) + (\thetahat - \theta_0) \ell^{\prime\prime}(\theta_0 |\bx) + Remainder$$
+The left-hand side $\ell^\prime(\thetahat|\bx)$ is equal to 0 since $\thetahat$ is an MLE and we find the MLE by setting the derivative of the log-likelihood to 0. Rearranging we have:
+\begin{align*}
+(\thetahat - \theta_0) &= -\frac{\ell^\prime(\theta_0 | \bx)}{\ell(\theta_0 | \bx) + Remainder} \Leftrightarrow\\
+\sqrt{n} (\thetahat - \theta_0)&= -\sqrt{n} \frac{\ell^\prime(\theta_0 | \bx)}{\ell^{\prime\prime}(\theta_0 | \bx)+Remainder}\\
+&= - \frac{\ell^\prime(\theta_0 | \bx)/\sqrt{n}}{\ell^{\prime\prime}(\theta_0 | \bx)/n + Remainder/n}
+\end{align*}
+
+Since the remainder term $Remainder/n \xrightarrow{p} 0$, to find the asymptotic distribution of $\sqrt{n}(\thetahat - \theta_0)$ we need to find the asymptotic distribution of
+$$\frac{\ell^\prime(\theta_0 | \bx)/\sqrt{n}}{-\ell^{\prime\prime}(\theta_0 | \bx)/n}$$
+
+Let $I_1(\theta_0) = 1/v(\theta)$ denote the information number for one observation.
+
+*First consider the numerator*:
+
+Now, since $\Xndots$ are $iid$ and $E(\ell^\prime(\theta_0|x_i)) = 0$, by the Central Limit Theorem:
+$$\frac{\ell^\prime(\theta_0 | \bx)}{\sqrt{n}} = \sqrt{n} \left[\frac{1}{n} \sumin \ell^\prime(\theta_0|x_i)\right] \xrightarrow{d} \Nsc(0, Var_{\theta_0}[\ell^\prime(\theta_0|x_i)])$$
+where $$Var_{\theta_0}[\ell^\prime(\theta_0|x_i)] = E_{\theta_0} [-\ell^{\prime\prime}(\theta_0 |x_i)] = I_1(\theta_0) = 1/v(\theta) \mbox{ (definition of Fisher's Information)}$$
+
+*Now consider the denominator*:
+
+Also, by the Weak Law of Large Numbers:
+$$-\frac{1}{n} \ell^{\prime\prime}(\theta_0 |\bX) = -\frac{1}{n}\sumin \ell^{\prime\prime}(\theta_0 |x_i) \xrightarrow{p} I_1(\theta_0).$$
+
+*Num/Denom*:
+
+So, by Slutsky's Theorem:
+$$\sqrt{n} (\thetahat - \theta_0) =\left[-\frac{1}{n} \ell^{\prime\prime}(\theta_0 |\bX) \right]^{-1} \left[\frac{\ell^\prime(\theta_0 | \bx)}{\sqrt{n}} \right] \xrightarrow{d}
+ \left[I_1(\theta_0)\right]^{-1} \Nsc(0,I_1(\theta_0)) =  \Nsc(0,1/I_1(\theta_0)) = \Nsc(0,v(\theta))$$
+ 
+ To extend to a general $\tau(\theta)$, the Delta Method says that  
+ $$\sqrt{n}(\tau(\theta) - \tau(\theta)) \xrightarrow{d} \Nsc(0, v(\theta)[\tau^\prime(\theta)]^2)$$
+ and in fact $v(\theta)[\tau^\prime(\theta)]^2 = [\tau^\prime(\theta)]^2/I(\theta_0)$ is the CR lower bound for $\tau(\theta)$.
+ 
+ 
+ \begin{itemize}
+ \item Note on regularity conditions: For $iid$ samples from one parameter {\em regular} exponential families (parameter space contains an open interval), the MLE (obtained as a solution to likelihood equations) is asymptotically efficient. For multiparameter exponential families the results also hold provided the likelihood equations for the MLE have a solution.
+ \end{itemize}
+ 
+ \noindent\textbf{Example 10.1.13 Asymptotic normality and consistency} The above theorem shows that typically MLEs are efficient and consistent. However, this is somewhat redundant, as efficiency is defined only when the estimator is asymptotically normal and, as we will illustrate, *asymptotic normality implies consistency.*
+ 
+ Suppose that
+ $$\sqrt{n}(W_n - \theta) \xrightarrow{d} \Nsc(0,\sigma^2)$$
+ then
+ $$\sqrt{n}\frac{W_n - \theta}{\sigma} \xrightarrow{d} \frac{1}{\sigma}\Nsc(0,\sigma^2) = \Nsc(0,1)$$
+ From Slutksy's Theorem:
+ $$W_n - \mu = \frac{\sigma}{\sqrt{n}} \left( \sqrt{n}\frac{W_n - \theta}{\sigma} \right) \to \lim_{n\to\infty}  \frac{\sigma}{\sqrt{n}}\Nsc(0,1) = 0.$$
+ so $W_n - \mu \xrightarrow{d} 0$ which implies convergence in probability to 0 (Thm 5.5.13 above). Hence, $W_n$ is a consistent estimator of $\mu$.
+ 
+ \noindent\textbf{Example Normal MLE} Let $\Xndots \sim_{iid} \Nsc(\mu,\sigma^2), \sigma^2$ known. Then the MLE of $\mu$ is $\Xbar$ and $\sqrt{n} (\Xbar - \mu) \sim \Nsc(0,\sigma^2)$. This is the exact distribution. In this case, this is also the asymptotic distribution. This result follows from the CLT but also the above theorem since
+\begin{align*}
+I_1(\mu) &=
+E_\mu\left(- \frac{\partial^2}{\partial \mu^2} \log f(x|\mu)\right)\\
+&= -  E_\mu\left(\frac{\partial^2}{\partial^2 \mu} 
+-\frac{1}{2}\log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}
+\right) \\
+&= - E_\mu \left(\frac{\partial}{\partial \mu} \frac{(x-\mu)}{\sigma^2}
+\right)\\
+&= E_\mu \frac{1}{\sigma^2}\\
+&= \frac{1}{\sigma^2}
+\end{align*}
+
+so
+$$v(\mu) = 1/I_1(\mu) = \sigma^2$$
+and by Thm 10.1.12
+$$\sqrt{n}(\Xbar - \mu) \to_d \Nsc(0, \sigma^2)$$
+
+\noindent\textbf{Example 10.1.14 Binomial variance} Let $\Xndots \sim_{iid} Bernoulli(p)$. We know that the MLE for $p$ is $\phat = \Xbar$. Since $E(\Xbar) = p$ and $Var(\Xbar) = \frac{1}{n} p(1-p)$, and $\Xbar$ is a sample mean, the CLT tells us
+$$\sqrt{n}(\phat - p) \xrightarrow{d} \Nsc(0, p(1-p)).$$
+
+However, we could have obtained the variance by $v(p) = 1/I(p)$ and the theorem above. 
+
+\begin{align*}
+f_X(x|p) &= p^x(1-p)^{(1-x)}\\
+\log f_X(x|\theta) &= x \log p + (1-x)\log(1-p)\\
+\frac{\partial}{\partial \theta^2}\log f_X(x|\theta) &= \frac{x}{p} - \frac{1-x}{1-p}\\
+\frac{\partial^2}{\partial \theta^2}\log f_X(x|\theta) &= - \frac{x}{p^2} - \frac{1-x}{(1-p)^2}
+\end{align*}
+Then the fisher information is
+\begin{align*}
+I(p) = -E\left[\frac{\partial^2}{\partial p^2}\log f_X(x|p)\right]&= -E\left(- \frac{x}{p^2} - \frac{1-x}{(1-p)^2}\right)\\
+&=  \frac{E(X)}{p^2} + \frac{1-E(X)}{(1-p)^2} = \frac{1}{p} + \frac{1}{1-p} = \frac{1}{p(1-p)}
+\end{align*}
+
+So, by Thm 10.1.12, $v(p) = p(1-p)$ and
+$$\sqrt{n}(\phat - p) \xrightarrow{d} \Nsc(0, p(1-p))$$
+So, $\phat$ is asymptotically efficient.
+
+<!-- Hence, the large sample approximate variance of $\phat$ is $\frac{1}{n} Var(\sqrt{n}\phat) = \frac{p(1-p)}{n}$. However, we do not know $p$, so if we want to use this for inference via a confidence interval, for example, we need to estimate $p$. We can use the MLE to estimate this $I(\phat) = \phat(1-\phat)$, estimating the variance of $\phat$ by $\frac{\phat(1-\phat)}{n}$. -->
+
+<!-- We can use Slutsky's theorem to show that: -->
+<!-- $$\sqrt{n} \frac{\phat - p}{\sqrt{\phat(1-\phat)}} \xrightarrow{d} \Nsc(0,1).$$ -->
+
+<!-- We can use this result to test the hypothesis -->
+<!-- $$H_0: p \leq p_0 \mbox{ versus } H_1: p \geq p_0$$ -->
+<!-- since we can obtain the test statistic -->
+<!-- $$Z =\sqrt{n} \frac{\phat - p_0}{\sqrt{\phat(1-\phat)}}$$ -->
+<!-- which has an approximate standard normal distribution for large $n$ when $p=p_0$. Hence we would reject the null hypothesis if the test statistic $Z > z_\alpha$. (Alternatively, could use $p_0$ in the denominator rather than $\phat$.) -->
+
+<!-- Similarly, a $1-\alpha$ confidence interval for $p$ can be obtained: -->
+<!-- $\phat \pm z_{\alpha/2} \sqrt{\phat(1-\phat)/n}$ -->
+
+### Approximate large sample variance
+
+We know that the asymptotic variance of $\thetahat$ is $v(\theta) = 1/I_1(\theta)$. But this is more practically the asymptotic variance of 
+$\sqrt{n}(\thetahat - \theta).$
+How do we estimate the variance of $\thetahat$ itself (without the $\sqrt{n}$ in front) in large samples using this information?
+
+Since $$\sqrt{n}(\thetahat - \theta) \to_d \Nsc(0,v(\theta))$$ the variance of $\sqrt{n}(\thetahat - \theta)$
+is close to $v(\theta)$ in large samples. So,
+$$Var(\thetahat) = \frac{1}{n} Var(\sqrt{n} \thetahat) = 
+\frac{1}{n} Var(\sqrt{n}(\thetahat - \theta)) \approx \frac{v(\theta)}{n} = 
+\frac{1}{nI_1(\theta)} = \frac{1}{I_n(\theta)}$$
+
+Hence, in large samples,
+$$Var(\thetahat) \approx \frac{1}{I_n(\theta)}$$
+
+Sometimes, the information as we have defined it ("expected information") is not a very good finite sample estimate, so instead we used what is called the "observed information."
+
+#### Observed information
+
+\begin{itemize}
+\item When plugging in the MLE for unknown parameters in the information, we refer to this quantity as the {\em observed information}:
+$$\left(-\left. \frac{\partial^2}{\partial \theta^2} \log \Lsc(\theta|\bx)\right) \right|_{\theta = \thetahat}$$
+\item It has been shown that it is typically better to use observed rather than expected information for inference. (Efron \& Hinkley 1978 "Assessing the accuracy of the maximum likelihood estimator: Observed versus expected Fisher Information")
+\item In general, when estimating the variance of $\tau(\thetahat)$ based on an $iid$ sample, we could use the observed information to approximate the variance:
+$$Var(\tau(\thetahat)) \approx \widehat{Var_\theta}(\tau(\thetahat)) = \frac{\left(\tau^\prime(\thetahat) \right)^2}{\left(-\left. \frac{\partial^2}{\partial \theta^2} \log \Lsc(\theta|\bx)\right) \right|_{\theta = \thetahat}}$$
+\item This involves {\em approximating} the variance with the asymptotic variance (the CRLB from Theorem 10.1.12) and then {\em estimating} the asymptotic variance by plugging in $\thetahat$ for the numerator as well as the observed information.
+\item It follows from Theorem 10.1.6 that the observed information is a consistent estimator of $I(\theta)$ so it follows that $\widehat{Var_\theta}\left[h(\thetahat)\right]$ is a consistent estimator of $Var_\theta \left[ h(\thetahat)\right]$
+\item Note sometimes the expected information evaluated at the MLE, $I_n(\thetahat)$, is the same as the observed information (i.e. full exponential families) at the MLE but not always.
+\item Using the asymptotic result for MLE's we can obtain large sample hypothesis tests and large sample confidence intervals.
+\end{itemize}
+
+In the binomial example, we can use this method of observed information to estimate the variance of functions of $\phat$, such as the MLE of the odds $\phat/(1-\phat)$:
+
+\begin{align*}
+\widehat{Var}\left(\frac{\phat}{1-\phat}\right) &= \frac{ [ \frac{\partial}{\partial p} (p/(1-p)]^2 |_{p=\phat}}{
+\left(-\left. \frac{\partial^2}{\partial p^2} \log \Lsc(p|\bx)\right) \right|_{p = \phat}
+}\\
+&= \frac{
+\left[\frac{ (1-p) + p}{(1-p)^2} \right]^2 |_{p=\phat}
+}{
+\frac{n}{p(1-p)} |_{p=\phat}
+}\\
+&= \frac{\phat}{n(1-\phat)^3}
+\end{align*}
+
+\begin{itemize}
+\item The MLE variance approximation works well in many cases but not always.
+\item Since the approximation is based on the CRLB it is probably an underestimate.
+\item You must be careful when the function $\tau(\theta)$ is not monotone. In such cases, the derivative $\tau^\prime(\theta)$ will have a sign change and that may lead to an underestimated variance approximation.
+\item Example: $\widehat{Var}(\phat(1-\phat)) = \phat(1-\phat)(1-2\phat)^2/n$ can be 0 if $\phat = 1/2$ (need to use a second order approximation here as $p(1-p)$ is not monotone in $p$)
+\item We can also compare asymptotic variances of two estimators:
+\end{itemize}
+
+### Asymptotic relative efficiency (ARE)
+
+\noindent\textbf{Definition 10.1.16} If two estimators $W_n$ and $V_n$ satisfy
+\begin{align*}
+\sqrt{n}[W_n - \tau(\theta)] &\xrightarrow{d} \Nsc(0,\sigma^2_W)\\
+\sqrt{n}[V_n - \tau(\theta)] &\xrightarrow{d}  \Nsc(0,\sigma^2_V)
+\end{align*}
+in distribution, the *asymptotic relative efficiency (ARE)* of $V_n$ with respect to $W_n$ is
+$$ARE(V_n, W_n) = \frac{\sigma^2_W}{\sigma^2_V}.$$
+
+\noindent\textbf{Example 10.1.17 AREs of Poisson estimators} 
+Suppose that $X_1, X_2, \ldots$ are $iid$ Poisson($\lambda$) and we are interested in estimating the 0 probability. In other words, the probability that no events happen in the time period. In this case, $P(X=0) = e^{-\lambda}$ and a natural estimator comes from defining $Y_i = I(X_i = 0)$
+and using
+$$\tauhat = \frac{1}{n} \sumin Y_i.$$
+
+The $Y_i$'s are Bernoulli($p = e^{-\lambda}$), and hence it follows from the Bernoulli distribution properties that
+$$E(\tauhat) = p = e^{-\lambda}, \mbox{ and } Var(\tauhat) = \frac{p(1-p)}{n} = \frac{e^{-\lambda}(1-e^{-\lambda})}{n}.$$
+So we can use the CLT to tell us that
+$$\sqrt{n}(\tauhat - e^{-\lambda}) \to_d \Nsc(0, e^{-\lambda}(1-e^{-\lambda}))$$
+
+Alternatively, the MLE of $e^{-\lambda}$ is $e^{-\lambdahat}$ where $\lambdahat = \Xbar_n$ is the MLE of $\lambda$. We know from the asymptotic distribution of the MLE $\lambdahat$ that:
+
+$$\sqrt{n}(\lambdahat - \lambda) \to_d \Nsc(0, v(\lambda) = 1/I_1(\lambda))$$
+where
+\begin{align*}
+I_1(\lambda) &= -E\left[\frac{\partial^2}{\partial \lambda^2}\log f_X(X|\lambda)\right] =
+-E\left[\frac{\partial^2}{\partial \lambda^2}X \log\lambda - \lambda - \log X!\right]=
+-E\left[\frac{\partial}{\partial \lambda}\frac{X}{\lambda} - 1\right] \\
+&=
+-E\left[\frac{-X}{\lambda^2}\right] = \frac{E(X)}{\lambda^2} =\frac{\lambda}{\lambda^2} = \frac{1}{\lambda}
+\end{align*}
+so
+$$\sqrt{n}(\lambdahat - \lambda) \to_d \Nsc(0, \lambda)$$
+
+Using Delta Method we have that
+$$\sqrt{n}(e^{-\lambdahat} - e^{-\lambda}) \to_d \Nsc(0, \lambda [-e^{-\lambda}]^2 = \lambda e^{-2\lambda})$$
+Now, since
+\begin{align*}
+\sqrt{n}(\tauhat - e^{-\lambda}) &\xrightarrow{d} \Nsc(0, e^{-\lambda}(1-e^{-\lambda}))\\
+\sqrt{n}(e^{-\lambdahat}-e^{-\lambda}) &\xrightarrow{d}  \Nsc(0, \lambda e^{-2\lambda})
+\end{align*}
+the ARE of $\tauhat$ with respect to the MLE $e^{-\lambdahat}$ is
+$$ARE(\tauhat,e^{-\lambdahat}) = \frac{\lambda e^{-2\lambda}}{e^{-\lambda}(1-e^{-\lambda})} = \frac{\lambda}{e^{\lambda} - 1}$$
+
+This function is strictly decreasing from 1 (at $\lambda = 0$) and tails off rapidly to asymptote to 0 as $\lambda \to \infty$.
+
+\begin{itemize}
+\item Since the MLE is typically asymptotically efficient, another estimator cannot hope to beat its asymptotic variance.
+\item However, other estimators may have other desirable qualities (ease of calculation, robustness to underlying assumptions) that make them desirable.
+\item See C\&B 10.2 for discussion on robustness
+\item We will cover 10.1.4 Bootstrap and 10.2 at the end of the quarter if time allows.
+\end{itemize}
+\newpage
+
+\subsection{Hypothesis Testing (10.3)}
+
+\begin{itemize}
+\item This section describes a few methods for deriving some tests in complicated problems.
+\item This is useful in settings where no optimal test (as defined in earlier sections) exists or is known (i.e. no UMP unbiased test exists).
+\item We will discuss large-sample properties of LRTs and other approximate large-sample tests.
+\end{itemize}
+
+\subsubsection{Asymptotic Distribution of LRTs}
+
+Recall the LRT statistic is defined as:
+$$\lambda(\bx) = \frac{\sup_{\theta \in \Theta_0} \Lsc(\theta|\bx)}{\sup_{\theta \in \Theta} \Lsc(\theta|\bx)}$$
+with rejection region $\Rsc = \{ \bx: \lambda(\bx) \leq c \}$
+and a level $\alpha$ test we choose $c$ such that:
+$$\sup_{\theta \in \Theta_0} P_\theta(\lambda(\bX) \leq c) \leq \alpha.$$
+
+\begin{itemize}
+\item Once the data $\bX = \bx$ are observed, the likelihood function is a completely defined function of the variable $\theta$
+\item Even if the suprema cannot be analytically obtained, they can be computed numerically.
+\item Thus, the test statistic $\lambda(\bx)$ can be obtained for the observed data point even if there is no convenient formula for defining $\lambda(\bx)$.
+\item If a simple formula for $\lambda(\bx)$ cannot be derived, it will be difficult to derive the sampling distribution of $\lambda(\bX)$ in order to choose $c$
+\item However, we can use asymptotics to get an approximate answer in order to choose $c$
+\end{itemize}
+
+\noindent\textbf{Theorem 10.3.1 Asymptotic distribution of the LRT---simple $H_0$}
+For testing $H_0: \theta = \theta_0$ versus $H_1: \theta \neq \theta_0$ based on an $iid$ sample $\Xndots$ from $f(\bx|\theta)$ satisfying the regularity conditions (Miscellanea 10.6.2). Then, under $H_0$ as $n\to \infty$:
+$$-2 \log \lambda(\bX) \xrightarrow{d} \chi^2_1$$
+(chi-square distribution with 1 degree of freedom)
+
+Rejection of $H_0 : \theta \in \Theta_0$ for small values of $\lambda(\bX)$ is equivalent to rejection for large values of $-2 \log \lambda(\bX)$:
+$$\Rsc =  \left\{\bx: -2 \log \lambda(\bx) \geq \chi_{1,\alpha}^2\right\}$$
+
+\noindent\textbf{Proof:} Expand the log-likelihood $\log \Lsc(\theta|\bx) = \ell(\theta|\bx)$ in Taylor's series around $\thetahat$:
+$$\ell(\theta|\bx) = \ell(\thetahat |\bx) + \ell^\prime(\thetahat|\bx)(\theta - \thetahat) + \ell^{\prime\prime}(\thetahat|\bx)\frac{(\theta - \thetahat)^2}{2} +  \mbox{Remainder}.$$
+Then substituting $\theta_0$ for $\theta$ and multiplying by 2 gives:
+$$-2 \log \lambda(\bx) = -2 \ell(\theta_0 | \bx) + 2 \ell(\thetahat | \bx) = (\theta_0 - \thetahat)^2(-\ell^{\prime\prime}(\thetahat|\bx)) + \mbox{Remainder}.$$
+We can show the remainder goes to 0, and since $\ell^\prime(\thetahat|\bx) = 0$:
+\begin{align*}
+-2\log\lambda(\bx) &\approx -\ell^{\prime\prime}(\thetahat)(\theta_0 - \thetahat)^2 \\
+&=  \hat{I}(\thetahat)(\theta_0 - \thetahat)^2 \quad \mbox{ observed information}\\
+&= \frac{1}{n}\hat{I}(\thetahat) \left[ \sqrt{n}(\theta_0 - \thetahat)\right]^2\\
+&\xrightarrow{d} I(\theta_0) \left[\Nsc(0, 1/I(\theta_0)\right]^2 \quad \mbox{Slutsky's Thm \& Continuous Mapping Thm}\\
+&= \left[\sqrt{I(\theta_0) }\Nsc(0, 1/I(\theta_0)\right]^2 = \left[\Nsc(0,1)\right]^2 = \chi^2_1
+\end{align*}
+Hence, $-2 \log \lambda(\bX) \xrightarrow{d} \chi^2_1$.
+
+
+
+\noindent\textbf{Example 10.3.2 Poisson LRT} For testing $H_0: \lambda = \lambda_0$ versus $H_1: \lambda \neq \lambda_0$ based on $\Xndots \sim_{iid}$ Poisson($\lambda$), we have
+$$-2 \log \lambda(\bx) = -2 \log \left(  
+\frac{e^{-n \lambda_0} \lambda_0^{\sum x_i}(\prod\frac{1}{x_i!})}
+{e^{-n \lambdahat} \lambdahat^{\sum x_i}(\prod\frac{1}{x_i!})}\right) = 2n \left[(\lambda_0 - \lambdahat) - \lambdahat \log(\lambda_0/\lambdahat) \right],$$
+where $\lambdahat = \xbar_n$ is the MLE of $\lambda$. Applying Theorem 10.3.1, we would reject $H_0$ at level $\alpha$ if $-2\log \lambda(\bx) > \chi^2_{1,\alpha}$.
+
+\begin{itemize}
+\item See table pg 490 for a simulation of how well the approximation does (pretty well) for $n=25$
+\item Compare the truth = simulated percentile vs. the approximation = $\chi^2$ percentile ($\chi^2_{1,\alpha}$)
+\end{itemize}
+
+\noindent\textbf{Theorem 10.3.3 Asymptotic distribution of the LRT vector of parameters} Let $\Xndots$ be a random sample from $f(x|\theta)$. Under the regularity conditions (Misc 10.6.2), if $\theta \in \Theta_0$, then the distribution of the statistic $-2 \log \lambda(\bX)$ converges to a chi-squared distribution as $n\to\infty$. The degrees of freedom of the limiting distribution is the difference between the number of free parameters specified by $\theta \in \Theta_0$ and the number of free parameters specified by $\theta \in \Theta$.
+
+\begin{itemize}
+\item Rejection of $H_0 : \theta \in \Theta_0$ for small values of $\lambda(\bX)$ is equivalent to rejection for large values of $-2 \log \lambda(\bX)$:
+$$\Rsc = \{ \bx: -2 \log \lambda(\bx) \geq \chi^2_{\nu, \alpha}\}$$
+with degree of freedom $\nu$ from above theorem.
+\item Type I error probability will be approximately $\alpha$ if $\theta \in \Theta_0$ and the sample size is large.
+\item An {\em asymptotic size $\alpha$ test} has the property (from above theorem):
+$$\lim_{n\to\infty} P_\theta(\mbox{reject } H_0) = \alpha \quad \mbox{for each } \theta \in \Theta_0.$$
+\item Note this is {\em not} equivalent to
+$\lim_{n\to\infty} \sup_{\theta \in  \Theta_0} P_\theta(\mbox{reject }H_0) = \alpha$.
+\end{itemize}
+
+\noindent\textbf{Example 10.3.4 Multinomial LRT} Let $\theta = (p_1, p_2, p_3, p_4, p_5)$, where $0 < p_j \leq 1$ and $\sum_{j=1}^5 p_j = 1.$ Suppose $\Xndots$ are $iid$ discrete random variables with $P_\theta(X_i = j) = p_j, j=1,2,3,4,5$. Thus the pmf of $X_i$ is $f(j|\theta) = p_j$ and the likelihood function is:
+$$\Lsc(\theta |\bx) = \prod_{i=1}^n f(x_i|\theta)= p_1^{y_1}p_2^{y_2}p_3^{y_3}p_4^{y_4}p_5^{y_5},$$
+where $y_j$ = number of $x_1, \ldots, x_n$ equal to $j$, that is $y_j = \sumin I_{j}(x_i)$. So the $y$'s count the number of observations in each of the five categories.
+
+Consider testing
+$$H_0: p_1 = p_2 = p_3 \mbox{ and } p_4 = p_5 \quad \mbox{ versus  } \quad H_1: H_0 \mbox{ is not true}.$$
+
+The full parameter space, $\Theta$ is really a four-dimensional set (why?) with $q=4$ free parameters.
+There is only one free parameter in the set specified by $H_0$ since once we choose $p_1$ the others are determined ($p_4 = p_5 = (1-3p_1)/2$). Thus $\Theta_0$ has $p=1$ free parameters. The degrees of freedom for the chi-square test are then $\nu = q-p = 3$.
+
+We must calculate the LRT statistic $\lambda(\bx)$ by determining the MLE of $\theta$ under both $\Theta_0$ and $\Theta$ (see C\&B for details) to obtain the test statistic:
+$$-2 \log \lambda(\bx) = 2 \sum_{i=1}^3 y_i \log\left( \frac{3 y_i}{y_1+y_2+y_3}\right) + 2 \sum_{i=4}^5 y_i \log\left( \frac{2 y_i}{y_4+y_5}\right).$$
+The asymptotic size $\alpha$ test rejects $H_0$ if 
+$-2 \log \lambda(\bx) \geq \chi^2_{3,\alpha}$.
+
+
+\subsubsection{Wald Tests}
+
+We can base another large-sample test statistic on estimators with asymptotically normal distributions, such as MLEs. Remember if
+$\Xndots$ are $iid$ from $f(x|\theta)$, under regularity conditions we know that the MLE of $\theta$, $\thetahat$ satisfies:
+$$\sqrt{n}(\thetahat - \theta) \xrightarrow{d} \Nsc(0, v(\theta)),$$
+where
+$$v(\theta) = \frac{1}{I(\theta)}.$$
+If $v(\theta)$ is a continuous function of $\theta$ then $v(\thetahat)$ is a consistent estimator of $v(\theta)$ for all $\theta$, that is:
+$$v(\thetahat) \xrightarrow{p} v(\theta),$$
+and by Slutsky's Theorem:
+$$Z_n = \frac{\thetahat - \theta}{\sqrt{v(\thetahat)/n}} = 
+\frac{\thetahat - \theta}{\sqrt{v(\theta)/n}}\sqrt{\frac{v(\theta)}{{v(\thetahat)}}} \xrightarrow{d} \Nsc(0,1)\times 1 = \Nsc(0,1)$$
+This is the basis of the Wald test.
+
+\noindent\textbf{Definition: Wald statistic}: Suppose $\Xndots$ are $iid$ from $f(x|\theta)$. Consider testing
+$$H_0: \theta = \theta_0 \mbox{ versus } H_1: \theta \neq \theta_0.$$
+Under $H_0$
+$$Z_N^W = \frac{\thetahat - \theta}{\sqrt{v(\thetahat)/n}} \xrightarrow{d} \Nsc(0,1)$$
+and so we can reject $H_0$ when
+$$\Rsc = \{\bx : z_n^W < -z_{\alpha/2} \mbox{ or } z_n^W > z_{\alpha/2}\} =  \{\bx : |z_n^W| > z_{\alpha/2} \}.$$
+One can also perform a one-sided test using a Wald test. For instance, if
+$$H_0: \theta \leq \theta_0 \mbox{ versus } H_1: \theta > \theta_0$$ then 
+$$\Rsc = \{\bx : z_n^W > z_{\alpha}\}.$$
+
+\begin{itemize}
+\item More generally, instead of using the observed information $1/v(\thetahat)$ we could use any consistent estimate $S_n$ of $\sqrt{Var(\thetahat)}$.
+\end{itemize}
+
+\noindent\textbf{Example 10.3.5 Large-sample binomial Wald test} Let $\Xndots \sim_{iid}$ Bernoulli($p$). Consider testing:
+$$H_0: p \leq p_0 \mbox{ versus } H_1: p > p_0$$ where $0<p_0<1$ is a specified value.
+The MLE of $p$ is
+$\phat = \frac{1}{n}\sumin{X_i}.$
+By the CLT and because $\phat$ is an MLE, we have
+$$\sqrt{n}(\phat - p) \xrightarrow{d} \Nsc(0, v(p))$$
+where
+$$v(p) = \frac{1}{I(p)} = p(1-p).$$
+Because the asymptotic variance $v(p)$ is continuous in $p$ we can use the observed information $v(\phat)$ to consistently estimate $v(p)$ and the Wald statistic is:
+$$Z_n^W = \frac{\phat - p_0}{\sqrt{\phat(1-\phat)/n}}$$
+The large-sample Wald test rejects $H_0$ if $Z_n^W > z_\alpha$:
+$$\Rsc =\left\{\bx:  \frac{\xbar - p_0}{\sqrt{\xbar(1-\xbar)/n}}> z_\alpha\right\}$$
+
+If we were interested in testing the two-sided hypothesis
+$H_0: p = p_0 \mbox{ versus } H_1: p \neq p_0$,
+we could alternatively use $p_0(1-p_0)$ in the denominator instead of $\phat(1-\phat).$ It is not clear which is preferred since the power functions cross one another and there is much discussion on this point (see pg 494).
+
+\subsubsection{Score Tests}
+
+Suppose $\Xndots$ are $iid$ from $f(x|\theta)$. We can write the score equation function as a random variable:
+$$S(\theta |\bX) = \frac{\partial}{\partial\theta} \log \Lsc(\theta|\bX) = \sumin \frac{\partial}{\partial\theta} \log f(X_i |\theta) = \sumin \ell^\prime(\theta|X_i),$$
+which is the sum of $iid$ random variables. The properties of the score equations are such that:
+\begin{align}
+E_\theta \left[ \frac{\partial}{\partial\theta} \log f(X_i |\theta) \right] &= 0\\
+Var_\theta \left[ \frac{\partial}{\partial\theta} \log f(X_i |\theta) \right] &=  E_\theta\left\{ \left[ \frac{\partial}{\partial\theta} \log f(X_i |\theta) \right]^2\right\} = I(\theta).
+\end{align}
+Therefore, by the CLT:
+$$\sqrt{n} \left( \frac{1}{n} S(\theta |\bX) - 0\right) \xrightarrow{d} \Nsc(0,I(\theta))$$
+and so
+$$\frac{\frac{1}{n}S(\theta|\bX)}{\sqrt{I(\theta)/n}} = \frac{S(\theta|\bX)}{\sqrt{nI(\theta)}} = \frac{S(\theta|\bX)}{\sqrt{I_n(\theta)}}\xrightarrow{d} \Nsc(0,1)$$
+Therefore, the score function divided by the square root of Fisher's information can be approximated by a standard normal random variable. This forms the basis for the score test.
+
+\noindent\textbf{Definition: Score statistic} Suppose $\Xndots$ are $iid$ from $f(x|\theta)$ and we wish to test
+$$H_0: \theta = \theta_0 \mbox{ versus } H_1: \theta \neq \theta_0.$$
+Under $H_0$
+$$Z_N^S = \frac{S(\theta_0 |\bX)}{\sqrt{I_n(\theta_0)}} \xrightarrow{d} \Nsc(0,1).$$
+and so we can reject $H_0$ when
+$$\Rsc = \{\bx : z_n^S < -z_{\alpha/2} \mbox{ or } z_n^S > z_{\alpha/2}\} =  \{\bx : |z_n^S| > z_{\alpha/2} \}.$$
+One can also perform a one-sided test using a Score test but we need to use the MLE under the null hypothesis. For instance, if
+$$H_0: \theta \leq \theta_0 \mbox{ versus } H_1: \theta > \theta_0$$ then 
+$$\Rsc = \{\bx : \frac{S(\thetahat_0 |\bx)}{\sqrt{I_n(\thetahat_0)}} > z_{\alpha}\}.$$
+
+\begin{itemize}
+\item If $H_0$ is composite (i.e. a one-sided test), then $\thetahat_0$, an estimate of $\theta$ assuming $H_0$ is true, replaces $\theta_0$ in $Z_n^S$.
+\item If $\thetahat_0$ is the restricted MLE, we might need to maximize using Lagrange multipliers. Thus the score test is sometimes called the Lagrange multiplier test.
+\end{itemize}
+
+\noindent\textbf{Example 10.3.6 Binomial score test} Consider again the test from example 10.3.5 with Bernoulli data and consider testing
+$$H_0: p = p_0 \mbox{ versus } H_1: p \neq p_0.$$
+
+The likelihood function is given by
+$$\Lsc(p|\bx) = p^{y} (1-p)^{n-y}$$
+where $y = \sumin x_i$. The score equation is then:
+$$
+S(p|\bx) = \frac{\partial}{\partial p}\log \Lsc(p|\bx)
+= \frac{\partial}{\partial p} y \log p + (n-y) \log(1-p)
+= \frac{y}{p} - \frac{n-y}{1-p}
+$$
+and we can use the information previously calculated (take the derivative of the score equation and the expectation):
+$$I(p) = \frac{1}{p(1-p)}.$$
+Therefore, the score statistic is
+$$Z_n^S = \frac{S(p_0|\bX)}{\sqrt{I_n(p_0)}} = 
+\frac{\frac{y}{p_0} - \frac{n-y}{1-p_0}}{\sqrt{\frac{n}{p_0(1-p_0)}}}=
+\frac{\frac{(1-p_0) y}{n} - \frac{p_0 (n-y)}{n}}{\sqrt{\frac{p_0(1-p_0)}{n}}} = \frac{\frac{y}{n} - p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}} = \frac{\phat - p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}}$$
+where $\phat = y/n$.
+An approximate size $\alpha$ rejection region is
+$$\Rsc = \{\bx : | z_n^S | > z_{\alpha/2}\}.$$
+\begin{itemize}
+\item We see that the two statistics Score vs Wald differ in only how they estimate the standard error of $\phat$:
+The Wald statistic uses the estimated standard error. The score statistic uses the standard error calculated under the assumption that $H_0: p = p_0$ is true.
+\end{itemize}
+
+\newpage
+
+\subsubsection{Summary of asymptotic test statistics}
+
+If we have $\Xndots \sim_{iid} f(x|\theta)$ and we assume the regularity conditions needed for MLEs to be consistent and asymptotically normal hold. We have three large sample procedures to test the hypothesis:
+$$H_0: \theta = \theta_0 \mbox{ versus } H_1: \theta \neq \theta_0.$$
+
+\begin{itemize}
+\item \textbf{LRT:}
+$$-2 \log \lambda(\bX) = -2 [\log \Lsc(\theta_0 |\bX) - \log \Lsc(\thetahat|\bX)] \xrightarrow{d} \chi^2_1$$
+\item \textbf{Wald:}
+$$Z_n^W = \frac{\thetahat-\theta_0}{\sqrt{\frac{v(\thetahat)}{n}}} = \frac{\thetahat-\theta_0}{\sqrt{\frac{1}{I_n(\thetahat)}}} \xrightarrow{d} \Nsc(0,1)$$
+\item \textbf{Score:}
+$$Z_n^S = \frac{S(\theta_0|\bX)}{\sqrt{I_n(\theta_0)}} \xrightarrow{d} \Nsc(0,1)$$
+\end{itemize}
+
+All convergence results are under $H_0: \theta = \theta_0$.
+
+\begin{itemize}
+\item Note that $(Z_n^W)^2, (Z_n^S)^2$, and $ -2 \log \lambda(\bX)$ each converge in distribution (under the null hypothesis) to a $\chi_1^2$ distribution as $n\to\infty$.
+\end{itemize}
+
+\subsection{Interval Estimation (10.4)}
+
+\begin{itemize}
+\item In Chapter 9, we discussed methods to derive confidence intervals based on exact (i.e. finite sample) distributions.
+\item In complicated situations, we may need to resort to asymptotic theory to develop large sample approximate confidence intervals using the large-sample approximate estimators and tests above (Wald, Score, LRT).
+\item These are known as the ``large sample likelihood based confidence intervals."
+\item We can invert asymptotic tests of size $\alpha$ to obtain confidence intervals with asymptotic coverage $1-\alpha$.
+\item We can also use asymptotic (large sample) pivots.
+\end{itemize}
+
+\noindent\textbf{Definition} Suppose $\Xndots \sim_{iid} f(x|\theta)$. The random variable
+$$Q_n = Q_n(\bX,\theta)$$
+is called a *large sample pivot* if its asymptotic distribution is free of all unknown parameters. If $Q_n$ is a large sample pivot and if
+$$P_\theta(Q_n(\bX,\theta)\in \Asc)\approx 1-\alpha,$$
+then
+$$C(X) = \{ \theta: Q_n(\bX,\theta)\in \Asc\}$$
+is called an *approximate $1-\alpha$ confidence set* for $\theta$.
+
+\subsubsection{Wald intervals - pivot}
+
+For data $\Xndots \sim_{iid} f(x|\theta)$ under regularity conditions we know that the MLE $\thetahat$ is asymptotically normal and efficient:
+$$\sqrt{n}(\thetahat - \theta) \xrightarrow{d} \Nsc(0,v(\theta)),$$
+where
+$$v(\theta) = \frac{1}{I_1(\theta)}.$$
+If $v(\theta)$ is a continuous function of $\theta$, then $v(\thetahat) \xrightarrow{p} v(\theta)$ for all $\theta$ ($v(\thetahat)$ is a consistent estimator of $v(\theta)$) and
+$$Q_n(\bX,\theta) = \frac{\thetahat - \theta}{\sqrt{\frac{v(\thetahat)}{n}}} \xrightarrow{d} \Nsc(0,1),$$
+by Slutsky's Theorem. Therefore, $Q_n(\bX,\theta)$ is a large sample pivot and
+\begin{align*}
+1-\alpha &\approx P_\theta(-z_{\alpha/2} \leq Q_n(\bX, \theta) \leq z_{\alpha/2})\\
+&= P_\theta(-z_{\alpha/2} \leq \frac{\thetahat - \theta}{\sqrt{\frac{v(\thetahat)}{n}}} \leq z_{\alpha/2})\\
+&= P_\theta\left(\thetahat - z_{\alpha/2}\sqrt{\frac{v(\thetahat)}{n}} \leq \theta \leq \thetahat + z_{\alpha/2}\sqrt{\frac{v(\thetahat)}{n}}\right).
+\end{align*}
+Therefore,
+$$\thetahat \pm z_{\alpha/2}\sqrt{\frac{v(\thetahat)}{n}}$$
+is an approximate $1-\alpha$ confidence interval for $\theta$.
+
+
+\subsubsection{Wald intervals - inversion of hypothesis test}
+
+We could have approached this problem from a different direction by inverting the large sample test of
+$$H_0: \theta = \theta_0 \mbox{ versus } H_1: \theta \neq \theta_0$$
+that uses the Wald test statistic
+$$Z_n^W = \frac{\thetahat - \theta_0}{\sqrt{\frac{v(\thetahat)}{n}}}$$
+and rejection region
+$$\Rsc = \{x: |z_n^W| \geq z_{\alpha/2}\}$$
+
+So we can invert the test to obtain the CI:
+\begin{align*}
+CI &= \{\theta: |z_n^W| \leq z_{\alpha/2}\}\\
+&= \{  - z_{\alpha/2} \leq \frac{\thetahat - \theta}{\sqrt{v(\thetahat)/n}} \leq z_{\alpha/2} \}\\
+&= \{  - z_{\alpha/2} \sqrt{v(\thetahat)/n}\leq {\thetahat - \theta} \leq z_{\alpha/2} \sqrt{v(\thetahat)/n}\}\\
+&= \{ \thetahat - z_{\alpha/2} \sqrt{v(\thetahat)/n}\leq {  \theta} \leq \thetahat + z_{\alpha/2} \sqrt{v(\thetahat)/n}\}
+\end{align*}
+This is why this type of large sample interval is called a *Wald confidence interval* as it is the interval that arises from inverting a large sample Wald test.
+
+\subsubsection{Wald intervals - delta method}
+
+We can also create large sample Wald confidence intervals for functions of $\theta$ using the Delta Method. From the delta method if we have $g(\theta)$ such that $g^\prime$ exists and is nonzero, then
+$$\sqrt{n}(g(\thetahat) - g(\theta)) \xrightarrow{d} \Nsc(0,[g^\prime(\theta)]^2 v(\theta)).$$
+If $[g^\prime(\theta)]^2 v(\theta)$ is a continuous function of $\theta$, then $[g^\prime(\thetahat)]^2 v(\thetahat)$ is a consistent estimator for it (continuous function of consistent MLEs also consistent). Therefore,
+$$Q_n(\bX,\theta) = \frac{g(\thetahat) - g(\theta)}{\sqrt{\frac{[g^\prime(\thetahat)]^2v(\thetahat)}{n}}} \xrightarrow{d} \Nsc(0,1).$$
+by Slutsky's Theorem and
+$$g(\thetahat) \pm z_{\alpha/2}\sqrt{\frac{[g^\prime(\thetahat)]^2v(\thetahat)}{n}}$$
+is an approximate $1-\alpha$ confidence interval for $g(\theta)$.
+
+\noindent\textbf{Example Bernoulli Wald interval} Suppose $\Xndots \sim_{iid} Bernoulli(p)$. To derive a $1-\alpha$ large sample Wald confidence interval for $p$, we need the MLE of $p$:
+$\phat = \frac{1}{n} \sumin X_i$.
+Earlier we showed that $$v(p) = \frac{1}{I(p)} = p(1-p).$$
+Therefore,
+$$\phat \pm z_{\alpha/2}\sqrt{\frac{\phat(1-\phat)}{n}}$$
+is an approximate $1-\alpha$ Wald confidence interval for $p$. This interval has problems (i.e. inability to attain the nominal $1-\alpha$ coverage probability), see Brown et al. (2001, *Statistical Science*).
+
+Now, if we wish to obtain a $1-\alpha$ large sample Wald confidence interval for the log odds of $p$
+$$g(p) = \log \left( \frac{p}{1-p}\right)$$ we can use the Delta method since
+$$g^\prime (p) = \frac{1}{p(1-p)} \neq 0 \mbox{ for } 0<p<1$$
+Therefore,
+\begin{align*}
+\sqrt{n} \left[ \log \left( \frac{\phat}{1-\phat}\right) - \log \left( \frac{p}{1-p}\right) \right] &\xrightarrow{d} \Nsc\left(0,\left[\frac{1}{p(1-p)}\right]^2p(1-p)\right)\\
+&= \Nsc\left(0, \frac{1}{p(1-p)}\right).
+\end{align*}
+Because the asymptotic variance $1/(p(1-p))$ can be consistently estimated by $1/(\phat(1-\phat))$, we have
+$$\frac{
+\log \left( \frac{\phat}{1-\phat}\right) - \log \left( \frac{p}{1-p}\right) \
+}{
+\sqrt{\frac{1}{n\phat(1-\phat)}}
+}\xrightarrow{d} \Nsc(0,1)$$
+by Slutsky's Theorem, and
+$$\log\left(\frac{\phat}{1-\phat}\right) \pm z_{\alpha/2} \sqrt{\frac{1}{n\phat(1-\phat)}}$$
+is an approximate $1-\alpha$ Wald confidence interval for $g(p) = \log[p/(1-p)]$.
+
+\begin{itemize}
+\item Clearly, the Wald interval is simple and straightforward. All we need is an MLE and a consistent estimator of the asymptotic variance of the MLE.
+\item More generally, to perform Wald inference all you need is an estimator $\thetahat$ (not necessarily an MLE) that is asymptotically normal with a large sample variance that you can estimate consistently.
+\item However, because large sample standard errors must be estimated, the performance of Wald confidence intervals and tests can be poor in small samples.
+\item Wald inference is really a last resort unless you have very large samples (i.e. thousands of subjects), in which case it is often used because of its simplicity.\end{itemize}
+
+\subsubsection{Score intervals}
+
+
+
+For data $\Xndots \sim_{iid} f(x|\theta)$ under regularity conditions we have shown that
+$$Q_n(\bX,\theta) = \frac{S(\theta|\bX)}{\sqrt{I_n(\theta)}}\xrightarrow{d} \Nsc(0,1)$$
+where $I_n(\theta) = nI(\theta)$ is the Fisher information based on the sample.
+
+Score confidence intervals arise from inverting (large sample) score tests. When testing
+$$H_0: \theta = \theta_0 \mbox{ versus } H_1: \theta \neq \theta_0$$
+the score statistic
+$$Q_n(\bX,\theta_0) = \frac{S(\theta_0|\bX)}{\sqrt{I_n(\theta_0)}}\xrightarrow{d} \Nsc(0,1)$$
+when $H_0$ is true. Therefore,
+$$\Rsc = \{\bx: |Q_n(\bx,\theta_0)|\geq z_{\alpha/2}\}$$
+is an approximate size $\alpha$ rejection region for testing $H_0$ versus $H_1$
+
+We can invert the score test by finding the acceptance region
+$$\Asc = \{\bx: |Q_n(\bx,\theta_0)|< z_{\alpha/2}\}$$
+and inverting it to obtain the approximate $1-\alpha$ confidence set for $\theta$:
+$$C(\bx) = \{\theta: |Q_n(\bx,\theta)|< z_{\alpha/2}\}$$
+When $C(\bx)$ is an interval, this is the *score confidence interval*.
+
+\noindent\textbf{Example Bernoulli Score interval} Again we have $\Xndots \sim_{iid} Bernoulli(p)$ where $0 < p < 1$. We have the score test statistic:
+$$Q_n(\bX, p) = \frac{S(p|\bX)}{\sqrt{I_n(p_0)}} = \frac{\phat - p}{\sqrt{\frac{p(1-p)}{n}}}
+$$
+
+The score test of $H_0: p = p_0$ vs $H_1: p \neq p_0$ uses this test statistic with $p=p_0$. We invert the acceptance region of this test as above to create the random confidence set:
+$$C(\bX) = \{p : Q_n(\bX,p) < z_{\alpha/2}\} = \left\{p: \frac{\phat - p}{\sqrt{\frac{p(1-p)}{n}}} < z_{\alpha/2} \right\}$$
+This is the score interval for $p$.
+
+\begin{itemize}
+\item Note that it is not solved for $p$ analytically.
+\item After observing $\bX = \bx$ we can calculate this interval numerically (using a grid search for $p$ that satisfy this inequality).
+\item However, in the binomial case, we {\em can} get a closed-form expression for the endpoints by solving $Q_n(\bx, p) = z_{\alpha/2}$ with the quadratic formula. See the long expression for the endpoints (10.4.7) in C\&B.
+\end{itemize}
+
+\subsubsection{Likelihood ratio intervals}
+
+We can also invert the likelihood ratio test for the hypothesis $$H_0: \theta = \theta_0 \mbox{ versus } H_1: \theta \neq \theta_0$$
+with the LRT statistic
+$$\lambda(\bx) = \frac{\Lsc(\theta_0|\bx)}{\Lsc(\thetahat|\bx)}$$
+and rejection region
+$$\Rsc = \{ \bx: -2 \log \lambda(\bx) \geq \chi^2_{1,\alpha}\}.$$
+$$\Asc = \{ \bx: -2 \log \frac{\Lsc(\theta_0|\bx)}{\Lsc(\thetahat|\bx)}< \chi^2_{1,\alpha}\}.$$
+We obtain an approximate size $\alpha$ rejection region and inverting the acceptance region gives the confidence set:
+$$C(\bx) = \{\theta: -2 \log \left[ \frac{\Lsc(\theta|\bx)}{\Lsc(\thetahat|\bx)} \right] < \chi^2_{1,\alpha}\}$$
+which is an approximate $1-\alpha$ confidence set, and if it is an interval it is the *likelihood ratio confidence interval*.
+
+\noindent\textbf{Example Bernoulli LRT interval} Under the same settings as above, we have the LRT statistic:
+$$\lambda(\bx) =-2 \log \frac{\Lsc(p_0|\bx)}{\Lsc(\phat|\bx)} = -2 \left[ n\phat \log \frac{p_0}{\phat}  + n(1-\phat) \log\frac{1-p_0}{1-\phat} \right]$$
+so the confidence interval is
+$$C(\bx) = \left\{ p: -2 \left[ n\phat \log \frac{p}{\phat} + n(1-\phat) \log\frac{1-p}{1-\phat} \right] < \chi^2_{1,\alpha}\right\}$$
+which must be calculated using numerical search methods.
+
+\subsubsection{Comparison of binomial intervals}
+
+For $n=12$, C\&B compares 90\% Score, Wald, and LRT confidence intervals for the bernoulli proportion. 
+\begin{itemize}
+\item the Score interval is longer
+\item the Score interval is the only interval that maintains coverage above nominal level (confidence coefficient = 0.9)
+\item near the boundaries $p$ close to 0 or 1, the LRT coverage drops toward 0.7
+\item the Wald procedure performs poorly (coverage near 0.7, centered at $\phat$, usually longer unless near boundary) for many values of $p$
+\item See Figure 10.4.2
+\item continuity corrected Score interval performs the best in this situation (see C\&B pg 105 for definition)
+\end{itemize}
+

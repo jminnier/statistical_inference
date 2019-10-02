@@ -1,0 +1,769 @@
+
+
+# Interval Estimation (Chapter 9)
+
+## Definitions and Intro (9.1)
+
+\begin{itemize}
+\item In contrast to obtaining a single point estimate of a parameter of interest, we now want to construct an interval estimate (or more generally, a set estimate) for a parameter.
+\item A 95\% confidence interval for the mean of a normal distribution based on sample data is a familiar example.
+\item Let's define what we mean by an interval estimate:
+\end{itemize}
+
+\noindent \textbf{Definition 9.1.1:} An **interval estimate** of a real-valued parameter $\theta$ is a pair of functions, $L(x_1, \ldots, x_n)$ and $U(x_1, \ldots, x_n)$, of a sample of data that satisfies $L(\bx) \leq U(\bx)$ for all $\bx \in \Xsc$ where $\Xsc$ is the sample space for $\bX$. The **random interval** $[L(\bX),U(\bX)]$ is called an *interval estimator*.
+
+\begin{itemize}
+\item If $\bX = \bx$ is observed, the inference $L(\bx) \leq \theta \leq U(\bx)$ is made.
+\item We write $[L(\bX), U(\bX)]$ for an interval estimator of $\theta$ based on the random sample $\bX = (X_1,\ldots, X_n)$ and $[L(\bx), U(\bx)]$ based on the realized value of the interval.
+\item If we take $L(\bx) = -\infty$ then $[-\infty, U(X_1, \ldots, X_n)]$ is a one-sided interval---an upper bound.
+\item Interval estimates can be closed intervals such as $[L(\Xndots),U(\Xndots)]$ or they can be open $\left(L(\Xndots),U(\Xndots)\right).$ 
+\end{itemize}
+
+\begin{itemize}
+\item An advantage of intervals over point estimates is that we can attach a level of confidence to our interval.
+\end{itemize}
+
+**Example (9.1.2 Interval Estimator)** If we have a sample $X_1, X_2, X_3, X_4 \sim_{iid} \Nsc(\mu,1)$ an interval estimator of $\mu$ may be $[\Xbar - 1, \Xbar + 1]$. This means we will assert that $\mu$ is this interval.
+
+
+- **Question** Why would we switch from a point estimator to an interval estimate? We are making the inference less precise, so what do we gain?
+- **Answer** By giving up some precision in our estimate, we have gained some confidence, or assurance, that our assertion is correct.
+
+
+**Example** $\Xndots \sim_{iid} \Nsc(\mu,\sigma^2)$, $\sigma^2$ known. A 95\% CI for $\mu$ is
+$$\left[\Xbar - 1.96 \sigma/\sqrt{n}, \Xbar + 1.96 \sigma/\sqrt{n}\right].$$
+What do we mean by 95\% CI? How do we quantify our uncertainty about $\mu$ being in this interval?
+
+**Definition 9.1.4:** For an interval estimator $\LUX = [L(\Xndots),U(\Xndots)]$ of a parameter $\theta$, the *coverage probability* of $\LUX$ is the probability that the random interval $\LUX$ covers the true parameter, $\theta$. In symbols, it is denoted by either $$P_\theta\left(\theta \in \LUX\right)\, \mbox{ or } \, P\left(\theta \in \LUX | \theta\right).$$
+
+- Of course, we would like the *coverage probability* to be high. Note, that this coverage probability is a function of $\theta$. We want the coverage probability to be high for all $\theta$ so we let the *confidence coefficient* be the minimum (or most technically infimum) over $\theta$ of the coverage probabilities.
+
+**Definition 9.1.4:** For an interval estimator $\LUX$ of a parameter $\theta$, the **confidence coefficient** of $\LUX$ is the infimum of the coverage probabilities, $$\inf_\theta P(\theta \in \LUX).$$
+
+
+- The **interval is random** not the parameter!
+- Hence, probability statements involve the **probability  with regard to** $\bX$, not $\theta$.
+    + i.e. $P_\theta(\theta \in \LUX)$ or $P_\theta(L(\bX) \leq \theta, U(\bX) \geq \theta)$ are statements about random $\bX$
+- An aside: In Bayesian approaches, we consider probability distributions on parameters, but not in the frequentist approaches we are discussing now.
+- In general the coverage probability depends on $\theta$, but in many cases, as in the normal mean example, the coverage probability is constant as a function of $\theta$. In this case we do not need to worry about the "minimum" coverage.
+- An interval estimate with a measure of confidence (usually confidence coefficient) are sometimes known as **confidence intervals.**  C\&B uses this interchangeably with **interval estimator.**
+- More generally, we can describe **confidence sets** that are not continuous intervals.
+
+
+<!-- TO DO MOVE THIS EARLIER? -->
+
+**An aside: Transformation Theorem 2.1.8 (simplified version)**
+Let $X$ have pdf $f_X(x)$, let $Y=g(X)$, and suppose (this is a loose summary of the requirements, page 53 in C&B for details)
+
+- $g$ is piecewise monotonic on the sample space $\Xsc$. Essentially:
+    + $g$ is a 1:1 function
+    + $g^{-1}$ is a 1:1 function
+- $g^{-1}$ has a continuous derivative
+
+Then
+$$f_Y(y) = f_X(g^{-1}(y))\left| \frac{d}{dy} g^{-1}(y)\right|$$
+
+Read Chapter 2 in C&B for more details and proofs for monotonic $g$.
+
+**Example: Scale Uniform Interval Estimator (9.1.6)**
+Let $\Xndots$ be a random sample from a $Uniform(0,\theta)$ distribution, $\theta>0$, and let $Y= \max\{\Xndots\} = X_{(n)}$. Recall that $Y$ is a sufficient statistic for $\theta$ (minimal sufficient), so it is reasonable to consider estimators based on $Y$. Suppose we consider two types of interval estimators: $[aY, bY]$ or $[Y+c, Y+d]$. Recall (see Example 7.3.13) that the density function of $Y$ is
+$$f_Y(y) = \frac{n}{\theta^n}y^{n-1} I( 0\leq y \leq \theta).$$
+
+For the first type of interval we have
+\begin{align*}
+P_\theta( \theta \in [aY,bY]) &= P_\theta(aY \leq \theta \leq bY)\\
+&=P_\theta\left(\frac{1}{b} \leq \frac{Y}{\theta} \leq \frac{1}{a}\right)\\
+&= P_\theta\left(\frac{1}{b} \leq T \leq \frac{1}{a}\right)\\
+&= \int_{1/b}^{1/a} nt^{n-1}dt = \left(\frac{1}{a}\right)^n - \left(\frac{1}{b}\right)^{n}.
+\end{align*}
+since the pdf of $T$ is $f_T(t) = nt^{n-1}, 0 \leq t \leq 1$ from the Transformation Theorem with $g(y) = y/\theta$ and $g^{-1}(t) = \theta t$, and $\frac{d}{dt} g^{-1}(t) = \theta$.
+This coverage probability is independent of the value of $\theta$, and thus $\left(\frac{1}{a}\right)^n - \left(\frac{1}{b}\right)^n$ is the confidence coefficient of the interval.
+
+For the other interval, for $\theta\geq d$ we have:
+\begin{align*}
+P_\theta( \theta \in [Y+c, Y+d]) &= P_\theta(Y+c \leq \theta \leq Y+d)\\
+&=P_\theta\left(1-\frac{d}{\theta} \leq T \leq 1 - \frac{c}{\theta}\right)\\ 
+&= \int_{1-d/\theta}^{1-c/\theta} nt^{n-1}dt\\
+&= \left(1-\frac{c}{\theta}\right)^n -  \left(1-\frac{d}{\theta}\right)^n
+\end{align*}
+
+In this case, the coverage probability depends on $\theta$ and tends to zero as $\theta \to \infty$:
+$$\lim_{\theta \rightarrow \infty} \left(1-\frac{c}{\theta}\right)^n -  \left(1-\frac{d}{\theta}\right)^n = 0.$$
+So the confidence coefficient of this interval estimator is 0.
+
+\subsection{Methods for Finding Inverval Estimators (9.2)}
+
+\subsubsection{Inverting a Test Statistic}
+
+Hypothesis testing naturally corresponds to interval estimation. In general, every confidence set corresponds to a test and vice versa.
+
+\noindent \textbf{Example: Inverting a Normal Test (Example 9.2.1)}
+
+We return to the Normal example, with $\sigma$ known. Let $\Xndots \sim_{iid} \Nsc(\mu,\sigma^2)$ and we are testing the two-sided hypothesis
+$$H_0: \mu = \mu_0 \mbox{ versus } H_1: \mu \neq \mu_0.$$
+
+For a fixed $\alpha$ level, the most powerful unbiased test has rejection region
+$$\Rsc = \{\bx: |\xbar - \mu_0| > z_{\alpha/2}\sigma/\sqrt{n}\}.$$
+
+Note that $H_0$ is accepted for sample points in the complement of this region, or equivalently:
+$$\Rsc^C = \Asc(\mu_0) = \left\{\bx: \xbar - z_{\alpha/2}\sigma/\sqrt{n} \leq \mu_0 \leq \xbar + z_{\alpha/2}\sigma/\sqrt{n}\right\}.$$
+
+This test has size $\alpha$ so $\Rightarrow P\left(H_0 \mbox{ is rejected } | \mu = \mu_0\right) = \alpha$, or,
+$P(H_0 \mbox{ is accepted } | \mu = \mu_0) = 1 - \alpha$. Hence,
+$$P(\bX \in \Asc(\mu_0)) = 1-\alpha,$$ $\Rightarrow$
+$$P\left(\Xbar - z_{\alpha/2}\sigma/\sqrt{n} \leq \mu_0 \leq \Xbar + z_{\alpha/2}\sigma/\sqrt{n} \mid \mu  = \mu_0\right) = 1 - \alpha$$
+But this probability statement is true for every $\mu_0$. Hence, the statement
+$$P\left(\Xbar - z_{\alpha/2}\sigma/\sqrt{n} \leq \mu \leq \Xbar + z_{\alpha/2}\sigma/\sqrt{n} \right) = 1 - \alpha$$
+is true.
+
+The interval $C(x_1,\ldots,x_n) = [\xbar - z_{\alpha/2}\sigma/\sqrt{n}, \xbar + z_{\alpha/2}\sigma/\sqrt{n}]$, obtained by *inverting* the acceptance region of the level $\alpha$ test, is a $1-\alpha$ confidence interval.
+
+
+**Important Tautology:**
+$$\boxed{\bx = \{x_1, \ldots, x_n\} \in A(\mu_0) \Leftrightarrow \mu_0 \in C(x_1,\ldots,x_n)}$$
+
+
+**Example:** Let's go back to the interval above in *Example 9.2.1*. $\Xndots \sim_{iid} \Nsc(\mu,\sigma^2), \sigma^2$ known. A 95\% CI for $\mu$ is
+$$\left[\Xbar - 1.96 \sigma/\sqrt{n}, \Xbar + 1.96 \sigma/\sqrt{n}\right].$$ Why?
+Because
+$$P_\mu (\Xbar - 1.96 \sigma/\sqrt{n} \leq \mu \leq \Xbar + 1.96 \sigma/\sqrt{n}) = P(-1.96 \leq Z \leq 1.96) = 0.95,$$
+for all $\mu$. Hence the confidence coefficient for this interval is 0.95.
+
+\begin{itemize}
+\item A good hypothesis testing procedure leads to a good confidence interval and vice versa.
+\item Both tests and intervals ask the same question, but from a slightly different perspective.
+\item Both look for consistency between sample statistics and population parameters.
+\item Hypothesis test: fixes the parameters and asks what sample values (acceptance region) are consistent with that fixed value.
+\item Confidence set: fixes sample value and asks what parameter values (confidence interval) make this sample value most plausible
+\item If a test has {\em level} $\alpha$ then the confidence interval obtained by inversion has confidence coefficient {\em at least} $1-\alpha$.
+\item We refer to this as a $1-\alpha$ confidence interval or more generally a $1-\alpha$ confidence set.
+\end{itemize}
+
+\noindent{\bf Theorem 9.2.2} For each $\theta_0 \in \Theta$, let $A(\theta_0)$ be the acceptance region of a level $\alpha$ test of $H_0: \theta = \theta_0$. For each $\bx \in \Xsc$, define a set $C(\bx)$ in the parameter space by
+\begin{equation}
+C(\bx) = \{ \theta_0 : \bx \in A(\theta_0) \}.  \tag{9.2.1}
+\end{equation}
+Then the random set $C(\bX)$ is a $1-\alpha$ confidence set.
+
+Conversely, let $C(\bX)$ be a $1-\alpha$ confidence set. For any $\theta_0 \in \Theta$, define
+$$A(\theta_0) = \{ \bx : \theta_0 \in C(\bx)\}.$$
+Then $A(\theta_0)$ is the acceptance region of a level $\alpha$ test of $H_0: \theta = \theta_0$.
+
+\noindent\textbf{Proof:} For the first part:
+\begin{align*}
+A(\theta_0) \mbox{ is the acceptance region of a level } \alpha \mbox{ test } &\Rightarrow P_{\theta_0} (\bX \notin A(\theta_0)) \leq \alpha \\ 
+&\Rightarrow 1-P_{\theta_0} (\bX \in A(\theta_0)) \leq \alpha \\ 
+&\Rightarrow P_{\theta_0} \left[\bX \in A(\theta_0)\right] \geq 1- \alpha  \\
+&\Rightarrow P_{\theta} \left[\bX \in A(\theta)\right] \geq 1- \alpha \,  \mbox{ ($\theta_0$ is arbitrary)}\\
+&\Rightarrow P_{\theta}\left[\theta \in C(\bX)\right] = P_\theta\left[\bX \in A(\theta)\right] \geq 1 - \alpha \, \mbox{ with (9.2.1) }\\
+&\Rightarrow C(\bX) \mbox{ is a } 1-\alpha \mbox{ confidence set.}
+\end{align*}
+
+For the second part, we write the Type I Error probability for the test of $H_0: \theta = \theta_0$ with acceptance region $A(\theta_0)$:
+$$P_{\theta} \left[\bX \notin A(\theta)\right]= P_{\theta}\left[\theta \notin C(\bX)\right] \leq \alpha \Rightarrow \mbox{ level } \alpha \mbox{ test }$$
+
+\begin{itemize}
+\item \textbf{Important conclusion}: Theorem 9.2.2 shows that we must invert a family of tests, one for each value of $\theta_0 \in \Theta$, to obtain one confidence set.
+\item The first part of Theorem 9.2.2 is useful since it is relatively easy to construct a level $\alpha$ acceptance region but this helps us to construct a $1-\alpha$ confidence set, which is usually more difficult.
+\item In the Theorem we only specify $H_0: \theta = \theta_0$. Usually we have to take in to account our $H_A$ to decide the form of $A(\theta_0)$ and this will determine the shape of $C(\bx)$.
+\item Properties of inverted test carry over to the confidence set
+\begin{itemize}
+\item Unbiased tests, when inverted, produce unbiased confidence sets.
+\item We can use sufficient statistics to find a good test, so we can use sufficient statistics for good confidence tests.
+\end{itemize}
+\end{itemize}
+
+
+**Example: Inverting an LRT (9.2.3)** Suppose that we want a confidence interval for the mean, $\lambda$ of an exp($\lambda$) population. We can obtain such an interval by inverting a level $\alpha$ test of
+$$H_0: \lambda = \lambda_0 \mbox{ versus } H_1: \lambda \neq \lambda_0.$$
+
+If we take a random sample $\Xndots$, the LRT statistic is given by:
+\begin{align*} 
+LRT &= \frac{\Lsc(\lambda_0)}{\Lsc(\lambdahat_{MLE})}\\
+&= \frac{\frac{1}{\lambda_0^n} e^{-\sum x_i/\lambda_0}}{ \frac{1}{\lambdahat_{MLE}^n} e^{-\sum x_i/\lambdahat_{MLE}}}\\
+&= \frac{\frac{1}{\lambda_0^n} e^{-\sum x_i/\lambda_0}}{\frac{1}{(\sum x_i/n)^n} e^{-n}}\\
+&= \left(\frac{\sum x_i}{n \lambda_0}\right)^n e^{n} e^{-\sum x_i /\lambda_0}.
+\end{align*}
+
+For fixed $\lambda_0$, the acceptance region is given by:
+\begin{equation*}
+A(\lambda_0) = \left\{ \bx: \left(\frac{\sum x_i}{\lambda_0}\right)^n e^{-\sum x_i /\lambda_0} \geq k^*\right\},
+\end{equation*}
+where $k^*$ is a constant chosen to satisfy
+$$P_{\lambda_0} \left[\bX \in A(\lambda_0)\right] = 1 - \alpha.$$ See plots in your book for a visualization of this region (pg 423). 
+This is an interval in the sample space (a function of $\sum x_i$).
+
+Inverting this acceptance region gives the $1-\alpha$ confidence set:
+$$C(\bx) = \left\{ \lambda: \left(\frac{\sum x_i}{\lambda}\right)^n e^{-\sum x_i /\lambda} \geq k^*\right\}.$$
+This is an interval in the parameter space (a function of $\lambda$).
+
+
+$C(\bx)$ depends on $\bx$ only through $\sum x_i$. So the confidence interval can be expressed in the form:
+$$C\left(\sum x_i\right) = \left\{ \lambda: L\left(\sum x_i\right) \leq \lambda \leq U\left(\sum x_i\right)\right\},$$
+where $L$ and $U$ are functions determined by the constraints that $P_{\lambda_0} (\bX \in A(\lambda_0)) = 1 - \alpha$ and the constraint:
+\begin{equation*}
+\left( \frac{\sum x_i}{L(\sum x_i) } \right)^n e^{-\sum x_i /L(\sum x_i)} = \left( \frac{\sum x_i}{U(\sum x_i) } \right)^n e^{-\sum x_i /U(\sum x_i)}. \tag{9.2.4}
+\end{equation*}
+
+If we set 
+\begin{equation*}
+\frac{\sum x_i}{L(\sum x_i) }  = a \mbox{ and } \frac{\sum x_i}{U(\sum x_i) } = b,\tag{9.2.5}
+\end{equation*}
+where $a > b$ are constants, then the constraint (9.2.4) becomes
+\begin{equation*}
+a^n e^{-a} = b^n e^{-b}, \tag{9.2.6}
+\end{equation*}
+which yields easily to numerical solution. To work out some details, let $n=2$ and note that $\sum X_i \sim$ gamma(2,$\lambda$) and $\sum X_i /\lambda \sim$ gamma(2,1). Hence, from (9.2.5), the confidence interval becomes
+$$\left\{\lambda: \frac{1}{a} \sum x_i \leq \lambda \leq \frac{1}{b} \sum x_i \right\},$$ where $a$ and $b$ satisfy
+$$P_\lambda \left( \frac{1}{a} \sum X_i \leq \lambda \leq \frac{1}{b} \sum X_i\right) = P\left( b \leq \frac{\sum X_i}{\lambda} \leq a \right) = 1-\alpha$$
+and,
+from (9.2.6), $$a^2 e^{-a} = b^2 e^{-b}.$$ Then
+\begin{align*}
+ P\left( b \leq \frac{\sum X_i}{\lambda} \leq a \right) &= \int_{b}^{a} t e^{-t} dt\\
+&= e^{-b} (b+1) - e^{-a} (a+1).
+\end{align*}
+
+If we want a 90\% confidence interval, for example, we must simultaneously satisfy the probability condition and the constraint. Numerically solving these equations we get $a \approx 5.480, b \approx 0.441$ with a confidence coefficient of $0.90006$. Thus,
+$$P_\lambda \left(\frac{1}{5.480} \sum X_i \leq \lambda \leq \frac{1}{0.441} \sum X_i \right) = 0.90006.$$ 
+
+
+\noindent\textbf{Quick summary:}
+\begin{itemize}
+\item The region obtained by inverting the LRT of $H_0: \theta = \theta_0$ versus $H_1: \theta \neq \theta_0$ (Definition 8.2.1) is of the form
+$$\mbox{accept } H_0 \mbox{ if } \frac{\Lsc(\theta_0 | \bx)}{\Lsc(\thetahat | \bx)} \geq k(\theta_0),$$
+with the resulting confidence region
+$$\{ \theta: \Lsc(\theta | \bx) \geq k^\prime(\bx,\theta)\},$$
+for some function $k^\prime$ that gives $1-\alpha$ confidence.
+\item In some cases (i.e. normal and gamma distribution) the function $k^\prime$ will not depend on $\theta$ $\Rightarrow$ likelihood region is interpreted as those values of $\theta$ for which the likelihood is highest
+\item the test inversion method is completely general since we can invert any test and obtain a confidence set (not just LRTs)
+\end{itemize}
+
+
+**Example: Normal one-sided confidence bound (9.2.4)** Let $\Xndots \sim \Nsc(\mu,\sigma^2)$ population, $\mu$ and $\sigma$ unknown but we wish to make inference about $\mu$ through a $1-\alpha$ upper confidence bound for $\mu$, of the form $C(\bx) = (-\infty, U(\bx)]$. 
+
+Using Theorem 9.2., we can invert one-sided tests of $H_0: \mu = \mu_0$ versus $H_1: \mu < \mu_0$. (Note the direction of $H_1$ as compared to the ``direction" of $C(\bx)$)
+
+The size $\alpha$ LRT of $H_0$ versus $H_1$ has the rejection region:
+$$\Rsc(\mu_0) =\left\{\bx: \frac{\xbar - \mu_0}{s/\sqrt{n}} < -t_{n-1, \alpha}\right\}$$
+(similar to Example 8.2.6 in C\&B). Thus the acceptance region for this test is:
+$$\Asc(\mu_0) = \Rsc(\mu_0)^C = \left\{\bx: \xbar \geq \mu_0 - t_{n-1,\alpha} s/\sqrt{n}\right\}$$
+and $\bx \in A(\mu_0) \Leftrightarrow \xbar + t_{n-1,\alpha} s/\sqrt{n} \geq \mu_0.$ We define
+$$C(\bx) = \{\mu_0 : \bx \in A(\mu_0)\} = \left\{ \mu: \xbar + t_{n-1,\alpha} s/\sqrt{n} \geq \mu \right\}.$$
+By Theorem 9.2.2, the random set $C(\bX) = (-\infty, \Xbar + t_{n-1,\alpha}S/\sqrt{n}]$ is a $1-\alpha$ confidence set for $\mu$. It is in the right form for an upper confidence bound.
+Inverting the one-sided test gave a one-sided confidence interval.
+
+\noindent\textbf{Example: Binomial one-sided confidence bound (9.2.5)} Now we have a sequence of Bernoulli trials and we want to put a $1-\alpha$ lower confidence bound on $p$, where $\Xndots \sim$ Bernoulli($p$). We want the intervals to be of the form $(L(x_1, \ldots, x_n), 1]$ where $P_p(p \in L(\Xndots),1]) \geq 1-\alpha$.
+
+Since we want a one-sided interval with a lower confidence bound, we consider inverting the acceptance regions from tests of 
+$$H_0: p = p_0 \mbox{ versus } H_1: p > p_0.$$
+
+To simplify things, we know we can base our test on the sufficient statistic $T = \sumin X_i \sim$ binomial($n,p$).
+
+The binomial distribution has monotone likelihood ratio (Exercise 8.25) $\Rightarrow$ by the Karlin-Rubin Theorem, the test that rejects $H_0$ if $T > k(p_0)$ is the UMP test of its size.
+
+For each $p_0$, we want to choose the constant $k(p_0)$ so that we have a level $\alpha$ test. We cannot get the size of the test to be exactly $\alpha$, except for certain values of $p_0$, because of the discreteness of $T$. But we choose $k(p_0)$ so that the size of the test is as close to $\alpha$ as possible, without being larger.
+
+Define $k(p_0)$ as the integer between 0 and $n$ that simultaneously satisfies equation set (9.2.8):
+$$\sum_{y=0}^{k(p_0)} {n \choose y} p_0^y (1-p_0)^{n-y} \geq 1 - \alpha$$
+$$\sum_{y=0}^{k(p_0)-1} {n \choose y} p_0^y (1-p_0)^{n-y} < 1 - \alpha$$
+(this is as close to $\alpha$ as we can get)
+
+Because of the MLR property of the binomial, for any fixed $k = 0, \ldots, n$, the quantity
+$$f(p_0 | k) = \sum_{y=0}^k {n \choose y} p_0^y (1-p_0)^{n-y} $$
+is a decreasing function of $p_0$ (Exercise 8.26).
+
+
+```{r, echo=TRUE}
+library(tidyverse)
+fdata <- crossing(k=0:3, p_0 = seq(0,1,by=.01)) %>%
+  rowwise() %>%
+  mutate(f_p_k = sum(dbinom(0:k, size=3, prob=p_0))) %>%
+  ungroup() %>% mutate(k=factor(k))
+ggplot(fdata, aes(x=p_0, y=f_p_k, color=k, lty=k))+
+  geom_line()+
+  geom_hline(yintercept=0.95, lty=5)+theme_light()+
+  ggtitle("f(p_0|k)~Binomial one-sided conf bound (9.2.5), n=3")+
+  ylab("sum(dbinom(0:k, size=3, prob=p_0)")
+```
+
+
+
+\begin{itemize}
+\item Note that we choose $k(p_0)$ for each $p_0$, so $k(p_0)$ is an integer-valued step-function of $p_0$:
+\begin{itemize}
+\item $f(0 | 0) = 1$, so $k(0) = 0$ and $f(p_0 | 0)$ remains above 1-$\alpha$ for an interval of values.
+\item Then, at some point $f(p_0 | 0) = 1 - \alpha$ and for values of $p_0$ greater than this value, $f(p_0 | 0) < 1 - \alpha$. So, at this point, $k(p_0)$ increases to 1.
+\item This pattern continues as $p_0$ increases and $k(p_0)$ increases one integer at a time: it is constant for a range of $p_0$, then it jumps to the next bigger integer.
+\end{itemize}
+\item since $k(p_0)$ is a nondecreasing function of $p_0$, this gives the lower confidence bound
+\item solving the inequailities in (9.2.8) for $k(p_0)$ gives both the acceptance region of the test and the confidence set.
+\begin{itemize}
+\item for each $p_0: A(p_0) = \{t: t \leq k(p_0)\}$ where $k(p_0)$ satisfies (9.2.8)
+\item for each value of $t$, the confidence set is $C(t) = \{ p_0: t \leq k(p_0)\}$.
+\end{itemize}
+\item How do we define this interval explicitly in terms of $p_0$?
+\begin{itemize}
+\item $k(p_0)$ is nondecreasing $\Rightarrow$ for a given observation $T=t, k(p_0) < t$ for all $p_0 < k^{-1}(t)$  where $k^{-1} (t)$ is some value we need to determine
+\item confidence set is $C(t) = \{ p_0: t \leq k(p_0)\} = \{ p_0: p_0 > k^{-1}(t)\}$ where
+$$k^{-1}(t) = \sup \left\{ p: \sum_{y=0}^{t-1} {n \choose y} p^{y} (1-p)^{n-y} \geq 1- \alpha \right\}$$
+\end{itemize}
+\item The problem of binomial confidence bounds was first treated by Clopper and Pearson (1934) who obtained answers similar to this for the two-sided interval.
+\item Note this approach gives exact bounds. We instead could have used the normal approximation for large $n$ to get an approximate 95\% CI:
+$$ \phat \pm z_{\alpha/2} \sqrt{\frac{\phat(1-\phat)}{n}}.$$
+\end{itemize}
+
+
+\subsubsection{Pivotal Quantities (9.2.2)}
+
+Remember that in Example (9.1.6) the coverage probability of $\{aY, bY\}$ did not depend on the value of $\theta$ while the $\{Y+c, Y+d\}$ interval did. This is because the coverage probability of $\{aY, bY\}$ could be expressed in terms of the quantity $Y/\theta$, a random variable whose distribution does not depend on the parameter, a quantity known as a *pivotal quantity*, or *pivot*.
+
+We want to find a random variable depending on both the data and the unknown parameter $\theta$ whose distribution does not depend on $\theta$. Then, any probability statement about the pivotal quantity will not depend on $\theta$.
+
+
+\noindent\textbf{Definition 9.2.6} A random variable $Q(\bX, \theta) = Q(\Xndots, \theta)$ is a *pivotal quantity* or *pivot* if the distribution of $Q(\bX, \theta)$ is independent of all parameters. That is, if $\bX \sim F(\bx |\theta)$, then $Q(\bX, \theta)$ has the same distribution for all values of $\theta$.
+
+\begin{itemize}
+\item $Q(\bx, \theta)$ will usually contain both parameters and statistics
+\item for any set $\Asc$, $P_\theta(Q(\bX) \in \Asc)$ cannot depend on $\theta$
+\end{itemize}
+
+
+\noindent\textbf{Example: Gamma Pivot (9.2.8)}
+$\Xndots \sim$ exponential($\lambda$). Then $T = \sum X_i$ is a sufficient statistic for $\lambda$ and $T\sim$ gamma($n,\lambda$).
+
+The gamma pdf is
+$$\frac{1}{\Gamma(n) \lambda^{n}} t^{n-1} e^{-t/\lambda}$$
+and note that $t$ and $\lambda$ appear together as $t/\lambda$ and this gamma distribution is a scale family.
+
+Thus, if $Q(T, \lambda) = 2T/\lambda$ and we let $Y = 2T/\lambda$ then by the transformation theorem, 
+
+$$g(t) = 2t/\lambda, \mbox{ and } g^{-1}(y) = \lambda y /2, \mbox{ and } \frac{d}{dy}g^{-1}(y) = \lambda/2$$
+so
+$$f_Y(y) = f_T(g^{-1}(y)) \left| \frac{d}{dy}g^{-1}(y)\right| = \frac{1}{\Gamma(n) \lambda^{n}} \left(\frac{\lambda y}{2}\right)^{n-1} e^{-(\lambda y /2)/\lambda} | \lambda/2| = \frac{1}{\Gamma(n)2^n} e^{-y/2}$$
+
+which does not depend on $\lambda$. 
+
+In fact, the quantity $Q(T,\lambda) = 2T/\lambda$ is a pivot with a gamma($n,2)  = \chi^2_{2n}$ distribution:
+
+$$Q(T,\lambda) \sim \mbox{ gamma}(n,\lambda(2/\lambda)) = \mbox{gamma}(n,2) = \chi^2_{2n}$$
+
+Note that $Q(T, \lambda) = T/\lambda$ is also a pivot with distribution $\Gamma(n,1)$.
+
+\noindent\textbf{How to find the pivot?}
+\begin{itemize}
+\item There is no all purpose strategy for finding pivots.
+\item  However, it is relatively easy to find pivots for location or scale parameters. In general, differences are pivotal for location parameters, while ratios (or products) are pivotal for scale problems.
+\item looking at the distribution can give us a clue about the pivot, for instance $t/\lambda$ or $(\xbar - \mu)/\sigma$.
+\item In general, suppose the pdf of a statistic $T, f(t|\theta)$ can be expressed in the form:
+$$f(t| \theta) = g(Q(t,\theta))\left| \frac{\partial}{\partial t} Q(t, \theta)\right|$$
+for some function $g$ and some monotone function $Q$ (monotone in $t$ for each $\theta$), then Theorem 2.1.5 can be used to show that $Q(T,\theta)$ is a pivot.
+\end{itemize}
+
+\noindent\textbf{Using the pivot:} If $Q(\bX, \theta)$ is a pivot, then for a specified value of $\alpha$ we can find numbers $a$ and $b$, which do not depend on $\theta$ to satisfy:
+$$P_\theta (a \leq Q(\bX, \theta) \leq b) \geq 1- \alpha.$$
+Then, for each $\theta_0 \in \Theta$,
+$$ A(\theta_0) = \{\bx: a \leq Q(\bx, \theta_0) \leq b)$$
+is the acceptance region for a level $\alpha$ test of $H_0: \theta = \theta_0$. Using Theorem 9.2.2, we invert these tests (for each $\theta_0$) to obtain:
+$$C(\bx) = \{ \theta_0: a \leq Q(\bx, \theta_0) \leq b\},$$
+and $C(\bX)$ is a 1-$\alpha$ confidence set for $\theta$.
+
+\noindent\textbf{Example: Continuation of Gamma Example 9.2.8}
+We inverted a LRT to obtain the confidence interval for the mean $\lambda$ of an exponential($\lambda$) pdf for $H_0: \lambda = \lambda_0$ versus $H_1:\lambda \neq \lambda_0$.
+
+Now we also see that if we have $\Xndots$, we can define $T = \sum X_i$ and $Q(T,\lambda) = 2T/\lambda \sim \chi^2_{2n}$
+
+If we choose constants $a$ and $b$ to satisfy $P(a \leq \chi^2_{2n} \leq b) = 1 - \alpha$ then
+$$P_\lambda\left( a \leq \frac{2T}{\lambda} \leq b \right) = P_\lambda (a \leq Q(T,\lambda) \leq b) = P(a \leq \chi^2_{2n} \leq b) = 1 - \alpha.$$
+
+Inverting the set $A(\lambda) = \{t: a \leq {2t/\lambda} \leq b\} \Rightarrow C(t) = \{ \lambda: 2t/b \leq \lambda \leq 2t/a\}$ which is a $1-\alpha$ confidence interval.
+
+For example, if $n=10$, then consulting a table of $\chi^2$ cutoffs gives a 95\% CI of $\{\lambda: 2T/34.17 \leq \lambda \leq 2T/9.59\}.$
+
+\noindent\textbf{Example: Normal pivotal interval (9.2.10)}
+
+This is a location problem. If we have $\Xndots \sim_{iid} \Nsc(\mu,\sigma^2)$, we know the distribution of $(\Xbar - \mu)/(\sigma/\sqrt{n})$ is $\Nsc(0,1)$ so that statistic is a pivot.
+
+if $\sigma^2$ is known:
+$$P\left(-a \leq \frac{\Xbar - \mu}{\sigma/\sqrt{n}} \leq a\right) = P(-a \leq Z \leq a),$$
+$$ \Rightarrow C(\xbar) = \left\{ \mu: \xbar - a \frac{\sigma}{\sqrt{n}} \leq \mu \leq \xbar +  a \frac{\sigma}{\sqrt{n}}\right\}$$
+
+If $\sigma^2$ is unknown we use the sample estimate of $\sigma$, $S$:
+$$P\left(-a \leq \frac{\Xbar - \mu}{S/\sqrt{n}} \leq a\right) = P(-a \leq T_{n-1} \leq a),$$
+$$ \Rightarrow C(\xbar) = \left\{ \mu: \xbar - t_{n-1,\alpha/2} \frac{s}{\sqrt{n}} \leq \mu \leq \xbar +  t_{n-1,\alpha/2} \frac{s}{\sqrt{n}}\right\}$$
+
+
+Now if we want an interval estimate of $\sigma$, we know that $(n-1)^2S^2/\sigma^2 \sim \chi^2_{n-1}$ so $(n-1)^2S^2/\sigma^2$ is also a pivot. Thus:
+$$P\left(a \leq \frac{(n-1)S^2}{\sigma^2} \leq b \right) = P(a \leq \chi^2_{n-1} \leq b) = 1 - \alpha$$
+$$\Rightarrow \left\{ \sigma: \sqrt{\frac{(n-1)s^2}{b}} \leq \sigma \leq  \sqrt{\frac{(n-1)s^2}{a}}\right\}.$$
+We can choose $a = \chi^2_{n-1,1-\alpha/2}$ and $b = \chi^2_{n-1,\alpha/2}$ so that the probability is equally split between tails. However, the chi-square distribution is skewed so this is not actually the optimal choice (we will explore this later in 9.3).
+
+We constructed confidence intervals for $\mu$ and $\sigma$ separately, but if we want a simultaneous confidence interval we can use the Bonferroni Inequality (exercise 9.14). 
+
+
+\subsubsection{Pivoting the CDF}
+
+\begin{itemize}
+\item We saw that a pivot, $Q$, leads to a confidence set of the form:
+$$C(\bx) = \{ \theta_0: a \leq Q(\bx, \theta_0) \leq b\}.$$
+This will be an interval if $Q(\bx, \theta)$ is a monotone function of $\theta$ for every $\bx$.
+\item If possible, constructing a confidence set based on a LRT will give a good (maybe not optimal) set. If it is too difficult to invert, the method of pivoting the CDF can be applied and will usually produce a reasonable set.
+\end{itemize}
+How to pivot the CDF?
+
+\begin{itemize}
+\item Suppose we base inference on a statistic, $T$, (ideally sufficient) for $\theta$, where $F_T(t|\theta)$ is the cdf for $T$. Suppose that $F_T(t|\theta)$ is monotone in $\theta$.
+\item Note, if $F_T(t|\theta)$ is increasing (decreasing) in $\theta$ for every $t$ in the sample space of $T$, we say that $T$ is stochastically decreasing (increasing) in $\theta$.
+\item Recall the Probability Integral Transformation, which tells us that the random variable $F_T(T|\theta)$ is Uniform(0,1), a pivot.
+\item Thus, if $\alpha_1 + \alpha_2 = \alpha$, an $\alpha$-level acceptance region of the hypothesis $H_0: \theta = \theta_0$ is
+$$\{t: \alpha_1 \leq F_T(t|\theta_0) \leq 1 - \alpha_2\},$$
+with associated confidence set
+$$\{ \theta: \alpha_1 \leq F_T(t|\theta) \leq 1 - \alpha_2\}.$$
+\item To guarantee that the confidence set is an interval, we need to have $F_T(t|\theta)$ to be monotone in $\theta$
+\end{itemize}
+
+\noindent\textbf{Theorem 9.2.12 Pivoting a {\em continuous} cdf} Let $T$ be a statistic with continuous cdf $F_T(t|\theta)$. Let $\alpha_1 + \alpha_2 = \alpha$ with $0< \alpha < 1$ be fixed values. Suppose that for each $t \in \Tsc$, the functions $\theta_{L}(t)$ and $\theta_{U}(t)$ can be defined as follows
+
+i. If $F_t(t|\theta)$ is a decreasing function of $\theta$ for each $t$, define $\theta_{L}(t)$ and $\theta_{U}(t)$ by
+$$F_T(t|\theta_{U}(t)) = \alpha_1, \,\, F_T(t|\theta_{L}(t))  = 1 - \alpha_2.$$
+
+ii. If $F_T(t|\theta)$ is an increasing function of $\theta$ for each $t$, define $\theta_{L}(t)$ and $\theta_{U}(t)$ by
+$$F_T(t|\theta_{U}(t)) = 1-\alpha_2, \, \, F_T(t|\theta_{L}(t))  = \alpha_1.$$
+
+Then the random interval $[\theta_{L}(t),\theta_{U}(t)]$ is a $1-\alpha$ confidence interval for $\theta$.
+
+\noindent\textbf{Proof (of part (i))}: 
+
+First recall the general idea behind the proof of the Probablity Integral Transform, where $Y= F_T(T)$:
+$$F_Y(y) = P(Y\leq y) = P(F_T(T) \leq y) = P(T \leq F_T^{-1}(y)) = F_T(F_T^{-1}(y)) = y$$
+So $Y$ has cdf $F_Y(y) = y$, which is the cdf of Uniform(0,1).
+
+Now, assume we have constructed the 1-$\alpha$ acceptance region:
+$$\{t: \alpha_1 \leq F_T(t|\theta_0) \leq 1 - \alpha_2\}.$$
+
+Since $F_T(T|\theta)$ is decreasing in $\theta$ for all $t$ $\Rightarrow$
+$$F_T(t|\theta) < \alpha_1 \Leftrightarrow \theta > \theta_U(t).$$
+ Similarly
+$$F_T(t|\theta) > 1 - \alpha_2 \Leftrightarrow \theta < \theta_L(t)$$
+Hence:
+\begin{align*}
+P(\theta_L(T) \leq \theta \leq \theta_U(T)) & = 1 - \{ P(\theta > \theta_U(T)) + P(\theta < \theta_L(T))\}\\
+&= 1 - \{P_\theta(F_T(T|\theta) < \alpha_1) + P_\theta(F_T(T|\theta) > 1- \alpha_2)\}\\
+&= 1 - (\alpha_1 + \alpha_2) = 1- \alpha
+\end{align*}
+
+The proof of part (ii) is similar.
+
+\textbf{Notes:}
+\begin{itemize}
+\item Note: we can assume $\alpha_1 = \alpha_2 = \alpha/2$ but this may not be optimal split.
+\item If we want a one-sided interval we can choose $\alpha_1 = 0$ or $\alpha_2 = 0$.
+\end{itemize}
+
+\noindent\textbf{Example 9.2.13 Location exponential interval}
+
+Let $\Xndots \sim_{iid} f(x|\mu) = e^{-(x-\mu)}I_{[\mu,\infty)}(x).$ Then $Y = min\{\Xndots\} = X_{(1)}$ is sufficient for $\mu$ with pdf
+$f_Y(y|\mu) = ne^{-n(y-\mu)} I_{[\mu,\infty)}(y).$
+
+We have a decreasing function so we can fix $\alpha$ and define $\mu_L(y)$ and $\mu_U(y)$ to satisfy:
+\begin{align*}
+F_Y(y|\mu_U(y)) = \frac{\alpha}{2}, \mbox{ and }&  F_Y(y|\mu_L(y)) = 1-  \frac{\alpha}{2}\\
+\int_{\mu_U(y)}^y ne^{-n(u - \mu_U (y))} du  = \frac{\alpha}{2}, \mbox{ and }&  
+\int_{y}^\infty ne^{-n(u - \mu_L (y))} du  = \frac{\alpha}{2}
+\end{align*}
+
+Evaluate the integrals:
+$$1 - e^{-n(y-\mu_U(y))} = \frac{\alpha}{2},  \mbox{ and } e^{-n(y-\mu_L(y))} = \frac{\alpha}{2}$$
+then solve:
+$$ \mu_U(y) = y + \frac{1}{n} \log\left( 1 - \frac{\alpha}{2}\right),\mbox{ and }\mu_L(y) = y + \frac{1}{n} \log\left( \frac{\alpha}{2}\right)$$
+So this random interval is a 1-$\alpha$ confidence interval for $\mu$:
+$$C(Y) = \left\{ \mu: Y + \frac{1}{n}\log\left( \frac{\alpha}{2}\right) \leq \mu \leq Y +\frac{1}{n} \log\left( 1 - \frac{\alpha}{2}\right)\right\}$$
+
+
+\begin{itemize}
+\item Note that we only need to solve the CDF equations for the value of the statistics actually observed.
+\item We may solve them analytically or numerically.
+\item Now consider the discrete case:
+\end{itemize}
+
+\noindent\textbf{Theorem 9.2.14 Pivoting a {\em discrete} cdf} Let $T$ be a discrete statistic with cdf $F_T(t|\theta) = P(T \leq t | \theta)$. Let $\alpha_1 + \alpha_2 = \alpha$ with $0< \alpha < 1$ be fixed values. Suppose that for each $t \in \Tsc$, the functions $\theta_{L}(t)$ and $\theta_{U}(t)$ can be defined as follows
+
+i. If $F_t(t|\theta)$ is a decreasing function of $\theta$ for each $t$, define $\theta_{L}(t)$ and $\theta_{U}(t)$ by
+$$P(T \leq t|\theta_{U}(t)) = \alpha_1, \,\, P(T \geq t|\theta_{L}(t))  = \alpha_2.$$
+
+ii. If $F_T(t|\theta)$ is an increasing function of $\theta$ for each $t$, define $\theta_{L}(t)$ and $\theta_{U}(t)$ by
+$$P(T \geq t|\theta_{U}(t)) = \alpha_1, \, \, P(T \leq t|\theta_{L}(t))  = \alpha_2.$$
+
+Then the random interval $[\theta_{L}(t),\theta_{U}(t)]$ is a $1-\alpha$ confidence interval for $\theta$.
+
+**Proof**: See book.
+<!-- By the probability integral transform, we have: -->
+<!-- $$P_\theta(F_T(T|\theta) \leq x) \leq x.$$ -->
+
+<!-- Furthermore, this property is shared by $\Fbar_T(T|\theta) = P(T\geq t |\theta)$ and this implies that the set: -->
+<!-- $$\{\theta: F_T(T|\theta) \leq \alpha_1 \mbox{ and } \Fbar_T(T|\theta) \leq \alpha_2\}$$ -->
+<!-- is a $1-\alpha$ confidence set. -->
+
+<!-- Since $F_T(t|\theta)$ is decreasing in $\theta$ for each $t, \Rightarrow \Fbar(t|\theta)$ is nondecreasing in $\theta$, $\Rightarrow$: -->
+<!-- $$\theta > \theta_U(t) \Rightarrow F_T(t|\theta) <  F_T(t|\theta_U(t)) = \alpha_1,$$ -->
+<!-- $$\theta < \theta_L(t) \Rightarrow \Fbar_T(t|\theta) < \Fbar_T(t|\theta_L(t)) = \alpha_2.$$ -->
+<!-- and hence $\{ \theta: F_T(T|\theta) \leq \alpha_1 \mbox{ and } \Fbar_T(T|\theta) \leq \alpha_2\} = \{\theta:  -->
+<!-- \theta_L(T) \leq \theta \leq \theta_U(T)\}.$ -->
+
+\noindent\textbf{Example 9.2.15 Poisson Interval Estimator} Let $\Xndots \sim_{iid}$ Poisson($\lambda$) and define $T = \sumin X_i.$ Then $T$ is sufficient for $\lambda$ and $Y\sim$ Poisson($n\lambda$).
+
+Let $\alpha_1 = \alpha_2 = \alpha/2$ in the above theorem. The cdf is a decreasing function of $\lambda$ for each $t$ since the cdf is
+$$P(T\leq t | \lambda) = \sum_{k=0}^{t} e^{-n\lambda}\frac{(n\lambda)^k}{k!}$$
+
+and has a negative derivative for all values of $\lambda>0$:
+$$\frac{d}{d\lambda} P(T\leq t | \lambda) = \sum_{k=0}^{t} -ne^{-n\lambda}\frac{kn^k\lambda^{(k-1)}}{k!}<0$$
+
+So, if $T = t_0$ is observed, we need to solve $\lambda$ in the equations to obtain the lower and upper limits $\lambda_L$ and $\lambda_U$:
+\begin{equation*}
+P(T\leq t_0 | \lambda_U)= \sum_{k=0}^{t_0} e^{-n\lambda_U}\frac{(n\lambda_U)^k}{k!} = \frac{\alpha}{2} \mbox{ and } 
+P(T\geq t_0 | \lambda_L) = \sum_{k=t_0}^{\infty} e^{-n\lambda_L}\frac{(n\lambda_L)^k}{k!} = \frac{\alpha}{2} 
+\tag{9.2.16}
+\end{equation*}
+
+How do we solve these equations? First, recall: If $G$ is a gamma$(a,b)$ random variable, where $a$ is an integer, then for any $g$, 
+$$P(G \leq g) = P(H\geq a) \mbox{ where } H\sim Poisson(g/b).$$ Hence, 
+
+\begin{align*}
+\alpha/2 & =  \sum_{k=0}^{t_0} e^{-n\lambda_U}\frac{(nk)^k}{k!} \\
+& =P(Y \leq t_0 | \lambda_U) \\
+&= P(Pois(n\lambda_U) < t_0 + 1)\\
+&= 1 - P(Pois(n\lambda_U) \geq t_0 + 1)\\
+&= 1 - P(Gamma(t_0 + 1, 2) \leq 2n\lambda_U)\\
+& = 1 - P(\chi^2_{2(t_0+1)}\leq 2n\lambda_U)\\
+& = P(\chi^2_{2(t_0+1)}> 2n\lambda_U)\\
+\end{align*}
+Then solving for the critical value:
+$$2n\lambda_U = \chi^2_{2(t_0+1),\alpha/2}$$
+Solving for $\lambda_U$:
+$$\lambda_U = \frac{1}{2n}\chi^2_{2(t_0 + 1),\alpha/2}$$
+
+Applying the identity to the other equation in 9.2.16 yields:
+$$\frac{\alpha}{2} = P(\chi^2_{2t_0} < 2n\lambda_L) \Rightarrow 1-\frac{\alpha}{2} = P(\chi^2_{2t_0} \geq 2n\lambda_L).$$
+Then solving for the critical value:
+$$2n\lambda_L = \chi^2_{2t_0,1-\alpha/2}$$
+
+and so
+$$\lambda_L = \frac{1}{2n}\chi^2_{2t_0, 1-\alpha/2}$$
+
+
+and a $1-\alpha$ confidence interval for $\lambda$ is:
+$$\left\{ \lambda: \frac{1}{2n} \chi^2_{2t_0,1-\alpha/2} \leq \lambda \leq \frac{1}{2n}\chi^2_{2(t_0 + 1),\alpha/2}\right\}.$$
+
+Suppose $t_0 = 4$ and $\alpha = 0.05$ and $n=20$, then the confidence interval is:
+
+```{r, echo=TRUE}
+nn = 20
+t0 = 4
+alpha = .05
+
+lambda_l <- qchisq(p=1-alpha/2, df=2*t0, lower.tail = FALSE)/(2*nn)
+lambda_u <- qchisq(p=alpha/2, df=2*(t0+1), lower.tail = FALSE)/(2*nn)
+c(lambda_l, lambda_u)
+```
+
+The 95% CI for $\lambda$ is: [`r round(lambda_l,3)`, `r round(lambda_u, 3)`]
+
+For $n=100$: 
+
+```{r, echo=TRUE}
+nn = 100
+t0 = 4
+alpha = .05
+
+lambda_l <- qchisq(p=1-alpha/2, df=2*t0, lower.tail = FALSE)/(2*nn)
+lambda_u <- qchisq(p=alpha/2, df=2*(t0+1), lower.tail = FALSE)/(2*nn)
+c(lambda_l, lambda_u)
+```
+
+The 95% CI for $\lambda$ is: [`r round(lambda_l,3)`, `r round(lambda_u, 3)`]
+
+Similar derivations can be done for negative binomial and binomial distributions. The graph of coverage probabilities for binomial confidence intervals is given in Figure 9.2.5.
+
+\subsection{Methods of Evaluating Interval Estimators (9.3)}
+
+
+What makes a good interval? Small size and large coverage
+	\begin{itemize}
+	\item $(-\infty,\infty)$ has coverage probability 1
+	\item in order to optimize, need to know how to measure these quantities
+	\item sometimes a function of the parameter
+	\item coverage usually measured by confidence coefficient (infimum of converge probabilities)
+	\item size of an interval usually means length
+	\end{itemize}
+	
+\noindent\textbf{Example 9.3.1 Optimimizing Length} Let $\Xndots \sim_{iid} \Nsc(\mu,\sigma^2)$ where $\sigma$ is known.
+
+Using the pivotal quantity
+$$Z = \frac{\Xbar - \mu}{\sigma/\sqrt{n}} \sim \Nsc(0,1)$$
+which has a distribution that does not depend on $\mu$, we know (section 9.2.2 Pivotal Quantities) that if we choose $a$ and $b$ such that:
+$P(a \leq Z \leq b) =1-\alpha$
+we will have the $1-\alpha$ confidence interval
+$$C(\mu) = \left\{ \mu: \xbar - b \frac{\sigma}{\sqrt{n}} \leq \mu \leq \xbar - a \frac{\sigma}{\sqrt{n}}\right\}.$$
+
+This gives $1-\alpha$ coverage, and a $1-\alpha$ confidence coefficient.
+
+How can we minimize the length?
+
+$$length(C(\mu)) = \xbar - a \frac{\sigma}{\sqrt{n}} - \xbar + b \frac{\sigma}{\sqrt{n}} =  \frac{(b-a)\sigma}{\sqrt{n}}$$
+
+So we need to minimize $b-a$.
+
+In Example 9.2.1 we chose $a = -z_{\alpha/2}$ and $b = z_{\alpha/2}$ but we did not consider optimality. We can take any other combination of values $a=z_{a}$ and $b=z_{b}$ and such that $P(a \leq Z \leq b)  = z_{b} + 1 - z_{a} = 1-\alpha$, and in fact if we let $\alpha = 0.1$ then we have many options for 90\% intervals (see table in C\&B, page 441).
+
+Looking at those examples we see that splitting the probability $\alpha$ equally is an optimal strategy, as $a = -1.65 = -z_{.05}$ and $b=1.65 = z_{.05}$ gives the shortest interval.
+
+\begin{itemize}
+\item splitting $\alpha$ equally does not always give the optimal length
+\item in the previous case, the height of the pdf is the same at $-z_{\alpha/2}$ and $z_{\alpha/2}$
+\item we can prove a theorem that demonstrates a general version of this fact for a unimodal distribution
+\end{itemize}
+
+\noindent\textbf{Theorem 9.3.2} Let f(x) be a unimodal pdf. If the interval $[a,b]$ satisfies
+\begin{enumerate}
+\item[(i)] $\int_{a}^{b} f(x) dx = 1-\alpha$
+\item[(ii)] $f(a) = f(b) > 0,$ and
+\item[(iii)] $a \leq x^* \leq b$ where $x^*$ is a mode of $f(x)$
+\end{enumerate}
+then $[a,b]$ is the shortest among all intervals that satisfy $(i)$.
+
+\def\aprime{a^\prime}
+\def\bprime{b^\prime}
+\noindent\textbf{Proof (skip details in class; uses mean value theorem to show coverage outside of peak is lower):} Let $[\aprime,\bprime]$ be any interval shorter than our interval so $\bprime - \aprime < b - a$. We will show that this implies lower coverage $\int_{\aprime}^{\bprime} f(x) dx < 1-\alpha$. We will prove this for $\aprime \leq a$.
+
+Case $\bprime \leq a$: $\Rightarrow \aprime \leq \bprime \leq a \leq x^{*}$
+and
+\begin{align*}
+\Rightarrow \int_{\aprime}^{\bprime}f(x)dx &\leq f(\bprime)(\bprime-\aprime) \quad (x \leq \bprime \leq x^* \Rightarrow f(x) \leq f(\bprime))\\
+&\leq f(a) (\bprime - \aprime) \quad (\bprime \leq a \leq x^* \Rightarrow f(\bprime) \leq f(a))\\
+&< f(a) (b-a) \quad (\bprime - \aprime < b-a \mbox{ and } f(a)>0)\\
+& \leq \int_{a}^{b} f(x) dx \quad ((ii) (iii) \mbox{ and unimodality } \Rightarrow f(x) \geq f(a) \mbox{ for } a \leq x \leq b)\\
+= 1-\alpha
+\end{align*}
+
+Case $\bprime > a:$
+
+If $\bprime \geq b \Rightarrow \bprime - \aprime \geq b-a$ which is false, so $\bprime < b$ and more specifically
+$\Rightarrow \aprime \leq a < \bprime < b$.
+ 
+\begin{align*}
+\Rightarrow \int_{\aprime}^{\bprime}f(x)dx &= \int_{a}^{b}f(x)dx + \left[\int_{\aprime}^{a}f(x)dx - \int_{\bprime}^{b}f(x)dx \right] \\
+&=(1-\alpha) + \left[\int_{\aprime}^{a}f(x)dx - \int_{\bprime}^{b}f(x)dx \right] \\
+&= (1-\alpha) + B
+\end{align*}
+
+Is B negative?
+
+From the unimodality of $f$, $\Rightarrow \aprime \leq a < \bprime < b$, and (ii) and arguments similar to above we have:
+
+$$\int_{\aprime}^{a}f(x)dx \leq f(a) (a-\aprime) \mbox{ and } \int_{\bprime}^{b}f(x)dx \geq f(b) (b-\bprime)$$
+
+Thus,
+\begin{align*}
+B &= \int_{\aprime}^{a}f(x)dx - \int_{\bprime}^{b}f(x)dx\\
+&\leq f(a) (a-\aprime) - f(b) (b-\bprime)\\
+&= f(a) [ (a-\aprime) - (b- \bprime)] \quad (f(a) = f(b))\\
+&= f(a) [(\bprime - \aprime) - (b-a)]\\
+&<0 \quad ((\bprime - \aprime) < (b-a) \mbox{ and } f(a) >0)
+\end{align*}
+
+\noindent\textbf{Note} The form of likelihood regions has optimal construction by this theorem. Recall (re-read example 9.2.3 and discussion)
+\begin{itemize}
+\item The region obtained by inverting the LRT of $H_0: \theta = \theta_0$ versus $H_1: \theta \neq \theta_0$ is of the form:
+$$\mbox{accept } H_0 \mbox{ if } \frac{\Lsc(\theta_0 |\bx)}{\Lsc(\thetahat|\bx)} \leq k(\theta_0)$$
+with the resulting confidence region
+$$\{\theta : \Lsc(\theta|\bx) \geq k^\prime(\bx,\theta)\},$$
+for some function $k^\prime$ that gives $1-\alpha$ confidence
+\item In some cases (i.e. Normal and Gamma distribution) the function $k^\prime$ will not depend on $\theta$
+\item In this case the likelihood region is the set containing $\theta$ for which the likelihood is highest
+\item Now, we know we have the optimal length if $f(a) = f(b)$ for a unimodal distribution
+\end{itemize}
+
+\noindent\textbf{Example 9.3.3 Optimizing expected length} For normal intervals of $\mu$ with unknown variance based on the pivot $\frac{\Xbar - \mu}{S/\sqrt{n}}$ we know that the shortest length $1-\alpha$ confidence interval of the form
+$$\left[\xbar - b\frac{s}{\sqrt{n} }\leq \mu \leq \xbar - a\frac{s}{\sqrt{n}}\right]$$
+has $a= -t_{n-1,\alpha/2}$ and $b=t_{n-1,\alpha/2}.$ The interval length is a function of $s$, with general form
+$$length(x) = (b-a)\frac{s}{\sqrt{n}}.$$
+
+We can instead consider the criterion of *expected length* and seek an interval with $1-\alpha$ coverage that minimizes
+$$E_{\sigma}(length(S)) = (b-a)\frac{E_{\sigma} S}{\sqrt{n}} = (b-a) c(n) \frac{\sigma}{\sqrt{n}},$$
+(where the quantity $c(n)$ is a constant dependent only on $n$)
+then Theorem 9.3.2 applies and the choice $a = -t_{n-1,\alpha/2}$ and $b=t_{n-1,\alpha/2}$ again gives us an optimal interval. 
+
+
+**Example 9.3.4: Shortest pivotal interval  (scale parameter)** Let $X \sim gamma(k,\beta)$. Then $Y=X/\beta$ is a pivot, with $Y \sim gamma(k,1)$, so we can get a confidence interval by finding constants $a$ and $b$ to satisfy
+$$P(a \leq Y \leq b) = 1-\alpha$$
+
+However, if we apply Theorem 9.3.2 we won't have the shortest confidence interval:
+
+If we choose $a$ and $b$ such that $P(a \leq Y \leq b) = 1-\alpha$ and $f_Y(a) = f_Y(b)$ then
+the interval on $\beta$ is of the form:
+$$RR = \left\{ x: a \leq \frac{x}{\beta} \leq b \right\} \Rightarrow$$
+$$CI = \left\{ \beta: \frac{x}{b} \leq \beta \leq\frac{x}{a}\right\} \Rightarrow length(CI) =  \left(\frac{1}{a} - \frac{1}{b}\right) x$$
+which is proportional to $(1/a) - (1/b)$ and not to $b-a$.
+
+
+We can modify Theorem 9.3.2 to apply here.
+
+Condition (a) in Thm 9.3.2 defines $b$ as a function of $a$, so call it $b(a)$. We must solve the following constrained minimization problem:
+
+- **Minimize, with respect to a:** $\frac{1}{a} - \frac{1}{b(a)}$
+- **Subject to** $\int_{a}^{b(a)} f_Y(y) dy = 1-\alpha$
+
+Differentiate the first equation with respect to $a$ and setting it equal to 0 yields
+$$\frac{db}{da} = \frac{b^2}{a^2}$$
+Differentiate the second equation which must equal 0 and substitute this in gives 
+$$f(b)b^2 = f(a) a^2$$
+\begin{itemize}
+\item equations like these arise in interval estimate of the variance of a normal distribution
+\item the above equations define not he shortest {\em overall} interval but the shortest {\em pivotal} interval, that is, the shortest interval based on the pivot $X/\beta$
+\item this result can be generalized using the Neyman-Pearson Lemma (Exercise 9.43)
+\end{itemize}
+
+\subsubsection{Bayesian Intervals}
+
+\begin{itemize}
+\item We say that the confidence interval {\em covers} the parameter, not that the parameter is {\em is inside} the interval. This denotes that the random quantity is the interval, not the parameter.
+\item In a Bayesian setting, the parameter is indeed random and we may say that the parameter is inside an interval with some probability, not 0 or 1.
+\item All Bayesian claims of coverage are made with respect to the posterior distribution of the parameter
+\item Bayesian set estimates are referred to as {\em credible sets} rather than confidence sets.
+\item If $\pi(\theta|\bx)$ is the posterior distribution of $\theta$ given $\bX = \bx$, then for any set $A \subset \Theta$, the credible probability of $A$ is:
+$$P(\theta \in A |\bx) = \int_A \pi(\theta|\bx) d\theta,$$
+and $A$ is a {\em credible set} for $\theta$. If $\pi$ is a pmf, we replace integrals with sums.
+\item Now the parameter is random and the interval is fixed (given the data).
+\end{itemize}
+
+\noindent\textbf{Example 9.2.16 Poisson credible set} We wish to construct a credible set for the above Poisson example 9.2.15.
+
+Let $\Xndots \sim_{iid} Poisson(\lambda)$ and assume $\lambda$ has a Gamma prior pdf, $\lambda \sim$ gamma($a,b$).
+
+The posterior pdf of $\lambda$ is then (after applying Bayes' Rule):
+$$\pi(\lambda | \sum X  = \sum x) = \mbox{gamma}(a + \sum x, [n+(1/b)]\inv$$
+
+We can form a credible set for $\lambda$ in many ways. One simple way is to split $\alpha$ equally between the upper and lower tails:
+$$P(\lambda < \lambda_L(t) |T = t) = P(\lambda > \lambda_U(t) | T = t) = \alpha/2$$
+
+Using the fact that if $Y\sim Gamma(\alpha,\beta)$ then $2Y/\beta \sim \chi^2_{2\alpha}$, it follows that $\frac{2(nb+1)}{b}\lambda \sim \chi^2_{2(a+\sum x_i)}$ assuming $a$ is an integer:
+$$\alpha/2 = P(\lambda < \lambda_L(t) | T = t) = P\left(\frac{2\lambda}{b/(bn+1)} < \frac{2\lambda_L(t)}{b/(bn+1)} | T = t\right) = P\left(\chi^2_{2(a+t)} <\frac{2\lambda_L(t)}{b/(bn+1)} t\right)
+$$
+so 
+$$ \frac{2\lambda_L(t)}{b/(bn+1)} = \chi^2_{2(a+t),1-\alpha/2} \Rightarrow \lambda_L(t) = \frac{b}{2(bn+1}\chi^2_{2(a+t),1-\alpha/2}$$
+
+ Thus a $1-\alpha$ credible interval is:
+$$ \left\{\lambda: \frac{b}{2(bn+1)}\chi^2_{2(a+t),1-\alpha/2} \leq \lambda \leq  \frac{b}{2(bn+1)}\chi^2_{2(a+t),\alpha/2} \right\}$$
+
+If we take $a = b = 1$, the $1-\alpha$ credible interval becomes:
+$$\left( \frac{1}{2(n+1) }\chi^2_{2(1+t),1-\alpha/2},\frac{1}{2(n+1) }\chi^2_{2(1+t),\alpha/2}\right)$$
+while the confidence interval (frequentist) we obtained earlier was:
+$$\left[ \frac{1}{2n }\chi^2_{2(1+t),1-\alpha/2},\frac{1}{2n }\chi^2_{2(1+t),\alpha/2}\right]$$
+
+\textbf{Notes:}
+\begin{itemize}
+\item In this case (see Figure 9.2.3), the credible set has somewhat shorter intervals than the confidence interval, and the upper endpoints are closer to 0. This reflects the prior, which is pulling the intervals toward 0.
+\item We can now ask, what is the probability of getting data $(\bX)$ for which the credible interval contains the parameter $\lambda$? We can show this goes to 0 as $\lambda \to \infty$.
+\item Likewise, we can ask what is the posterior probability that the confidence interval contains the true parameter? This also goes to 0 as $\sumin X_i \to \infty$, unless $b  = 1/n$.
+\item Using Bayesian criteria for frequentist intervals or frequentist criteria for Bayesian intervals can result in poor calculated performance. That is, Bayesian intervals don't necessarily have good frequentist properties and frequentist intervals don't necessarily have good Bayesian properties.
+\end{itemize}
+

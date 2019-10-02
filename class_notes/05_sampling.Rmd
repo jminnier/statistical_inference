@@ -1,0 +1,314 @@
+# Basic Concepts of Random Samples (C&B Chapter 5)
+
+## Random sample from an infinitely large population
+
+Recall the definition of a random sample (or, $iid$ random sample):
+
+**Definition** The random variables $\Xndots$ are called a *random sample* from the population $f_X(x)$ if
+\begin{enumerate}
+\item $X_i, \ldots, X_n$ are mutually independent
+\item The marginal pdf (pmf) of each $X_i$ is the same function $f_X(x)$
+\end{enumerate}
+
+## Finite population sampling (we won't use this in BSTA 552 unless we have time to talk about bootstrapping)
+
+When we say "random sample" we mean that we are sampling from an infinite population. We can alternatively sample from a *finite* population, say $\{x_1, x_2, \ldots, x_N\}$ where $N< \infty$ denotes the size of the population. In this case, we are drawing a sample $X^*_1, X^*_2, \ldots, X^*_n$ from the set $\{x_1, x_2, \ldots, x_N\}$. There are two options for this type of (re-)sampling:
+  \begin{enumerate}
+\item Simple random sample {\em with replacement}
+\begin{itemize}
+\item Each value $x_i$ is "replaced" after it is selected (every time you draw a number from a hat you put it back in the hat before drawing the next value)
+\item Each sample $X^*_i$ has a discrete uniform distribution with equal probability mass $1/N$ on each of the values $x_1, x_2, \ldots, x_N$.
+\item The $X^*_i$'s are mutually independent because the process of choosing each $x^*_i$ is the same, regardless of the values that are chosen for any of the other variables $\Rightarrow$ $X^*_1, X^*_2, \ldots, X^*_n$ are $iid$.
+\item This type of sampling is the basis of the resampling technique known as {\em bootstrapping}
+\end{itemize}
+\item Simple random sample {\em without replacement}
+\begin{itemize}
+\item When sampling from the set $\{x_1, x_2, \ldots, x_N\}$, each value $x_i$ is not replaced after it is selected (do not put the number back in the hat before choosing the next value)
+\item The $X^*_i$'s are no longer mutually independent because the probability that $X^*_i$ is equal to some value depends on all the other values selected before it, for instance:
+  \begin{align*}
+P(X^*_1 = x_i) &= 1/N\\
+P(X^*_2 = x_i | X^*_1=x_i) &= 0\\
+\mbox{however, if } x_j \neq x_i, \mbox{ then } P(X^*_2 = x_i | X^*_1=x_j) &= 1/(N-1).
+\end{align*}
+\item However, the $X^*_i$'s are identically distributed (they have the same marginal distributions, see pg 210 for explanation).
+\item If the population size $N$ is "large" then this type of sampling is approximately equal to sampling from an infinite population, and the samples are "nearly independent" in that the conditional distributions are very close to the marginal distributions.
+\end{itemize}
+\end{enumerate}
+
+
+# Convergence concepts (foundations needed for Chapter 10)
+
+In Chapter 10, we will be discussing convergence of statistics to parameters and also asymptotic distributions of statistics. So first, we define what we mean by "convergence" and "asymptotics".
+
+- Asymptotic theory examines what happens to sample quantities (i.e. statistics) when the sample size approaches infinity.
+- There are three main types of convergence: convergence in probability, convergence in distribution, and convergence almost surely. We will only discuss the first two in this course.
+
+## Convergence in probability (consistency)
+
+\noindent\textbf{Definition 5.5.1 Convergence in probability:} A sequence of random variables, $Y_1, Y_2, \ldots,$ converges in probability to a random variable $Y$ if, for every small number $\delta > 0$,
+$$ \lim_{n\to \infty} P(|Y_n - Y| \geq \delta) = 0 \mbox{ or, equivalently, } \lim_{n\to\infty} P(|Y_n - Y|< \delta) = 1$$
+
+We also define convergence in probability to a constant the same way. A sequence of random variables, $Y_1, Y_2, \ldots,$ converges in probability to a constant value $\theta$ if, for every $\delta > 0$,
+$$ \lim_{n\to \infty} P(|Y_n - \theta| \geq \delta) = 0 \mbox{ or, equivalently, } \lim_{n\to\infty} P(|Y_n - \theta|< \delta) = 1$$
+
+- For notation, we often write convergence in probability as: $Y_n \to_p Y$ or $Y_n \to_p \theta$
+- Convergence in probability means that as $n$ approaches infinity the random variable $Y_n$ becomes arbitrarily close to the random variable $Y$ or the constant $\theta$.
+- In Chapter 10, we will be using convergence in probability with a sequence of random variables based on our data: $W_n = W_n(X_1, \ldots, X_n)$ such as $W_n = \sum_{i=1}^n X_i$ or $W_n = \Xbar_n$.  Remember, this is called a *statistic*. We are also usually more concerned with convergence in probability of a statistic to a constant value (as opposed to a random variable).
+- Note we have added a subscript $n$ to $\Xbar$ here since the distribution of $\Xbar$ depends on $n$.
+- In Chapter 10, we call convergence in probability of a statistic (or a sequence of the 
+same sample quantity such as $\Xbar_n$) to a parameter $\theta$ *consistency* of a statistic.
+
+It is often easiest to prove convergence in probability using:
+
+**Chebychev's Inequality (Theorem 3.6.1):** Let $X$ be a random variable and let $g(x)$ be a nonnegative function. Then, for any $r> 0$,
+$$P(g(X) \geq r) \leq \frac{E[g(X)]}{r^2}.$$
+
+To use this in the above definition of convergence in probability, we first square the difference to get rid of the absolute value and then use Chebychev's Inequality:
+$$P(|Y_n - Y| \geq \epsilon) = P((Y_n - Y)^2 \geq \epsilon^2) \leq \frac{E[(Y_n - Y)^2]}{\epsilon^4}.$$
+so we see that the probability that the distance $|Y_n - Y|$ or $|Y_n - \theta|$ is arbitrarily large can be bound above by $E[(Y_n - Y)^2]$ or $E[(Y_n - \theta)^2]$. Hence, if $E[(Y_n - Y)^2]$ goes to 0 as $n \to \infty$ then we have convergence in probability to $Y$. We will see an example of this in the proof of the following theorem.
+
+A special and often used example of convergence in probability is the Weak Law of Large Numbers for $W_n = \Xbar_n$:
+
+**Weak Law of Large Numbers (WLNN, Theorem 5.5.2):** Let $X_1, X_2, \ldots$ be $iid$ random variables with $E X_i = \mu$ and $\Var X_i = \sigma^2 < \infty$. Define
+$$\Xbar_n = n\inv\sumin X_i$$
+
+Then, for every $\epsilon > 0$:
+$$\lim_{n\to\infty} P(|\Xbar_n - \mu| < \epsilon) = 1;$$
+that is, $\Xbar_n$ converges in probability to $\mu$.
+  
+\noindent\textbf{Proof of WLLN:}
+We can prove this using Chebychev's inequality.
+$$P(|\Xbar_n - \mu| \geq \epsilon) = P((\Xbar_n - \mu)^2 \geq \epsilon^2) \leq \frac{E(\Xbar_n - \mu)^2}{(\epsilon^2)^2} = 
+  \frac{\Var \Xbar_n}{(\epsilon^2)^2} = \frac{\sigma^2}{n\epsilon^4}$$
+Since $\frac{\sigma^2}{n\epsilon^4} \to 0$ as $n \to \infty$, $P(|\Xbar_n - \mu| < \epsilon)  = \to 0$, as $n\to \infty$.
+
+**Example of convergence in probability to a random variable:** An example of a sequence of random variables converging to a random variable (not a constant) is $Y_n = Y + Z_n$ where $Z_n \sim N(\frac{1}{n}, \frac{\sigma^2}{n})$. Then
+\begin{align*}
+P(|Y_n - Y| \geq \epsilon) = P(|Z_n| \geq \epsilon) &= P(Z_n^2 \geq \epsilon^2)\\
+&\leq \frac{E(Z_n^2)}{\epsilon^4} \, \mbox{ (by Chebychev's)}\\
+&=\frac{Var(Z_n) + [E(Z_n)]^2}{\epsilon^4}\\
+&=\frac{\sigma^2}{n\epsilon} + \frac{1}{n^2\epsilon} \to 0 \, \mbox{as } n\to\infty
+\end{align*}
+So $Y_n \to_p Y$.
+
+
+\noindent\textbf{Example 5.5.3: Convergence in probability (consistency) of $S^2$ to $\sigma^2$:}
+Let $X_1, X_2, \ldots$ be $iid$ random variables with $E X_i = \mu$ and $\Var X_i = \sigma^2 < \infty$. Define
+$$S_n^2 = \frac{1}{n-1} \sumin (X_i - \Xbar)^2,$$
+then, using Chebychev's Inequality, we have
+$$P(|S_n^2 - \sigma^2| \geq \epsilon) \leq \frac{E(S_n^2 - \sigma^2)^2}{\epsilon^4} = \frac{\Var S_n^2}{\epsilon^4}$$
+and thus, a sufficient condition that $S_n^2$ converges in probability to $\sigma^2$ is that $\Var S_n^2\to 0$ as 
+$n\to\infty$. The variance of the sample variance can be shown to be $\frac{2\sigma^4}{n-1}$ which tends toward 0 as $n \to \infty$, so we $n \to \infty$:
+$$P(|S_n^2 - \sigma^2| \geq \epsilon) \leq \frac{\Var S_n^2}{\epsilon^4} = \frac{2\sigma^4}{(n-1)\epsilon}\to 0$$
+
+Here is a simulation example showing that $S_n^2$ converges to $\sigma^2$ as $n\to\infty$. We have $X_1, \ldots, X_n \sim N(\mu = 1, \sigma^2 = 4)$ for various $n$. Note that by simulating a finite number of data sets and calculating $S_n^2$ on each of those data sets, we are approximating the true underlying distribution of $S_n^2$. First we can show visually how the $S_n^2$ values converge to $\sigma^2$ and show in a table that the variances (estimates based on 5000 data sets) of $S_n^2$ converges to 0.
+
+```{r, fig.width=8, fig.height=6}
+library(tidyverse)
+library(patchwork)
+true_mean <- 1
+true_sd <- 2
+nsims <- 5000
+nn_all <- c(2, 3, 5, 10, 25, 50, 100, 250, 500, 1000)
+
+set.seed(100)
+simdata <- nn_all %>% 
+  purrr::map_df( ~tibble(x = rnorm(n=.*nsims, true_mean, true_sd),
+                         simrep = rep(1:nsims,each=.),
+                         nn = .) %>%
+  group_by(nn,simrep) %>% summarize(sd2 = sd(x)^2)
+  ) %>% ungroup
+
+
+ggplot2::theme_set(theme_minimal())
+p1 <- ggplot(simdata, aes(x=nn, y=sd2, group=nn, fill=factor(nn)))+
+  geom_boxplot(alpha=.6)+
+  scale_x_log10()+
+  xlab("sample size (n, on log10 scale)")+
+  geom_hline(yintercept =true_sd^2, lty=2)+
+  ggtitle(glue::glue("Distribution of sample variance (S^2)\n# simulated data sets = {nsims}"))+
+  theme(legend.position="bottom")+
+  scale_fill_viridis_d(name="n")
+
+p2 <- ggplot(simdata, aes(x=nn, y=abs(sd2-true_sd^2), group=nn, fill=factor(nn)))+
+  geom_boxplot(alpha=.6)+
+  scale_x_log10()+
+  xlab("sample size (n, on log10 scale)")+
+  geom_hline(yintercept =0, lty=2)+
+  ggtitle("Bias of S^2 = |S^2 - sigma^2|\n ")+
+  scale_fill_viridis_d(guide=FALSE)
+
+p1 + p2
+
+# calculate variances of S^2
+simdata_vars <- simdata %>% group_by(nn) %>% summarize(var(sd2))
+knitr::kable(simdata_vars, caption = "Estimate of var(S_n^2) for various n")
+```
+
+We also know that continuous functions of a sequence of random variables converge in probability if the sequence of random variables itself converges in probability:
+
+\noindent\textbf{Continuous mapping theorem: (Theorem 5.5.4 Convergence in probability of a function of a sequence of random variables)} Suppose that $Y_1, Y_2, \ldots$ converges in probability to a random variable $Y$ (or constant $\theta$) and that $h$ is a continuous function. Then $h(Y_1), h(Y_2), \ldots$ converges in probability to $h(Y)$ (or $h(\theta))$.
+
+For example, since $S^2 \to_p \sigma^2$ then $\sqrt{S^2} \to_p \sqrt{\sigma^2}$, or $S \to_p \sigma$.
+
+
+## Convergence in distribution 
+
+Convergence in distribution examines what happens to the distribution function (specifically, the CDF) of a sequence of random variables as $n \to \infty$.
+
+\noindent\textbf{Definition 5.5.10 Convergence in distribution} A sequence of random variables $Y_1, Y_2, \ldots,$ *converges in distribution* to a random variable $Y$ if
+$$\lim_{n\to\infty} F_{Y_n}(y) = F_Y(y)$$
+at all points $y$ where $F_Y(y)$ is continuous.
+
+**Example 5.5.11 Maximum of uniforms** If $X_1, X_2, \ldots$ are $iid$ uniform(0,1), what happens to $X_{(n)}$ as $n\to\infty$? We can show $X_{(n)}\to_p 1$:
+\begin{align*}
+P(|X_{(n)} - 1| \geq \epsilon) &= P(X_{(n)} \leq 1 - \epsilon) + P(X_{(n)} \geq 1 + \epsilon)\\
+&= P(X_{(n)} \leq 1 - \epsilon) + 0\\
+&= \prod_{i=1}^n P(X_i \leq 1 - \epsilon)\\
+&= [P(X_i \leq 1 - \epsilon)]^n = (1-\epsilon)^n \to 0
+\end{align*}
+Now we can show $Y_n = n(1-X_{(n)})$ converges in distribution to $Y \sim$ Exponential(1) random variable. In order to show this, we need to show that the limit of the cdf of $n(1-X_{(n)})$ is the cdf of an Exponential(1) distribution.
+
+In the above proof of convergence in probability, let $\epsilon = t/n$. Now,
+$$P(X_{(n)} \leq 1 - \epsilon) =  P(X_{(n)} \leq 1 - t/n) = (1-t/n)^n \to e^{-t}$$
+The limit is true by the definition of the exponential function. Upon rearranging, we have
+$$F_{Y_n}(t) = P(n(1-X_{(n)}) \leq t) = P(X_{(n)} \leq 1 - t/n) \to e^{-t} = F_y(t)$$
+and hence $Y_n \to_d Y$.
+
+We can simulate this data and show convergence of the (approximate) distribution of the simulated data. First let's show convergence in probability of $X_{(n)} \to_p 1$.
+
+```{r, fig.width=8, fig.height=6}
+nsims <- 5000
+nn_all <- c(2, 3, 5, 10, 25, 50, 100, 250, 500, 1000)
+
+set.seed(100)
+simdata <- nn_all %>% 
+  purrr::map_df( ~tibble(x = runif(n=.*nsims, 0, 1),
+                         simrep = rep(1:nsims,each=.),
+                         nn = .) %>%
+  group_by(nn,simrep) %>%
+    summarize(xn = max(x))
+  ) %>% ungroup %>%
+  mutate(yn = nn*(1-xn))
+
+p1 <- ggplot(simdata, aes(x=nn, y=xn, group=nn, fill=factor(nn)))+
+  geom_boxplot(alpha=.6)+
+  scale_x_log10()+
+  xlab("sample size (n, on log10 scale)")+
+  geom_hline(yintercept =1, lty=2)+
+  ggtitle(glue::glue("Distribution of X_(n)\n# simulated data sets = {nsims}"))+
+  theme(legend.position="bottom")+
+  scale_fill_viridis_d(name="n")
+
+p2 <- ggplot(simdata, aes(x=nn, y=abs(xn-1), group=nn, fill=factor(nn)))+
+  geom_boxplot(alpha=.6)+
+  scale_x_log10()+
+  xlab("sample size (n, on log10 scale)")+
+  geom_hline(yintercept =0, lty=2)+
+  ggtitle("Bias of X_(n) = |X_(n) - 1|\n ")+
+  scale_fill_viridis_d(guide=FALSE)
+
+p1 + p2
+
+# calculate variances of X_(n)
+simdata_vars <- simdata %>% group_by(nn) %>% summarize(var(xn))
+knitr::kable(simdata_vars, caption = "Estimate of var(X_(n)) for various n")
+```
+
+Now, we show convergence in distribution of $Y_n = n(1-X_{(n)})$. Note first that $Y_n$ does not appear to converge in probability to a constant since the variance does not get smaller as $n\to\infty$ (left panel). [Note the median looks like it is stabilizing, and in fact it is converging to the median of Exp(1) which is ln(2) = 0.693...]. However, if we look at the approximate distribution of $Y_n$ compared to an Exp(1) distribution, we can see convergence of the CDFs to the CDF of Exp(1) represented by the dashed line (right panel).
+
+```{r, fig.width=8, fig.height=6}
+p1 <- ggplot(simdata, aes(x=nn, y=yn, group=nn, fill=factor(nn)))+
+  geom_boxplot(alpha=.6)+
+  scale_x_log10()+
+  xlab("sample size (n, on log10 scale)")+
+  ggtitle(glue::glue("Distribution of Y_n = n*(1-X_(n))\n# simulated data sets = {nsims}"))+
+  theme(legend.position="bottom")+
+  scale_fill_viridis_d(name="n")
+
+p2 <- ggplot(simdata, aes(x=yn, group=nn, color=factor(nn)))+
+  stat_ecdf()+
+  ggtitle("Empirical CDF of simulated data Y_n")+
+  ylab("eCDF and CDF")+
+  stat_function(fun=pexp, color="black", lty=2)+
+  scale_color_viridis_d(guide=FALSE)
+
+p1+p2
+
+```
+
+
+
+### Important theorems about convergence in distribution
+
+*Convergence in probability is "stronger" than convergence in distribution since $\to_p$ implies $\to_d$.*
+
+**Theorem 5.5.12 Convergence in probability implies converge in distribution:** If the sequence of random variables, $Y_1, Y_2, \ldots,$ converges in probability to a random variable $Y$, the sequence also converges in distribution to $Y$.
+
+*Convergence in distribution to a constant has a special property that it is equivalent to convergence in probability*.
+
+**Theorem 5.5.13 Convergence in distribution to constant = convergence in probability to constant:** The sequence of random variables $Y_1, Y_2, \ldots,$ converges in probability to a constant $\mu$ if and only if the sequence also converges in distribution to $\mu.$ That is, the statement
+$$P(| Y_n - \mu| > \delta) \to 0 \mbox{ for every } \delta > 0$$
+is equivalent to
+$$P(Y_n \leq y) \to \begin{cases}
+0, & \mbox{if } y< \mu\\
+1, & \mbox{if } y> \mu.
+\end{cases}
+$$
+
+*An important and famous example of convergence in distribution is the convergence of the distribution of the sample mean, called the Central Limit Theorem. One version of the CLT is as follows:*
+
+\noindent\textbf{Central Limit Theorem (Theorem 5.5.14)} Let $X_1, X_2, \ldots$ be a sequence of $iid$ random variables whose moment generating functions (mgfs) exist in a neighborhood of 0 (that is, $M_{X_i}(t)$ exists for $|t| < h$, for some positive $h$). Let $E(X_i) =\mu$ and $Var(X_i) = \sigma^2 > 0$. (Both $\mu$ and $\sigma^2$ are finite since the mgf exists.) Define $\Xbar_n = (1/n) \sumin X_i$. Let $G_n(x)$ denote the cdf of $\sqrt{n} (\Xbar_n - \mu)/\sigma$. Then, for any $x, -\infty < x < \infty$,
+$$\lim_{n\to\infty} G_n(x) = \int_{-\infty}^{x} \frac{1}{\sqrt{2\pi}} e^{-y^2/2} dy;$$
+that is, $\sqrt{n}(\Xbar_n - \mu)/\sigma$ has a limiting standard normal distribution:
+$$\frac{\sqrt{n}(\Xbar_n - \mu)}{\sigma} \to_d \Nsc(0,1)$$
+
+See the proof in C&B (uses Taylor series expansion of the moment generating function).
+
+*A very useful theorem for proving convergence in distribution when you have a sum or product of random variables is Slutsky's Theorem:*
+
+\textbf{Slutsky's Theorem (Theorem 5.5.17)}: If $X_n \xrightarrow{d} X$ in distribution and $Y_n \xrightarrow{p} a$, with $a$ constant, in probability, then:
+  \begin{itemize}
+\item[a.] $Y_n X_n \xrightarrow{d}  aX$ (in distribution)
+\item[b.] $X_n + Y_n \xrightarrow{d}  X + a$ (in distribution)
+\end{itemize}
+
+- Note that $Y_n$ must converge in probability to a constant, not a random variable. Otherwise, these relationships do not always hold.
+- Also, if $X_n \to_p X$ in probability, the above theorem still holds since this implies that $X_n \to_d X$ in distribution.
+
+\noindent\textbf{Example 5.5.18 Normal approximation with estimated variance}: Suppose that
+$$\frac{\sqrt{n} (\Xbar_n - \mu) }{\sigma} \to_d \Nsc(0,1)$$
+  but the value of $\sigma$ is unknown. We have seen in Example 5.5.3 that, if $\lim_{n\to\infty} \Var S_n^2 = 0$, then
+  $S_n^2 \to \sigma^2$ in probability. We can show (Exercise 5.32) that $\sigma/S_n \to 1$ in probability. Therefore, by Slutsky's Theorem
+$$\frac{\sqrt{n} (\Xbar_n - \mu) }{S_n} = \frac{\sigma}{S_n}\frac{\sqrt{n} (\Xbar_n - \mu) }{\sigma} \to_d \Nsc(0,1).$$
+
+*Another very useful theorem about convergence in distribution is the Delta Method. It is used when we need to determine the asymptotic distribution of a function of a statistic. You can think of this as "a generalized CLT" since it can be used to show convergence of a function of* $\Xbar$.
+
+**Delta Method (Theorem 5.5.24)** Let $Y_n$ be a sequence of random variables that satisfies
+$$\sqrt{n}(Y_n - \theta) \xrightarrow{d} \Nsc(0,\sigma^2).$$
+For a given function $g$ and a specific value of $\theta$, assuming $g^\prime(\theta)$ exists and is not 0, then:
+$$\sqrt{n}\left[g(Y_n) - g(\theta)\right] \xrightarrow{d} \Nsc(0, \sigma^2[g^\prime(\theta)]^2).$$
+
+\noindent\textbf{Proof:} The Taylor expansion of $g(Y_n)$ around $Y_n = \theta$ is
+$$g(Y_n) = g(\theta) + g^\prime(\theta) (Y_n - \theta) + \mbox{Remainder}$$
+where the remainder $\to 0$ as $Y_n \to \theta$. Since $Y_n \to \theta$ in probability it follows that the remainder (call it $Z_n$) $\to 0$ in probability. So, by applying Slutsky's Theorem
+  $$\sqrt{n}[g(Y_n) - g(\theta)] = g^\prime(\theta) \sqrt{n} (Y_n - \theta) + Z_n \to_d g^\prime(\theta)\Nsc(0, \sigma^2) + 0 = \Nsc(0,\sigma^2[g^\prime(\theta)]^2)$$
+and the result follows.
+  
+\noindent\textbf{Example 5.5.25:} Suppose $X_i$ is a random variable with $E_\mu X_i = \mu \neq 0$. Suppose we want to find the distribution of $\frac{1}{\Xbar}$. By the Delta Method we have $g^\prime(\mu) = - \mu^{-2}$ and
+  $$\sqrt{n}\left(\frac{1}{\Xbar} - \frac{1}{\mu} \right) \to \Nsc\left(0, \left( \frac{1}{\mu}\right)^4 \Var_\mu X\right)$$
+
+However, we may not know the variance of $X$, so we need to estimate it with $S^2$. Also, we need to estimate $\mu$ with $\Xbar$. We can estimate the whole variance:
+$$\widehat{\Var} \left( \frac{1}{\Xbar} \right) \approx \left(\frac{1}{\Xbar}\right)^4 S^2.$$
+Since both $\Xbar$ and $S^2$ are consistent estimators of $\mu$ and $\sigma^2$, we can apply Slutsky's Theorem to conclude that for $\mu \neq 0$,
+$$\frac{\sqrt{n} \left( \frac{1}{\Xbar} - \frac{1} {\mu} \right)}{\left( \frac{1}{\Xbar} \right)^2 S} \to_d \Nsc(0,1)$$
+in distribution.
+
+*Sometimes the derivative of $g$ is 0 at $\theta$ so we must use the second-order Delta Method:*
+
+**Second-order Delta Method (Theorem 5.5.26)** Let $Y_n$ be a sequence of random variables that satisfies
+$$\sqrt{n}(Y_n - \theta) \xrightarrow{d} \Nsc(0,\sigma^2).$$ For a given function $g$ and a specific value of $\theta$, suppose that $g^\prime(\theta) = 0$ and $g^{\prime\prime}(\theta)$ exists and is not 0. Then
+$$n[g(Y_n) - g(\theta)] \to \sigma^2\frac{g^{\prime\prime}(\theta)}{2}\chi^2_1$$
+That is, the asymptotic distribution is a chi-square random variable. [This is also proven using Taylor Series expansions but out to the second degree polynomial, and Slutsky's theorem.]
+
+

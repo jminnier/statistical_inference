@@ -1,0 +1,76 @@
+---
+title: 'BSTA 552: Mathematical Statistics II -- Class Notes'
+author: "Jessica Minnier"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    citation_package: natbib
+    includes:
+      in_header:
+      - ../latex_files/header_doc.tex
+      - ../latex_files/my_macros.tex
+    keep_tex: yes
+    number_sections: yes
+fontsize: 11pt
+documentclass: article
+---
+
+```{r, setup, include=FALSE}
+library(tidyverse)
+library(knitr)
+library(latex2exp)
+knitr::opts_chunk$set(
+  eval       = TRUE,    # whether to run code in code chunk
+  include    = TRUE,    # whether to include the chunk output
+  echo       = TRUE,   # Whether to show code chunk in final output
+  error      = TRUE,    # whether to display error messages
+  message    = FALSE,   # whether to preserve messages
+  warning    = FALSE,   # whether to preserve warnings
+  comment    = "#>",    # a character string to append at start
+                        # of each line of results in final document
+  tidy       = FALSE,   # whether to tidy code chunks for display
+  dpi        = 96, 
+  fig.width  = 5,       # consistent width for figures
+  fig.asp    = 0.618,   # the golden ratio, can be adjusted in individual chunks
+  out.width  = "100%",   # controls the output size
+  fig.align  = "center" # give plot room to breathe
+)
+ggplot2::theme_set(theme_bw())
+```
+
+# BSTA 552
+
+In BSTA 551 you reviewed principles of probability, explored methods for reduction of data and learned how to find point estimators. In this class, you will use those point estimators to test hypotheses about your data and obtain inference about the underlying population parameters by constructing interval estimators. We will then discuss asymptotic properties of these estimators and relate these properties to common statistical tests. Statisticians perform hypothesis testing and construct confidence intervals every day. This class will build the foundation upon which those tests obtain their validity.
+
+The main material of BSTA 552 will continue as in 551 to be derived from Casella and Berger's "Statistical Inference" and the authors' rigorous treatment of the theory of these topics. 
+
+<!-- If time allows, we may supplement these ideas with some more "applied" treatment from Chihara and Hesterberg's "Mathematical Statistics with Resampling and R" or "Modern Dive", an online textbook from Ismay and Kim. This will give us a different perspective as well as practical applications rooted in simulation and resampling theory. Also, we get to do some coding in R! -->
+
+C\&B will define the backbone of the theory, and  will be an indispensable resource to you when studying for comprehensive exams, as well as in your future careers.
+
+
+\newpage
+
+```{r child = '08_hypothesis_testing.Rmd'}
+
+```
+
+\newpage
+
+```{r child = '09_interval_estimation.Rmd'}
+
+```
+
+
+\newpage
+
+```{r child = '05_sampling.Rmd'}
+
+```
+
+\newpage
+
+```{r child = '10_asymptotics.Rmd'}
+
+```
+

@@ -1,0 +1,1943 @@
+\documentclass[11pt,]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={BSTA 552: Midterm Review},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{natbib}
+\bibliographystyle{plainnat}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{BSTA 552: Midterm Review}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{}
+    \preauthor{}\postauthor{}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{Spring 2019}
+
+
+
+
+\usepackage{epsfig,latexsym,amsmath, amssymb, amsfonts}
+\usepackage{lscape}
+\usepackage{paralist}
+\usepackage{enumerate}
+
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\setlist{nolistsep}
+
+\usepackage{epstopdf, graphicx,amsfonts,fullpage,geometry,color,subfigure,eucal,multirow,pdflscape,mathrsfs, latexsym, textcomp}
+%\usepackage[pdftex,bookmarks,colorlinks,breaklinks]{hyperref}  % PDF hyperlinks, with coloured links
+\definecolor{darkblue}{rgb}{0,0,0.4}
+%\hypersetup{linkcolor=black,citecolor=black,filecolor=black,urlcolor=black} % black links, for printed output
+\usepackage{memhfixc} 
+
+%
+\marginparwidth 0pt
+\evensidemargin 0pt
+\oddsidemargin 0pt
+\marginparsep 0pt
+\topmargin 0pt
+\textwidth 6.5in
+\textheight 8.5in
+% next sets eqn skip
+\jot=0.4cm
+%
+%
+%for double spacing
+  \baselineskip=0.8cm
+%
+% some commands
+%
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+%
+
+\newcommand{\Xndots}{X_1, \ldots, X_n}
+\newcommand{\LUX}{[L(\bX),U(\bX)]}
+\newcommand{\LUx}{[L(\bx),U(\bx)]}
+
+\newcommand{ \Va }{\mbox{\boldmath ${\alpha}$}}
+\newcommand{ \Vb }{\mbox{\boldmath ${\beta}$}}
+\newcommand{ \Vg }{\mbox{\boldmath ${\gamma}$}}
+\newcommand{ \Vt }{\mbox{\boldmath ${\theta}$}}
+%\newcommand{ \Vt }{\mbox{\boldmath ${\Theta}$}}
+\newcommand{ \wVb }{\widehat{\mbox{\boldmath ${\beta}$}}}
+\newcommand{ \wVa }{\widehat{\mbox{\boldmath ${\alpha}$}}}
+\newcommand{ \wVt }{\widehat{\mbox{\boldmath ${\theta}$}}}
+\newcommand{\var}{{\rm var}\,}
+\newcommand{\cov}{{\rm cov}\,}
+\newcommand{\bo}[1]{\mbox{\mathversion{bold}$#1$}}
+\newenvironment{myitemize}
+{ \begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}     }
+{ \end{itemize}                  } 
+
+
+
+\definecolor{blue2}{RGB}{0, 0.245, 0.555}
+\definecolor{cyan}{RGB}{024, 055, 155}
+\definecolor{pink}{RGB}{255, 105, 180}
+\definecolor{red2}{RGB}{200,000,000}
+\definecolor{red4}{RGB}{120,000,000}
+\definecolor{green}{RGB}{021,122,090}
+\definecolor{green4}{RGB}{021,122,090}
+\definecolor{green2}{RGB}{000,122,000}
+\definecolor{yellow2}{RGB}{180,120,000}
+\definecolor{yellow4}{RGB}{120,100,000}
+\definecolor{navy}{RGB}{000,000,090}
+
+\newcommand{\smallT}{\scriptscriptstyle{T}}
+\newcommand{\ikikp}{ ^{ik}_{\imath \kappa}}
+\newcommand{\sumi}{\sum_{i=1}^{n_{\D}}}
+\newcommand{\sumip}{\sum_{\imath<i}}
+\newcommand{\sumj}{\sum_{j=n_{\D}+1}^{n_{\D}+n_{\C}}}
+\newcommand{\suml}{\sum_{l=1}^{K_j}}
+\newcommand{\sumk}{\sum_{k=1}^{K_i}}
+\newcommand{\sumkp}{\sum_{\kappa=1}^{K_{\imath}}}
+\newcommand{\sumik}{\sumi \sumk}
+\newcommand{\sumjl}{\sumj \suml}
+\newcommand{\nd}{n_{\D}}
+\newcommand{\Nd}{N_{\D}}
+\newcommand{\nc}{n_{\C}}
+\newcommand{\Nc}{N_{\C}}
+\newcommand{\ndinv}{\nd^{-1}}
+\newcommand{\Ndinv}{\Nd^{-1}}
+\newcommand{\ncinv}{\nc^{-1}}
+\newcommand{\Ncinv}{\Nc^{-1}}
+\newcommand{\nchalf}{\nc^{\half}}
+\newcommand{\ncnhalf}{\nc^{-\half}}
+\newcommand{\ndhalf}{\nd^{\half}}
+\newcommand{\ndnhalf}{\nd^{-\half}}
+
+\newcommand{\Nchalf}{\Nc^{\half}}
+\newcommand{\Ncnhalf}{\Nc^{-\half}}
+\newcommand{\Ndhalf}{\Nd^{\half}}
+\newcommand{\Ndnhalf}{\Nd^{-\half}}
+\newcommand{\Ndnq}{\Nd^{-2}}
+\newcommand{\Ndnqhalf}{\Nd^{-\frac{3}{2}}}
+
+\newcommand{\md}{m_{\D}}
+\newcommand{\mdnqhalf}{\md^{-\frac{3}{2}}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Bold Digits           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\bzero{{\bf 0}}
+\def\bone{{\bf 1}}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Bold Roman Letters    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\ba{{\mbox{\boldmath$a$}}}
+\def\bb{{\bf b}}
+\def\bc{{\bf c}}
+\def\bd{{\bf d}}
+\def\be{{\bf e}}
+\def\bdf{{\bf f}}
+\def\bg{{\mbox{\boldmath$g$}}}
+\def\bh{{\bf h}}
+\def\bi{{\bf i}}
+\def\bj{{\bf j}}
+\def\bk{{\bf k}}
+\def\bl{{\bf l}}
+\def\bm{{\bf m}}
+\def\bn{{\bf n}}
+\def\bo{{\bf o}}
+\def\bp{{\bf p}}
+\def\bq{{\bf q}}
+\def\br{{\bf r}}
+\def\bs{{\bf s}}
+\def\bt{{\bf t}}
+\def\bu{{\bf u}}
+\def\bv{{\bf v}}
+\def\bw{{\bf w}}
+\def\bx{{\bf x}}
+\def\by{{\bf y}}
+\def\bz{{\bf z}}
+\def\bA{{\bf A}}
+\def\bB{{\bf B}}
+\def\bC{{\bf C}}
+\def\bD{{\bf D}}
+\def\bE{{\bf E}}
+\def\bF{{\bf F}}
+\def\bG{{\bf G}}
+\def\bH{{\bf H}}
+\def\bI{{\bf I}}
+\def\bJ{{\bf J}}
+\def\bK{{\bf K}}
+\def\bL{{\bf L}}
+\def\bM{{\bf M}}
+\def\bN{{\bf N}}
+\def\bO{{\bf O}}
+\def\bP{{\bf P}}
+\def\bQ{{\bf Q}}
+\def\bR{{\bf R}}
+\def\bS{{\bf S}}
+\def\bT{{\bf T}}
+\def\bU{{\bf U}}
+\def\bV{{\bf V}}
+\def\bW{{\bf W}}
+\def\bX{{\bf X}}
+\def\bY{{\bf Y}}
+\def\bZ{{\bf Z}}
+\def\smbZ{\scriptstyle{\bf Z}}
+\def\smM{\scriptstyle{M}}
+\def\smN{\scriptstyle{N}}
+\def\smbT{\scriptstyle{\bf T}}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Bold Greek Letters    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\thick#1{\hbox{\rlap{$#1$}\kern0.25pt\rlap{$#1$}\kern0.25pt$#1$}}
+\def\balpha{\boldsymbol{\alpha}}
+\def\bbeta{\boldsymbol{\beta}}
+\def\bgamma{\boldsymbol{\gamma}}
+\def\bdelta{\boldsymbol{\delta}}
+\def\bepsilon{\boldsymbol{\epsilon}}
+\def\bvarepsilon{\boldsymbol{\varepsilon}}
+\def\bzeta{\boldsymbol{\zeta}}
+\def\bdeta{\boldsymbol{\eta}}
+\def\btheta{\boldsymbol{\theta}}
+\def\biota{\boldsymbol{\iota}}
+\def\bkappa{\boldsymbol{\kappa}}
+\def\blambda{\boldsymbol{\lambda}}
+\def\bmu{\boldsymbol{\mu}}
+\def\bnu{\boldsymbol{\nu}}
+\def\bxi{\boldsymbol{\xi}}
+\def\bomicron{\boldsymbol{\omicron}}
+\def\bpi{\boldsymbol{\pi}}
+\def\brho{\boldsymbol{\rho}}
+\def\bsigma{\boldsymbol{\sigma}}
+\def\btau{\boldsymbol{\tau}}
+\def\bupsilon{\boldsymbol{\upsilon}}
+\def\bphi{\boldsymbol{\phi}}
+\def\bchi{\boldsymbol{\chi}}
+\def\bpsi{\boldsymbol{\psi}}
+\def\bomega{\boldsymbol{\omega}}
+\def\bAlpha{\boldsymbol{\Alpha}}
+\def\bBeta{\boldsymbol{\Beta}}
+\def\bGamma{\boldsymbol{\Gamma}}
+\def\bDelta{\boldsymbol{\Delta}}
+\def\bEpsilon{\boldsymbol{\Epsilon}}
+\def\bZeta{\boldsymbol{\Zeta}}
+\def\bEta{\boldsymbol{\Eta}}
+\def\bTheta{\boldsymbol{\Theta}}
+\def\bIota{\boldsymbol{\Iota}}
+\def\bKappa{\boldsymbol{\Kappa}}
+\def\bLambda{{\boldsymbol{\Lambda}}}
+\def\bMu{\boldsymbol{\Mu}}
+\def\bNu{\boldsymbol{\Nu}}
+\def\bXi{\boldsymbol{\Xi}}
+\def\bOmicron{\boldsymbol{\Omicron}}
+\def\bPi{\boldsymbol{\Pi}}
+\def\bRho{\boldsymbol{\Rho}}
+\def\bSigma{\boldsymbol{\Sigma}}
+\def\bTau{\boldsymbol{\Tau}}
+\def\bUpsilon{\boldsymbol{\Upsilon}}
+\def\bPhi{\boldsymbol{\Phi}}
+\def\bChi{\boldsymbol{\Chi}}
+\def\bPsi{\boldsymbol{\Psi}}
+\def\bOmega{\boldsymbol{\Omega}}
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Small Bold Greek Letters    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\smalpha{{{\scriptstyle{\alpha}}}}
+\def\smbeta{{{\scriptstyle{\beta}}}}
+\def\smgamma{{{\scriptstyle{\gamma}}}}
+\def\smdelta{{{\scriptstyle{\delta}}}}
+\def\smepsilon{{{\scriptstyle{\epsilon}}}}
+\def\smvarepsilon{{{\scriptstyle{\varepsilon}}}}
+\def\smzeta{{{\scriptstyle{\zeta}}}}
+\def\smdeta{{{\scriptstyle{\eta}}}}
+\def\smtheta{{{\scriptstyle{\theta}}}}
+\def\smiota{{{\scriptstyle{\iota}}}}
+\def\smkappa{{{\scriptstyle{\kappa}}}}
+\def\smlambda{{{\scriptstyle{\lambda}}}}
+\def\smmu{{{\scriptstyle{\mu}}}}
+\def\smnu{{{\scriptstyle{\nu}}}}
+\def\smxi{{{\scriptstyle{\xi}}}}
+\def\smomicron{{{\scriptstyle{\omicron}}}}
+\def\smpi{{{\scriptstyle{\pi}}}}
+\def\smrho{{{\scriptstyle{\rho}}}}
+\def\smsigma{{{\scriptstyle{\sigma}}}}
+\def\smtau{{{\scriptstyle{\tau}}}}
+\def\smupsilon{{{\scriptstyle{\upsilon}}}}
+\def\smphi{{{\scriptstyle{\phi}}}}
+\def\smchi{{{\scriptstyle{\chi}}}}
+\def\smpsi{{{\scriptstyle{\psi}}}}
+\def\smomega{{{\scriptstyle{\omega}}}}
+\def\smAlpha{{{\scriptstyle{\Alpha}}}}
+\def\smBeta{{{\scriptstyle{\Beta}}}}
+\def\smGamma{{{\scriptstyle{\Gamma}}}}
+\def\smDelta{{{\scriptstyle{\Delta}}}}
+\def\smEpsilon{{{\scriptstyle{\Epsilon}}}}
+\def\smZeta{{{\scriptstyle{\Zeta}}}}
+\def\smEta{{{\scriptstyle{\Eta}}}}
+\def\smTheta{{{\scriptstyle{\Theta}}}}
+\def\smIota{{{\scriptstyle{\Iota}}}}
+\def\smKappa{{{\scriptstyle{\Kappa}}}}
+\def\smLambda{{{\scriptstyle{\Lambda}}}}
+\def\smMu{{{\scriptstyle{\Mu}}}}
+\def\smNu{{{\scriptstyle{\Nu}}}}
+\def\smXi{{{\scriptstyle{\Xi}}}}
+\def\smOmicron{{{\scriptstyle{\Omicron}}}}
+\def\smPi{{{\scriptstyle{\Pi}}}}
+\def\smRho{{{\scriptstyle{\Rho}}}}
+\def\smSigma{{{\scriptstyle{\Sigma}}}}
+\def\smTau{{{\scriptstyle{\Tau}}}}
+\def\smUpsilon{{{\scriptstyle{\Upsilon}}}}
+\def\smPhi{{{\scriptstyle{\Phi}}}}
+\def\smChi{{{\scriptstyle{\Chi}}}}
+\def\smPsi{{{\scriptstyle{\Psi}}}}
+\def\smOmega{{{\scriptstyle{\Omega}}}}
+%
+%
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Small Bold Greek Letters    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\smbalpha{\boldsymbol{{\scriptstyle{\alpha}}}}
+\def\smbbeta{\boldsymbol{{\scriptstyle{\beta}}}}
+\def\smbgamma{\boldsymbol{{\scriptstyle{\gamma}}}}
+\def\smbdelta{\boldsymbol{{\scriptstyle{\delta}}}}
+\def\smbepsilon{\boldsymbol{{\scriptstyle{\epsilon}}}}
+\def\smbvarepsilon{\boldsymbol{{\scriptstyle{\varepsilon}}}}
+\def\smbzeta{\boldsymbol{{\scriptstyle{\zeta}}}}
+\def\smbdeta{\boldsymbol{{\scriptstyle{\eta}}}}
+\def\smbtheta{\boldsymbol{{\scriptstyle{\theta}}}}
+\def\smbiota{\boldsymbol{{\scriptstyle{\iota}}}}
+\def\smbkappa{\boldsymbol{{\scriptstyle{\kappa}}}}
+\def\smblambda{\boldsymbol{{\scriptstyle{\lambda}}}}
+\def\smbmu{\boldsymbol{{\scriptstyle{\mu}}}}
+\def\smbnu{\boldsymbol{{\scriptstyle{\nu}}}}
+\def\smbxi{\boldsymbol{{\scriptstyle{\xi}}}}
+\def\smbomicron{\boldsymbol{{\scriptstyle{\omicron}}}}
+\def\smbpi{\boldsymbol{{\scriptstyle{\pi}}}}
+\def\smbrho{\boldsymbol{{\scriptstyle{\rho}}}}
+\def\smbsigma{\boldsymbol{{\scriptstyle{\sigma}}}}
+\def\smbtau{\boldsymbol{{\scriptstyle{\tau}}}}
+\def\smbupsilon{\boldsymbol{{\scriptstyle{\upsilon}}}}
+\def\smbphi{\boldsymbol{{\scriptstyle{\phi}}}}
+\def\smbchi{\boldsymbol{{\scriptstyle{\chi}}}}
+\def\smbpsi{\boldsymbol{{\scriptstyle{\psi}}}}
+\def\smbomega{\boldsymbol{{\scriptstyle{\omega}}}}
+\def\smbAlpha{\boldsymbol{{\scriptstyle{\Alpha}}}}
+\def\smbBeta{\boldsymbol{{\scriptstyle{\Beta}}}}
+\def\smbGamma{\boldsymbol{{\scriptstyle{\Gamma}}}}
+\def\smbDelta{\boldsymbol{{\scriptstyle{\Delta}}}}
+\def\smbEpsilon{\boldsymbol{{\scriptstyle{\Epsilon}}}}
+\def\smbZeta{\boldsymbol{{\scriptstyle{\Zeta}}}}
+\def\smbEta{\boldsymbol{{\scriptstyle{\Eta}}}}
+\def\smbTheta{\boldsymbol{{\scriptstyle{\Theta}}}}
+\def\smbIota{\boldsymbol{{\scriptstyle{\Iota}}}}
+\def\smbKappa{\boldsymbol{{\scriptstyle{\Kappa}}}}
+\def\smbLambda{\boldsymbol{{\scriptstyle{\Lambda}}}}
+\def\smbMu{\boldsymbol{{\scriptstyle{\Mu}}}}
+\def\smbNu{\boldsymbol{{\scriptstyle{\Nu}}}}
+\def\smbXi{\boldsymbol{{\scriptstyle{\Xi}}}}
+\def\smbOmicron{\boldsymbol{{\scriptstyle{\Omicron}}}}
+\def\smbPi{\boldsymbol{{\scriptstyle{\Pi}}}}
+\def\smbRho{\boldsymbol{{\scriptstyle{\Rho}}}}
+\def\smbSigma{\boldsymbol{{\scriptstyle{\Sigma}}}}
+\def\smbTau{\boldsymbol{{\scriptstyle{\Tau}}}}
+\def\smbUpsilon{\boldsymbol{{\scriptstyle{\Upsilon}}}}
+\def\smbPhi{\boldsymbol{{\scriptstyle{\Phi}}}}
+\def\smbChi{\boldsymbol{{\scriptstyle{\Chi}}}}
+\def\smbPsi{\boldsymbol{{\scriptstyle{\Psi}}}}
+\def\smbOmega{\boldsymbol{{\scriptstyle{\Omega}}}}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Hatted Roman Letters  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\ahat{{\widehat a}}
+\def\bhat{{\widehat b}}
+\def\chat{{\widehat c}}
+\def\dhat{{\widehat d}}
+\def\ehat{{\widehat e}}
+\def\fhat{{\widehat f}}
+\def\ghat{{\widehat g}}
+\def\hhat{{\widehat h}}
+\def\ihat{{\widehat i}}
+\def\jhat{{\widehat j}}
+\def\khat{{\widehat k}}
+\def\lhat{{\widehat l}}
+\def\mhat{{\widehat m}}
+\def\nhat{{\widehat n}}
+\def\ohat{{\widehat o}}
+\def\phat{{\widehat p}}
+\def\qhat{{\widehat q}}
+\def\rhat{{\widehat r}}
+\def\shat{{\widehat s}}
+\def\that{{\widehat t}}
+\def\uhat{{\widehat u}}
+\def\vhat{{\widehat v}}
+\def\what{{\widehat w}}
+\def\xhat{{\widehat x}}
+\def\yhat{{\widehat y}}
+\def\zhat{{\widehat z}}
+\def\Ahat{{\widehat A}}
+\def\Bhat{{\widehat B}}
+\def\Chat{{\widehat C}}
+\def\Dhat{{\widehat D}}
+\def\Ehat{{\widehat E}}
+\def\Fhat{{\widehat F}}
+\def\Ghat{{\widehat G}}
+\def\Hhat{{\widehat H}}
+\def\Ihat{{\widehat I}}
+\def\Jhat{{\widehat J}}
+\def\Khat{{\widehat K}}
+\def\Lhat{{\widehat L}}
+\def\Mhat{{\widehat M}}
+\def\Nhat{{\widehat N}}
+\def\Ohat{{\widehat O}}
+\def\Phat{{\widehat P}}
+\def\Qhat{{\widehat Q}}
+\def\Rhat{{\widehat R}}
+\def\Shat{{\widehat S}}
+\def\That{{\widehat T}}
+\def\Uhat{{\widehat U}}
+\def\Vhat{{\widehat V}}
+\def\What{{\widehat W}}
+\def\Xhat{{\widehat X}}
+\def\Yhat{{\widehat Y}}
+\def\Zhat{{\widehat Z}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Tilded Roman Letters  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\atilde{{\widetilde a}}
+\def\btilde{{\widetilde b}}
+\def\ctilde{{\widetilde c}}
+\def\dtilde{{\widetilde d}}
+\def\etilde{{\widetilde e}}
+\def\ftilde{{\widetilde f}}
+\def\gtilde{{\widetilde g}}
+\def\htilde{{\widetilde h}}
+\def\itilde{{\widetilde i}}
+\def\jtilde{{\widetilde j}}
+\def\ktilde{{\widetilde k}}
+\def\ltilde{{\widetilde l}}
+\def\mtilde{{\widetilde m}}
+\def\ntilde{{\widetilde n}}
+\def\otilde{{\widetilde o}}
+\def\ptilde{{\widetilde p}}
+\def\qtilde{{\widetilde q}}
+\def\rtilde{{\widetilde r}}
+\def\stilde{{\widetilde s}}
+\def\ttilde{{\widetilde t}}
+\def\utilde{{\widetilde u}}
+\def\vtilde{{\widetilde v}}
+\def\wtilde{{\widetilde w}}
+\def\xtilde{{\widetilde x}}
+\def\ytilde{{\widetilde y}}
+\def\ztilde{{\widetilde z}}
+\def\Atilde{{\widetilde A}}
+\def\Btilde{{\widetilde B}}
+\def\Ctilde{{\widetilde C}}
+\def\Dtilde{{\widetilde D}}
+\def\Etilde{{\widetilde E}}
+\def\Ftilde{{\widetilde F}}
+\def\Gtilde{{\widetilde G}}
+\def\Htilde{{\widetilde H}}
+\def\Itilde{{\widetilde I}}
+\def\Jtilde{{\widetilde J}}
+\def\Ktilde{{\widetilde K}}
+\def\Ltilde{{\widetilde L}}
+\def\Mtilde{{\widetilde M}}
+\def\Ntilde{{\widetilde N}}
+\def\Otilde{{\widetilde O}}
+\def\Ptilde{{\widetilde P}}
+\def\Qtilde{{\widetilde Q}}
+\def\Rtilde{{\widetilde R}}
+\def\Stilde{{\widetilde S}}
+\def\Ttilde{{\widetilde T}}
+\def\Utilde{{\widetilde U}}
+\def\Vtilde{{\widetilde V}}
+\def\Wtilde{{\widetilde W}}
+\def\Xtilde{{\widetilde X}}
+\def\Ytilde{{\widetilde Y}}
+\def\Ztilde{{\widetilde Z}}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Hatted Bold-faced Roman Letters %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\bahat{{\widehat \ba}}
+\def\bbhat{{\widehat \bb}}
+\def\bchat{{\widehat \bc}}
+\def\bdhat{{\widehat \bd}}
+\def\behat{{\widehat \be}}
+\def\bfhat{{\widehat \bf}}
+\def\bghat{{\widehat \bg}}
+\def\bhhat{{\widehat \bh}}
+\def\bihat{{\widehat \bi}}
+\def\bjhat{{\widehat \bj}}
+\def\bkhat{{\widehat \bk}}
+\def\blhat{{\widehat \bl}}
+\def\bmhat{{\widehat \bm}}
+\def\bnhat{{\widehat \bn}}
+\def\bohat{{\widehat \bo}}
+\def\bphat{{\widehat \bp}}
+\def\bqhat{{\widehat \bq}}
+\def\brhat{{\widehat \br}}
+\def\bshat{{\widehat \bs}}
+\def\bthat{{\widehat \bt}}
+\def\buhat{{\widehat \bu}}
+\def\bvhat{{\widehat \bv}}
+\def\bwhat{{\widehat \bw}}
+\def\bxhat{{\widehat \bx}}
+\def\byhat{{\widehat \by}}
+\def\bzhat{{\widehat \bz}}
+\def\bAhat{{\widehat \bA}}
+\def\bBhat{{\widehat \bB}}
+\def\bChat{{\widehat \bC}}
+\def\bDhat{{\widehat \bD}}
+\def\bEhat{{\widehat \bE}}
+\def\bFhat{{\widehat \bF}}
+\def\bGhat{{\widehat \bG}}
+\def\bHhat{{\widehat \bH}}
+\def\bIhat{{\widehat \bI}}
+\def\bJhat{{\widehat \bJ}}
+\def\bKhat{{\widehat \bK}}
+\def\bLhat{{\widehat \bL}}
+\def\bMhat{{\widehat \bM}}
+\def\bNhat{{\widehat \bN}}
+\def\bOhat{{\widehat \bO}}
+\def\bPhat{{\widehat \bP}}
+\def\bQhat{{\widehat \bQ}}
+\def\bRhat{{\widehat \bR}}
+\def\bShat{{\widehat \bS}}
+\def\bThat{{\widehat \bT}}
+\def\bUhat{{\widehat \bU}}
+\def\bVhat{{\widehat \bV}}
+\def\bWhat{{\widehat \bW}}
+\def\bXhat{{\widehat \bX}}
+\def\bYhat{{\widehat \bY}}
+\def\bZhat{{\widehat \bZ}}
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Tilded Bold-faced Roman Letters %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\batilde{{\widetilde \ba}}
+\def\bbtilde{{\widetilde \bb}}
+\def\bctilde{{\widetilde \bc}}
+\def\bdtilde{{\widetilde \bd}}
+\def\betilde{{\widetilde \be}}
+\def\bftilde{{\widetilde \bf}}
+\def\bgtilde{{\widetilde \bg}}
+\def\bhtilde{{\widetilde \bh}}
+\def\bitilde{{\widetilde \bi}}
+\def\bjtilde{{\widetilde \bj}}
+\def\bktilde{{\widetilde \bk}}
+\def\bltilde{{\widetilde \bl}}
+\def\bmtilde{{\widetilde \bm}}
+\def\bntilde{{\widetilde \bn}}
+\def\botilde{{\widetilde \bo}}
+\def\bptilde{{\widetilde \bp}}
+\def\bqtilde{{\widetilde \bq}}
+\def\brtilde{{\widetilde \br}}
+\def\bstilde{{\widetilde \bs}}
+\def\bttilde{{\widetilde \bt}}
+\def\butilde{{\widetilde \bu}}
+\def\bvtilde{{\widetilde \bv}}
+\def\bwtilde{{\widetilde \bw}}
+\def\bxtilde{{\widetilde \bx}}
+\def\bytilde{{\widetilde \by}}
+\def\bztilde{{\widetilde \bz}}
+\def\bAtilde{{\widetilde \bA}}
+\def\bBtilde{{\widetilde \bB}}
+\def\bCtilde{{\widetilde \bC}}
+\def\bDtilde{{\widetilde \bD}}
+\def\bEtilde{{\widetilde \bE}}
+\def\bFtilde{{\widetilde \bF}}
+\def\bGtilde{{\widetilde \bG}}
+\def\bHtilde{{\widetilde \bH}}
+\def\bItilde{{\widetilde \bI}}
+\def\bJtilde{{\widetilde \bJ}}
+\def\bKtilde{{\widetilde \bK}}
+\def\bLtilde{{\widetilde \bL}}
+\def\bMtilde{{\widetilde \bM}}
+\def\bNtilde{{\widetilde \bN}}
+\def\bOtilde{{\widetilde \bO}}
+\def\bPtilde{{\widetilde \bP}}
+\def\bQtilde{{\widetilde \bQ}}
+\def\bRtilde{{\widetilde \bR}}
+\def\bStilde{{\widetilde \bS}}
+\def\bTtilde{{\widetilde \bT}}
+\def\bUtilde{{\widetilde \bU}}
+\def\bVtilde{{\widetilde \bV}}
+\def\bWtilde{{\widetilde \bW}}
+\def\bXtilde{{\widetilde \bX}}
+\def\bYtilde{{\widetilde \bY}}
+\def\bZtilde{{\widetilde \bZ}}
+%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Hatted Greek Letters  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\alphahat{{\widehat\alpha}}
+\def\betahat{{\widehat\beta}}
+\def\gammahat{{\widehat\gamma}}
+\def\deltahat{{\widehat\delta}}
+\def\epsilonhat{{\widehat\epsilon}}
+\def\varepsilonhat{{\widehat\varepsilon}}
+\def\zetahat{{\widehat\zeta}}
+\def\etahat{{\widehat\eta}}
+\def\thetahat{{\widehat\theta}}
+\def\iotahat{{\widehat\iota}}
+\def\kappahat{{\widehat\kappa}}
+\def\lambdahat{{\widehat\lambda}}
+\def\muhat{{\widehat\mu}}
+\def\nuhat{{\widehat\nu}}
+\def\xihat{{\widehat\xi}}
+\def\omicronhat{{\widehat\omicron}}
+\def\pihat{{\widehat\pi}}
+\def\rhohat{{\widehat\rho}}
+\def\sigmahat{{\widehat\sigma}}
+\def\tauhat{{\widehat\tau}}
+\def\upsilonhat{{\widehat\upsilon}}
+\def\phihat{{\widehat\phi}}
+\def\chihat{{\widehat\chi}}
+\def\psihat{{\widehat\psi}}
+\def\omegahat{{\widehat\omega}}
+\def\Alphahat{{\widehat\Alpha}}
+\def\Betahat{{\widehat\Beta}}
+\def\Gammahat{{\widehat\Gamma}}
+\def\Deltahat{{\widehat\Delta}}
+\def\Epsilonhat{{\widehat\Epsilon}}
+\def\Zetahat{{\widehat\Zeta}}
+\def\Etahat{{\widehat\Eta}}
+\def\Thetahat{{\widehat\Theta}}
+\def\Iotahat{{\widehat\Iota}}
+\def\Kappahat{{\widehat\Kappa}}
+\def\Lambdahat{{\widehat\Lambda}}
+\def\Muhat{{\widehat\Mu}}
+\def\Nuhat{{\widehat\Nu}}
+\def\Xihat{{\widehat\Xi}}
+\def\Omicronhat{{\widehat\Omicron}}
+\def\Pihat{{\widehat\Pi}}
+\def\Rhohat{{\widehat\Rho}}
+\def\Sigmahat{{\widehat\Sigma}}
+\def\Tauhat{{\widehat\Tau}}
+\def\Upsilonhat{{\widehat\Upsilon}}
+\def\Phihat{{\widehat\Phi}}
+\def\Chihat{{\widehat\Chi}}
+\def\Psihat{{\widehat\Psi}}
+\def\Omegahat{{\widehat\Omega}}
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Tilded Greek Letters  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\alphatilde{{\widetilde\alpha}}
+\def\betatilde{{\widetilde\beta}}
+\def\gammatilde{{\widetilde\gamma}}
+\def\deltatilde{{\widetilde\delta}}
+\def\epsilontilde{{\widetilde\epsilon}}
+\def\varepsilontilde{{\widetilde\varepsilon}}
+\def\zetatilde{{\widetilde\zeta}}
+\def\etatilde{{\widetilde\eta}}
+\def\thetatilde{{\widetilde\theta}}
+\def\iotatilde{{\widetilde\iota}}
+\def\kappatilde{{\widetilde\kappa}}
+\def\lambdatilde{{\widetilde\lambda}}
+\def\mutilde{{\widetilde\mu}}
+\def\nutilde{{\widetilde\nu}}
+\def\xitilde{{\widetilde\xi}}
+\def\omicrontilde{{\widetilde\omicron}}
+\def\pitilde{{\widetilde\pi}}
+\def\rhotilde{{\widetilde\rho}}
+\def\sigmatilde{{\widetilde\sigma}}
+\def\tautilde{{\widetilde\tau}}
+\def\upsilontilde{{\widetilde\upsilon}}
+\def\phitilde{{\widetilde\phi}}
+\def\chitilde{{\widetilde\chi}}
+\def\psitilde{{\widetilde\psi}}
+\def\omegatilde{{\widetilde\omega}}
+\def\Alphatilde{{\widetilde\Alpha}}
+\def\Betatilde{{\widetilde\Beta}}
+\def\Gammatilde{{\widetilde\Gamma}}
+\def\Deltatilde{{\widetilde\Delta}}
+\def\Epsilontilde{{\widetilde\Epsilon}}
+\def\Zetatilde{{\widetilde\Zeta}}
+\def\Etatilde{{\widetilde\Eta}}
+\def\Thetatilde{{\widetilde\Theta}}
+\def\Iotatilde{{\widetilde\Iota}}
+\def\Kappatilde{{\widetilde\Kappa}}
+\def\Lambdatilde{{\widetilde\Lambda}}
+\def\Mutilde{{\widetilde\Mu}}
+\def\Nutilde{{\widetilde\Nu}}
+\def\Xitilde{{\widetilde\Xi}}
+\def\Omicrontilde{{\widetilde\Omicron}}
+\def\Pitilde{{\widetilde\Pi}}
+\def\Rhotilde{{\widetilde\Rho}}
+\def\Sigmatilde{{\widetilde\Sigma}}
+\def\Tautilde{{\widetilde\Tau}}
+\def\Upsilontilde{{\widetilde\Upsilon}}
+\def\Phitilde{{\widetilde\Phi}}
+\def\Chitilde{{\widetilde\Chi}}
+\def\Psitilde{{\widetilde\Psi}}
+\def\Omegatilde{{\widetilde\Omega}}
+%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Hatted Bold-faced Greek Letters  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\balphahat{{\widehat\balpha}}
+\def\bbetahat{{\widehat\bbeta}}
+\def\bgammahat{{\widehat\bgamma}}
+\def\bdeltahat{{\widehat\bdelta}}
+\def\bepsilonhat{{\widehat\bepsilon}}
+\def\bzetahat{{\widehat\bzeta}}
+\def\bdetahat{{\widehat\bdeta}}
+\def\bthetahat{{\widehat\btheta}}
+\def\biotahat{{\widehat\biota}}
+\def\bkappahat{{\widehat\bkappa}}
+\def\blambdahat{{\widehat\blambda}}
+\def\bmuhat{{\widehat\bmu}}
+\def\bnuhat{{\widehat\bnu}}
+\def\bxihat{{\widehat\bxi}}
+\def\bomicronhat{{\widehat\bomicron}}
+\def\bpihat{{\widehat\bpi}}
+\def\brhohat{{\widehat\brho}}
+\def\bsigmahat{{\widehat\bsigma}}
+\def\btauhat{{\widehat\btau}}
+\def\bupsilonhat{{\widehat\bupsilon}}
+\def\bphihat{{\widehat\bphi}}
+\def\bchihat{{\widehat\bchi}}
+\def\bpsihat{{\widehat\bpsi}}
+\def\bomegahat{{\widehat\bomega}}
+\def\bAlphahat{{\widehat\bAlpha}}
+\def\bBetahat{{\widehat\bBeta}}
+\def\bGammahat{{\widehat\bGamma}}
+\def\bDeltahat{{\widehat\bDelta}}
+\def\bEpsilonhat{{\widehat\bEpsilon}}
+\def\bZetahat{{\widehat\bZeta}}
+\def\bEtahat{{\widehat\bEta}}
+\def\bThetahat{{\widehat\bTheta}}
+\def\bIotahat{{\widehat\bIota}}
+\def\bKappahat{{\widehat\bKappa}}
+\def\bLambdahat{{\widehat\bLambda}}
+\def\bMuhat{{\widehat\bMu}}
+\def\bNuhat{{\widehat\bNu}}
+\def\bXihat{{\widehat\bXi}}
+\def\bOmicronhat{{\widehat\bOmicron}}
+\def\bPihat{{\widehat\bPi}}
+\def\bRhohat{{\widehat\bRho}}
+\def\bSigmahat{{\widehat\bSigma}}
+\def\bTauhat{{\widehat\bTau}}
+\def\bUpsilonhat{{\widehat\bUpsilon}}
+\def\bPhihat{{\widehat\bPhi}}
+\def\bChihat{{\widehat\bChi}}
+\def\bPsihat{{\widehat\bPsi}}
+\def\bOmegahat{{\widehat\bOmega}}%
+%
+%
+\def\balphahattrans{{\balphahat^{_{\transpose}}}}
+\def\bbetahattrans{{\bbetahat^{_{\transpose}}}}
+\def\bgammahattrans{{\bgammahat^{_{\transpose}}}}
+\def\bdeltahattrans{{\bdeltahat^{_{\transpose}}}}
+\def\bepsilonhattrans{{\bepsilonhat^{_{\transpose}}}}
+\def\bzetahattrans{{\bzetahat^{_{\transpose}}}}
+\def\bdetahattrans{{\bdetahat^{_{\transpose}}}}
+\def\bthetahattrans{{\bthetahat^{_{\transpose}}}}
+\def\biotahattrans{{\biotahat^{_{\transpose}}}}
+\def\bkappahattrans{{\bkappahat^{_{\transpose}}}}
+\def\blambdahattrans{{\blambdahat^{_{\transpose}}}}
+\def\bmuhattrans{{\bmuhat^{_{\transpose}}}}
+\def\bnuhattrans{{\bnuhat^{_{\transpose}}}}
+\def\bxihattrans{{\bxihat^{_{\transpose}}}}
+\def\bomicronhattrans{{\bomicronhat^{_{\transpose}}}}
+\def\bpihattrans{{\bpihat^{_{\transpose}}}}
+\def\brhohattrans{{\brhohat^{_{\transpose}}}}
+\def\bsigmahattrans{{\bsigmahat^{_{\transpose}}}}
+\def\btauhattrans{{\btauhat^{_{\transpose}}}}
+\def\bupsilonhattrans{{\bupsilonhat^{_{\transpose}}}}
+\def\bphihattrans{{\bphihat^{_{\transpose}}}}
+\def\bchihattrans{{\bchihat^{_{\transpose}}}}
+\def\bpsihattrans{{\bpsihat^{_{\transpose}}}}
+\def\bomegahattrans{{\bomegahat^{_{\transpose}}}}
+\def\bAlphahattrans{{\bAlphahat^{_{\transpose}}}}
+\def\bBetahattrans{{\bBetahat^{_{\transpose}}}}
+\def\bGammahattrans{{\bGammahat^{_{\transpose}}}}
+\def\bDeltahattrans{{\bDeltahat^{_{\transpose}}}}
+\def\bEpsilonhattrans{{\bEpsilonhat^{_{\transpose}}}}
+\def\bZetahattrans{{\bZetahat^{_{\transpose}}}}
+\def\bEtahattrans{{\bEtahat^{_{\transpose}}}}
+\def\bThetahattrans{{\bThetahat^{_{\transpose}}}}
+\def\bIotahattrans{{\bIotahat^{_{\transpose}}}}
+\def\bKappahattrans{{\bKappahat^{_{\transpose}}}}
+\def\bLambdahattrans{{\bLambdahat^{_{\transpose}}}}
+\def\bMuhattrans{{\bMuhat^{_{\transpose}}}}
+\def\bNuhattrans{{\bNuhat^{_{\transpose}}}}
+\def\bXihattrans{{\bXihat^{_{\transpose}}}}
+\def\bOmicronhattrans{{\bOmicronhat^{_{\transpose}}}}
+\def\bPihattrans{{\bPihat^{_{\transpose}}}}
+\def\bRhohattrans{{\bRhohat^{_{\transpose}}}}
+\def\bSigmahattrans{{\bSigmahat^{_{\transpose}}}}
+\def\bTauhattrans{{\bTauhat^{_{\transpose}}}}
+\def\bUpsilonhattrans{{\bUpsilonhat^{_{\transpose}}}}
+\def\bPhihattrans{{\bPhihat^{_{\transpose}}}}
+\def\bChihattrans{{\bChihat^{_{\transpose}}}}
+\def\bPsihattrans{{\bPsihat^{_{\transpose}}}}
+\def\bOmegahattrans{{\bOmegahat^{_{\transpose}}}}%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Hatted Small Bold Greek Letters    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\smbalpha{\widehat{\smbalpha}}
+\def\smbbetahat{\widehat{\smbbeta}}
+\def\smbgammahat{\widehat{\smbgamma}}
+\def\smbdeltahat{\widehat{\smbdelta}}
+\def\smbepsilonhat{\widehat{\smbepsilon}}
+\def\smbvarepsilonhat{\widehat{\smbvarepsilon}}
+\def\smbzetahat{\widehat{\smbzeta}}
+\def\smbdetahat{\widehat{\smbeta}}
+\def\smbthetahat{\widehat{\smbtheta}}
+\def\smbiotahat{\widehat{\smbiota}}
+\def\smbkappahat{\widehat{\smbkappa}}
+\def\smblambdahat{\widehat{\smblambda}}
+\def\smbmuhat{\widehat{\smbmu}}
+\def\smbnuhat{\widehat{\smbnu}}
+\def\smbxihat{\widehat{\smbxi}}
+\def\smbomicronhat{\widehat{\smbomicron}}
+\def\smbpihat{\widehat{\smbpi}}
+\def\smbrhohat{\widehat{\smbrho}}
+\def\smbsigmahat{\widehat{\smbsigma}}
+\def\smbtauhat{\widehat{\smbtau}}
+\def\smbupsilonhat{\widehat{\smbupsilon}}
+\def\smbphihat{\widehat{\smbphi}}
+\def\smbchihat{\widehat{\smbchi}}
+\def\smbpsihat{\widehat{\smbpsi}}
+\def\smbomegahat{\widehat{\smbomega}}
+\def\smbAlphahat{\widehat{\smbAlpha}}
+\def\smbBetahat{\widehat{\smbBeta}}
+\def\smbGammahat{\widehat{\smbGamma}}
+\def\smbDeltahat{\widehat{\smbDelta}}
+\def\smbEpsilonhat{\widehat{\smbEpsilon}}
+\def\smbZetahat{\widehat{\smbZeta}}
+\def\smbEtahat{\widehat{\smbEta}}
+\def\smbThetahat{\widehat{\smbTheta}}
+\def\smbIotahat{\widehat{\smbIota}}
+\def\smbKappahat{\widehat{\smbKappa}}
+\def\smbLambdahat{\widehat{\smbLambda}}
+\def\smbMuhat{\widehat{\smbMu}}
+\def\smbNuhat{\widehat{\smbNu}}
+\def\smbXihat{\widehat{\smbXi}}
+\def\smbOmicronhat{\widehat{\smbOmicron}}
+\def\smbPihat{\widehat{\smbPi}}
+\def\smbRhohat{\widehat{\smbRho}}
+\def\smbSigmahat{\widehat{\smbSigma}}
+\def\smbTauhat{\widehat{\smbTau}}
+\def\smbUpsilonhat{\widehat{\smbUpsilon}}
+\def\smbPhihat{\widehat{\smbPhi}}
+\def\smbChihat{\widehat{\smbChi}}
+\def\smbPsihat{\widehat{\smbPsi}}
+\def\smbOmegahat{\widehat{\smbOmega}}
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Tilded Bold-faced Greek Letters  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\balphatilde{{\widetilde\balpha}}
+\def\bbetatilde{{\widetilde\bbeta}}
+\def\bgammatilde{{\widetilde\bgamma}}
+\def\bdeltatilde{{\widetilde\bdelta}}
+\def\bepsilontilde{{\widetilde\bepsilon}}
+\def\bzetatilde{{\widetilde\bzeta}}
+\def\bdetatilde{{\widetilde\bdeta}}
+\def\bthetatilde{{\widetilde\btheta}}
+\def\biotatilde{{\widetilde\biota}}
+\def\bkappatilde{{\widetilde\bkappa}}
+\def\blambdatilde{{\widetilde\blambda}}
+\def\bmutilde{{\widetilde\bmu}}
+\def\bnutilde{{\widetilde\bnu}}
+\def\bxitilde{{\widetilde\bxi}}
+\def\bomicrontilde{{\widetilde\bomicron}}
+\def\bpitilde{{\widetilde\bpi}}
+\def\brhotilde{{\widetilde\brho}}
+\def\bsigmatilde{{\widetilde\bsigma}}
+\def\btautilde{{\widetilde\btau}}
+\def\bupsilontilde{{\widetilde\bupsilon}}
+\def\bphitilde{{\widetilde\bphi}}
+\def\bchitilde{{\widetilde\bchi}}
+\def\bpsitilde{{\widetilde\bpsi}}
+\def\bomegatilde{{\widetilde\bomega}}
+\def\bAlphatilde{{\widetilde\bAlpha}}
+\def\bBetatilde{{\widetilde\bBeta}}
+\def\bGammatilde{{\widetilde\bGamma}}
+\def\bDeltatilde{{\widetilde\bDelta}}
+\def\bEpsilontilde{{\widetilde\bEpsilon}}
+\def\bZetatilde{{\widetilde\bZeta}}
+\def\bEtatilde{{\widetilde\bEta}}
+\def\bThetatilde{{\widetilde\bTheta}}
+\def\bIotatilde{{\widetilde\bIota}}
+\def\bKappatilde{{\widetilde\bKappa}}
+\def\bLambdatilde{{\widetilde\bLambda}}
+\def\bMutilde{{\widetilde\bMu}}
+\def\bNutilde{{\widetilde\bNu}}
+\def\bXitilde{{\widetilde\bXi}}
+\def\bOmicrontilde{{\widetilde\bOmicron}}
+\def\bPitilde{{\widetilde\bPi}}
+\def\bRhotilde{{\widetilde\bRho}}
+\def\bSigmatilde{{\widetilde\bSigma}}
+\def\bTautilde{{\widetilde\bTau}}
+\def\bUpsilontilde{{\widetilde\bUpsilon}}
+\def\bPhitilde{{\widetilde\bPhi}}
+\def\bChitilde{{\widetilde\bChi}}
+\def\bPsitilde{{\widetilde\bPsi}}
+\def\bOmegatilde{{\widetilde\bOmega}}
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Barred Roman Letters  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\abar{\bar{ a}}
+\def\bbar{\bar{ b}}
+\def\cbar{\bar{ c}}
+\def\dbar{\bar{ d}}
+\def\ebar{\bar{ e}}
+\def\fbar{\bar{ f}}
+\def\gbar{\bar{ g}}
+\def\hbar{\bar{ h}}
+\def\ibar{\bar{ i}}
+\def\jbar{\bar{ j}}
+\def\kbar{\bar{ k}}
+\def\lbar{\bar{ l}}
+\def\mbar{\bar{ m}}
+\def\nbar{\bar{ n}}
+\def\obar{\bar{ o}}
+\def\pbar{\bar{ p}}
+\def\qbar{\bar{ q}}
+\def\rbar{\bar{ r}}
+\def\sbar{\bar{ s}}
+\def\tbar{\bar{ t}}
+\def\ubar{\bar{ u}}
+\def\vbar{\bar{ v}}
+\def\wbar{\bar{ w}}
+\def\xbar{\bar{ x}}
+\def\ybar{\bar{ y}}
+\def\zbar{\bar{ z}}
+\def\Abar{\bar{ A}}
+\def\Bbar{\bar{ B}}
+\def\Cbar{\bar{ C}}
+\def\Dbar{\bar{ D}}
+\def\Ebar{\bar{ E}}
+\def\Fbar{\bar{ F}}
+\def\Gbar{\bar{ G}}
+\def\Hbar{\bar{ H}}
+\def\Ibar{\bar{ I}}
+\def\Jbar{\bar{ J}}
+\def\Kbar{\bar{ K}}
+\def\Lbar{\bar{ L}}
+\def\Mbar{\bar{ M}}
+\def\Nbar{\bar{ N}}
+\def\Obar{\bar{ O}}
+\def\Pbar{\bar{ P}}
+\def\Qbar{\bar{ Q}}
+\def\Rbar{\bar{ R}}
+\def\Sbar{\bar{ S}}
+\def\Tbar{\bar{ T}}
+\def\Ubar{\bar{ U}}
+\def\Vbar{\bar{ V}}
+\def\Wbar{\bar{ W}}
+\def\Xbar{\bar{ X}}
+\def\Ybar{\bar{ Y}}
+\def\Zbar{\bar{ Z}}
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Barred Bold-faced Roman Letters  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\babar{\bar{ \ba}}
+\def\bbbar{\bar{ \bb}}
+\def\bcbar{\bar{ \bc}}
+\def\bdbar{\bar{ \bd}}
+\def\bebar{\bar{ \be}}
+\def\bfbar{\bar{ \bf}}
+\def\bgbar{\bar{ \bg}}
+\def\bhbar{\bar{ \bh}}
+\def\bibar{\bar{ \bi}}
+\def\bjbar{\bar{ \bj}}
+\def\bkbar{\bar{ \bk}}
+\def\blbar{\bar{ \bl}}
+\def\bmbar{\bar{ \bm}}
+\def\bnbar{\bar{ \bn}}
+\def\bobar{\bar{ \bo}}
+\def\bpbar{\bar{ \bp}}
+\def\bqbar{\bar{ \bq}}
+\def\brbar{\bar{ \br}}
+\def\bsbar{\bar{ \bs}}
+\def\btbar{\bar{ \bt}}
+\def\bubar{\bar{ \bu}}
+\def\bvbar{\bar{ \bv}}
+\def\bwbar{\bar{ \bw}}
+\def\bxbar{\bar{ \bx}}
+\def\bybar{\bar{ \by}}
+\def\bzbar{\bar{ \bz}}
+\def\bAbar{\bar{ \bA}}
+\def\bBbar{\bar{ \bB}}
+\def\bCbar{\bar{ \bC}}
+\def\bDbar{\bar{ \bD}}
+\def\bEbar{\bar{ \bE}}
+\def\bFbar{\bar{ \bF}}
+\def\bGbar{\bar{ \bG}}
+\def\bHbar{\bar{ \bH}}
+\def\bIbar{\bar{ \bI}}
+\def\bJbar{\bar{ \bJ}}
+\def\bKbar{\bar{ \bK}}
+\def\bLbar{\bar{ \bL}}
+\def\bMbar{\bar{ \bM}}
+\def\bNbar{\bar{ \bN}}
+\def\bObar{\bar{ \bO}}
+\def\bPbar{\bar{ \bP}}
+\def\bQbar{\bar{ \bQ}}
+\def\bRbar{\bar{ \bR}}
+\def\bSbar{\bar{ \bS}}
+\def\bTbar{\bar{ \bT}}
+\def\bUbar{\bar{ \bU}}
+\def\bVbar{\bar{ \bV}}
+\def\bWbar{\bar{ \bW}}
+\def\bXbar{\bar{ \bX}}
+\def\bYbar{\bar{ \bY}}
+\def\bZbar{\bar{ \bZ}}
+%
+%
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Calligraphic (Script) Letters  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\asc{{\cal a}}
+\def\bsc{{\cal b}}
+\def\csc{{\cal c}}
+\def\dsc{{\cal d}}
+\def\esc{{\cal e}}
+\def\dsc{{\cal f}}
+\def\gsc{{\cal g}}
+\def\hsc{{\cal h}}
+\def\isc{{\cal i}}
+\def\jsc{{\cal j}}
+\def\ksc{{\cal k}}
+\def\lsc{{\cal l}}
+\def\msc{{\cal m}}
+\def\nsc{{\cal n}}
+\def\osc{{\cal o}}
+\def\psc{{\cal p}}
+\def\qsc{{\cal q}}
+\def\rsc{{\cal r}}
+\def\ssc{{\cal s}}
+\def\tsc{{\cal t}}
+\def\usc{{\cal u}}
+\def\vsc{{\cal v}}
+\def\wsc{{\cal w}}
+\def\xsc{{\cal x}}
+\def\ysc{{\cal y}}
+\def\zsc{{\cal z}}
+\def\Asc{{\cal A}}
+\def\Bsc{{\cal B}}
+\def\Csc{{\cal C}}
+\def\Dsc{{\cal D}}
+\def\Esc{{\cal E}}
+\def\Fsc{{\cal F}}
+\def\Gsc{{\cal G}}
+\def\Hsc{{\cal H}}
+\def\Isc{{\cal I}}
+\def\Jsc{{\cal J}}
+\def\Ksc{{\cal K}}
+\def\Lsc{{\cal L}}
+\def\Msc{{\cal M}}
+\def\Nsc{{\cal N}}
+\def\Osc{{\cal O}}
+\def\Psc{{\cal P}}
+\def\Qsc{{\cal Q}}
+\def\Rsc{{\cal R}}
+\def\Ssc{{\cal S}}
+\def\Tsc{{\cal T}}
+\def\Usc{{\cal U}}
+\def\Vsc{{\cal V}}
+\def\Wsc{{\cal W}}
+\def\Xsc{{\cal X}}
+\def\Ysc{{\cal Y}}
+\def\Zsc{{\cal Z}}
+%%
+%%
+\def\Aschat{\widehat{{\cal A}}}
+\def\Bschat{\widehat{{\cal B}}}
+\def\Cschat{\widehat{{\cal C}}}
+\def\Dschat{\widehat{{\cal D}}}
+\def\Eschat{\widehat{{\cal E}}}
+\def\Fschat{\widehat{{\cal F}}}
+\def\Gschat{\widehat{{\cal G}}}
+\def\Hschat{\widehat{{\cal H}}}
+\def\Ischat{\widehat{{\cal I}}}
+\def\Jschat{\widehat{{\cal J}}}
+\def\Kschat{\widehat{{\cal K}}}
+\def\Lschat{\widehat{{\cal L}}}
+\def\Mschat{\widehat{{\cal M}}}
+\def\Nschat{\widehat{{\cal N}}}
+\def\Oschat{\widehat{{\cal O}}}
+\def\Pschat{\widehat{{\cal P}}}
+\def\Qschat{\widehat{{\cal Q}}}
+\def\Rschat{\widehat{{\cal R}}}
+\def\Sschat{\widehat{{\cal S}}}
+\def\Tschat{\widehat{{\cal T}}}
+\def\Uschat{\widehat{{\cal U}}}
+\def\Vschat{\widehat{{\cal V}}}
+\def\Wschat{\widehat{{\cal W}}}
+\def\Xschat{\widehat{{\cal X}}}
+\def\Yschat{\widehat{{\cal Y}}}
+\def\Zschat{\widehat{{\cal Z}}}
+%%
+\def\Asctilde{\widetilde{{\cal A}}}
+\def\Bsctilde{\widetilde{{\cal B}}}
+\def\Csctilde{\widetilde{{\cal C}}}
+\def\Dsctilde{\widetilde{{\cal D}}}
+\def\Esctilde{\widetilde{{\cal E}}}
+\def\Fsctilde{\widetilde{{\cal F}}}
+\def\Gsctilde{\widetilde{{\cal G}}}
+\def\Hsctilde{\widetilde{{\cal H}}}
+\def\Isctilde{\widetilde{{\cal I}}}
+\def\Jsctilde{\widetilde{{\cal J}}}
+\def\Ksctilde{\widetilde{{\cal K}}}
+\def\Lsctilde{\widetilde{{\cal L}}}
+\def\Msctilde{\widetilde{{\cal M}}}
+\def\Nsctilde{\widetilde{{\cal N}}}
+\def\Osctilde{\widetilde{{\cal O}}}
+\def\Psctilde{\widetilde{{\cal P}}}
+\def\Qsctilde{\widetilde{{\cal Q}}}
+\def\Rsctilde{\widetilde{{\cal R}}}
+\def\Ssctilde{\widetilde{{\cal S}}}
+\def\Tsctilde{\widetilde{{\cal T}}}
+\def\Usctilde{\widetilde{{\cal U}}}
+\def\Vsctilde{\widetilde{{\cal V}}}
+\def\Wsctilde{\widetilde{{\cal W}}}
+\def\Xsctilde{\widetilde{{\cal X}}}
+\def\Ysctilde{\widetilde{{\cal Y}}}
+\def\Zsctilde{\widetilde{{\cal Z}}}
+%%
+%%
+\def\bAsc{\mathbf{\cal A}}
+\def\bBsc{\mathbf{\cal B}}
+\def\bCsc{\mathbf{\cal C}}
+\def\bDsc{\mathbf{\cal D}}
+\def\bEsc{\mathbf{\cal E}}
+\def\bFsc{\mathbf{\cal F}}
+\def\bGsc{\mathbf{\cal G}}
+\def\bHsc{\mathbf{\cal H}}
+\def\bIsc{\mathbf{\cal I}}
+\def\bJsc{\mathbf{\cal J}}
+\def\bKsc{\mathbf{\cal K}}
+\def\bLsc{\mathbf{\cal L}}
+\def\bMsc{\mathbf{\cal M}}
+\def\bNsc{\mathbf{\cal N}}
+\def\bOsc{\mathbf{\cal O}}
+\def\bPsc{\mathbf{\cal P}}
+\def\bQsc{\mathbf{\cal Q}}
+\def\bRsc{\mathbf{\cal R}}
+\def\bSsc{\mathbf{\cal S}}
+\def\bTsc{\mathbf{\cal T}}
+\def\bUsc{\mathbf{\cal U}}
+\def\bVsc{\mathbf{\cal V}}
+\def\bWsc{\mathbf{\cal W}}
+\def\bXsc{\mathbf{\cal X}}
+\def\bYsc{\mathbf{\cal Y}}
+\def\bZsc{\mathbf{\cal Z}}
+%%
+%%
+\def\bAschat{\widehat{\mathbf{\cal A}}}
+\def\bBschat{\widehat{\mathbf{\cal B}}}
+\def\bCschat{\widehat{\mathbf{\cal C}}}
+\def\bDschat{\widehat{\mathbf{\cal D}}}
+\def\bEschat{\widehat{\mathbf{\cal E}}}
+\def\bFschat{\widehat{\mathbf{\cal F}}}
+\def\bGschat{\widehat{\mathbf{\cal G}}}
+\def\bHschat{\widehat{\mathbf{\cal H}}}
+\def\bIschat{\widehat{\mathbf{\cal I}}}
+\def\bJschat{\widehat{\mathbf{\cal J}}}
+\def\bKschat{\widehat{\mathbf{\cal K}}}
+\def\bLschat{\widehat{\mathbf{\cal L}}}
+\def\bMschat{\widehat{\mathbf{\cal M}}}
+\def\bNschat{\widehat{\mathbf{\cal N}}}
+\def\bOschat{\widehat{\mathbf{\cal O}}}
+\def\bPschat{\widehat{\mathbf{\cal P}}}
+\def\bQschat{\widehat{\mathbf{\cal Q}}}
+\def\bRschat{\widehat{\mathbf{\cal R}}}
+\def\bSschat{\widehat{\mathbf{\cal S}}}
+\def\bTschat{\widehat{\mathbf{\cal T}}}
+\def\bUschat{\widehat{\mathbf{\cal U}}}
+\def\bVschat{\widehat{\mathbf{\cal V}}}
+\def\bWschat{\widehat{\mathbf{\cal W}}}
+\def\bXschat{\widehat{\mathbf{\cal X}}}
+\def\bYschat{\widehat{\mathbf{\cal Y}}}
+\def\bZschat{\widehat{\mathbf{\cal Z}}}
+%%
+%%
+\def\afrak{\mathfrak{a}}
+\def\bfrak{\mathfrak{b}}
+\def\cfrak{\mathfrak{c}}
+\def\dfrak{\mathfrak{d}}
+\def\efrak{\mathfrak{e}}
+\def\ffrak{\mathfrak{f}}
+\def\gfrak{\mathfrak{g}}
+\def\hfrak{\mathfrak{h}}
+\def\ifrak{\mathfrak{i}}
+\def\jfrak{\mathfrak{j}}
+\def\kfrak{\mathfrak{k}}
+\def\lfrak{\mathfrak{l}}
+\def\mfrak{\mathfrak{m}}
+\def\nfrak{\mathfrak{n}}
+\def\ofrak{\mathfrak{o}}
+\def\pfrak{\mathfrak{p}}
+\def\qfrak{\mathfrak{q}}
+\def\rfrak{\mathfrak{r}}
+\def\sfrak{\mathfrak{s}}
+\def\tfrak{\mathfrak{t}}
+\def\ufrak{\mathfrak{u}}
+\def\vfrak{\mathfrak{v}}
+\def\wfrak{\mathfrak{w}}
+\def\xfrak{\mathfrak{x}}
+\def\yfrak{\mathfrak{y}}
+\def\zfrak{\mathfrak{z}}
+%%
+\def\Afrak{\mathfrak{ A}}
+\def\Bfrak{\mathfrak{ B}}
+\def\Cfrak{\mathfrak{ C}}
+\def\Dfrak{\mathfrak{ D}}
+\def\Efrak{\mathfrak{ E}}
+\def\Ffrak{\mathfrak{ F}}
+\def\Gfrak{\mathfrak{ G}}
+\def\Hfrak{\mathfrak{ H}}
+\def\Ifrak{\mathfrak{ I}}
+\def\Jfrak{\mathfrak{ J}}
+\def\Kfrak{\mathfrak{ K}}
+\def\Lfrak{\mathfrak{ L}}
+\def\Mfrak{\mathfrak{ M}}
+\def\Nfrak{\mathfrak{ N}}
+\def\Ofrak{\mathfrak{ O}}
+\def\Pfrak{\mathfrak{ P}}
+\def\Qfrak{\mathfrak{ Q}}
+\def\Rfrak{\mathfrak{ R}}
+\def\Sfrak{\mathfrak{ S}}
+\def\Tfrak{\mathfrak{ T}}
+\def\Ufrak{\mathfrak{ U}}
+\def\Vfrak{\mathfrak{ V}}
+\def\Wfrak{\mathfrak{ W}}
+\def\Xfrak{\mathfrak{ X}}
+\def\Yfrak{\mathfrak{ Y}}
+\def\Zfrak{\mathfrak{ Z}}
+%
+
+\def\bAfrak{\mathbf{\mathfrak{A}}}
+\def\bBfrak{\mathbf{\mathfrak{B}}}
+\def\bCfrak{\mathbf{\mathfrak{C}}}
+\def\bDfrak{\mathbf{\mathfrak{D}}}
+\def\bEfrak{\mathbf{\mathfrak{E}}}
+\def\bFfrak{\mathbf{\mathfrak{F}}}
+\def\bGfrak{\mathbf{\mathfrak{G}}}
+\def\bHfrak{\mathbf{\mathfrak{H}}}
+\def\bIfrak{\mathbf{\mathfrak{I}}}
+\def\bJfrak{\mathbf{\mathfrak{J}}}
+\def\bKfrak{\mathbf{\mathfrak{K}}}
+\def\bLfrak{\mathbf{\mathfrak{L}}}
+\def\bMfrak{\mathbf{\mathfrak{M}}}
+\def\bNfrak{\mathbf{\mathfrak{N}}}
+\def\bOfrak{\mathbf{\mathfrak{O}}}
+\def\bPfrak{\mathbf{\mathfrak{P}}}
+\def\bQfrak{\mathbf{\mathfrak{Q}}}
+\def\bRfrak{\mathbf{\mathfrak{R}}}
+\def\bSfrak{\mathbf{\mathfrak{S}}}
+\def\bTfrak{\mathbf{\mathfrak{T}}}
+\def\bUfrak{\mathbf{\mathfrak{U}}}
+\def\bVfrak{\mathbf{\mathfrak{V}}}
+\def\bWfrak{\mathbf{\mathfrak{W}}}
+\def\bXfrak{\mathbf{\mathfrak{X}}}
+\def\bYfrak{\mathbf{\mathfrak{Y}}}
+\def\bZfrak{\mathbf{\mathfrak{Z}}}
+%
+
+\def\bAfrakhat{\mathbf{\widehat{\mathfrak{A}}}}
+\def\bBfrakhat{\mathbf{\widehat{\mathfrak{B}}}}
+\def\bCfrakhat{\mathbf{\widehat{\mathfrak{C}}}}
+\def\bDfrakhat{\mathbf{\widehat{\mathfrak{D}}}}
+\def\bEfrakhat{\mathbf{\widehat{\mathfrak{E}}}}
+\def\bFfrakhat{\mathbf{\widehat{\mathfrak{F}}}}
+\def\bGfrakhat{\mathbf{\widehat{\mathfrak{G}}}}
+\def\bHfrakhat{\mathbf{\widehat{\mathfrak{H}}}}
+\def\bIfrakhat{\mathbf{\widehat{\mathfrak{I}}}}
+\def\bJfrakhat{\mathbf{\widehat{\mathfrak{J}}}}
+\def\bKfrakhat{\mathbf{\widehat{\mathfrak{K}}}}
+\def\bLfrakhat{\mathbf{\widehat{\mathfrak{L}}}}
+\def\bMfrakhat{\mathbf{\widehat{\mathfrak{M}}}}
+\def\bNfrakhat{\mathbf{\widehat{\mathfrak{N}}}}
+\def\bOfrakhat{\mathbf{\widehat{\mathfrak{O}}}}
+\def\bPfrakhat{\mathbf{\widehat{\mathfrak{P}}}}
+\def\bQfrakhat{\mathbf{\widehat{\mathfrak{Q}}}}
+\def\bRfrakhat{\mathbf{\widehat{\mathfrak{R}}}}
+\def\bSfrakhat{\mathbf{\widehat{\mathfrak{S}}}}
+\def\bTfrakhat{\mathbf{\widehat{\mathfrak{T}}}}
+\def\bUfrakhat{\mathbf{\widehat{\mathfrak{U}}}}
+\def\bVfrakhat{\mathbf{\widehat{\mathfrak{V}}}}
+\def\bWfrakhat{\mathbf{\widehat{\mathfrak{W}}}}
+\def\bXfrakhat{\mathbf{\widehat{\mathfrak{X}}}}
+\def\bYfrakhat{\mathbf{\widehat{\mathfrak{Y}}}}
+\def\bZfrakhat{\mathbf{\widehat{\mathfrak{Z}}}}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Common text abbreviations    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\etal{{\em et al.}}
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Common mathematical macros   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\cumsum{\mbox{cumsum}}
+\def\real{{\mathbb R}}
+\def\intinfinf{\int_{-\infty}^{\infty}}
+\def\intzinf{\int_{0}^{\infty}}
+\def\intzt{\int_0^t}
+\def\transpose{{\sf \scriptscriptstyle{T}}}
+\def\smhalf{{\textstyle{1\over2}}}
+\def\third{{\textstyle{1\over3}}}
+\def\twothirds{{\textstyle{2\over3}}}
+\def\bell{\bmath{\ell}}
+\def\half{\frac{1}{2}}
+\def\ninv{n^{-1}}
+\def\nhalf{n^{\half}}
+\def\mhalf{m^{\half}}
+\def\nnhalf{n^{-\half}}
+\def\mnhalf{m^{-\half}}
+%\def\ninv{\frac{1}{n}}
+\def\MN{\mbox{MN}}
+\def\N{\mbox{N}}
+\def\E{\mbox{E}}
+\def\pr{P}
+\def\var{\mbox{var}}
+\def\limn{\lim_{n\to \infty} }
+\def\intt{\int_{\tau_a}^{\tau_b}}
+\def\sumin{\sum_{i=1}^n}
+\def\sumjn{\sum_{j=1}^n}
+\def\SUMin{{\displaystyle \sum_{i=1}^n}}
+\def\SUMjn{{\displaystyle \sum_{j=1}^n}}
+\def\myendthm{\begin{flushright} $\diamond $ \end{flushright}}
+\def\convd{\overset{\Dsc}{\longrightarrow}}
+\def\convp{\overset{\Psc}{\longrightarrow}}
+\def\convas{\overset{a.s.}{\longrightarrow}}
+\def\hn{\mbox{H}_0}
+\def\ha{\mbox{H}_1}
+
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Functional mathematical macros   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\trans{^{\transpose}}
+\def\inv{^{-1}}
+\def\twobyone#1#2{\left[
+\begin{array}
+{c}
+#1\\
+#2\\
+\end{array}
+\right]}
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Mathematical character strings  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\argmindum{\mathop{\mbox{argmin}}}
+\def\argmin#1{\argmindum_{#1}}
+\def\argmaxdum{\mathop{\mbox{argmax}}}
+\def\argmax#1{\argmaxdum_{#1}}
+\def\blockdiag{\mbox{blockdiag}}
+\def\corr{\mbox{corr}}
+\def\cov{\mbox{cov}}
+\def\diag{\mbox{diag}}
+%\def\digamma{\mbox{digamma}}
+\def\dffit{df_{{\rm fit}}}
+\def\dfres{df_{{\rm res}}}
+\def\dfyhat{df_{\yhat}}
+\def\diag{\mbox{diag}}
+\def\diagonal{\mbox{diagonal}}
+\def\logit{\mbox{logit}}
+\def\stdev{\mbox{st.\,dev.}}
+\def\stdevhat{{\widehat{\mbox{st.dev}}}}
+\def\tr{\mbox{tr}}
+\def\trigamma{\mbox{trigamma}}
+\def\var{\mbox{var}}
+\def\vecof{\mbox{vec}}
+\def\AIC{\mbox{AIC}}
+\def\AMISE{\mbox{AMISE}}
+\def\Corr{\mbox{Corr}}
+\def\Cov{\mbox{Cov}}
+\def\CV{\mbox{CV}}
+\def\GCV{\mbox{GCV}}
+\def\LR{\mbox{LR}}
+\def\MISE{\mbox{MISE}}
+\def\MSSE{\mbox{MSSE}}
+\def\ML{\mbox{ML}}
+\def\REML{\mbox{REML}}
+\def\RMSE{{\rm RMSE}}
+\def\RSS{\mbox{RSS}}
+\def\Var{\mbox{Var}}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Text organisation    %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\bib{\vskip12pt\par\noindent\hangindent=1 true cm\hangafter=1}
+\def\jump{\vskip3mm\noindent}
+\def\mybox#1{\vskip1mm \begin{center}
+        \hspace{.1\textwidth}\vbox{\hrule\hbox{\vrule\kern6pt
+\parbox{.9\textwidth}{\kern6pt#1\vskip6pt}\kern6pt\vrule}\hrule}
+        \end{center} \vskip1mm}
+\def\lboxit#1{\vbox{\hrule\hbox{\vrule\kern6pt
+      \vbox{\kern6pt#1\vskip6pt}\kern6pt\vrule}\hrule}}
+\def\boxit#1{\begin{center}\fbox{#1}\end{center}}
+\def\thickboxit#1{\vbox{{\hrule height 1mm}\hbox{{\vrule width 1mm}\kern6pt
+          \vbox{\kern6pt#1\kern6pt}\kern6pt{\vrule width 1mm}}
+               {\hrule height 1mm}}}
+\def\instep{\vskip12pt\par\hangindent=30 true mm\hangafter=1}
+\def\uWand{\underline{Wand}}
+\def\remtask#1#2{\mmnote{\thickboxit
+                 {\bf #1\ \theremtask}}\refstepcounter{remtask}}
+%
+%
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Abbreviated journal names   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\aism{{\it Ann. Inst. Statist. Math.}\ }
+\def\ajs{{\it Austral. J. Statist.}\ }
+\def\ANNSTAT{{\it The Annals of Statistics}\ }
+\def\annmath{{\it Ann. Math. Statist.}\ }
+\def\applstat{{\it Appl. Statist.}\ }
+\def\BIOMETRICS{{\it Biometrics}\ }
+\def\cjs{{\it Canad. J. Statist.}\ }
+\def\csda{{\it Comp. Statist. Data Anal.}\ }
+\def\cstm{{\it Comm. Statist. Theory Meth.}\ }
+\def\ieeetit{{\it IEEE Trans. Inf. Theory}\ }
+\def\isr{{\it Internat. Statist. Rev.}\ }
+\def\JASA{{\it Journal of the American Statistical Association}\ }
+\def\JCGS{{\it Journal of Computational and Graphical Statistics}\ }
+\def\jscs{{\it J. Statist. Comput. Simulation}\ }
+\def\jma{{\it J. Multivariate Anal.}\ }
+\def\jns{{\it J. Nonparametric Statist.}\ }
+\def\JRSSA{{\it Journal of the Royal Statistics Society, Series A}\ }
+\def\JRSSB{{\it Journal of the Royal Statistics Society, Series B}\ }
+\def\JRSSC{{\it Journal of the Royal Statistics Society, Series C}\ }
+\def\jspi{{\it J. Statist. Planning Inference}\ }
+\def\ptrf{{\it Probab. Theory Rel. Fields}\ }
+\def\sankhyaa{{\it Sankhy$\bar{{\it a}}$} Ser. A\ }
+\def\sjs{{\it Scand. J. Statist.}\ }
+\def\spl{{\it Statist. Probab. Lett.}\ }
+\def\statsci{{\it Statist. Sci.}\ }
+\def\techno{{\it Technometrics}\ }
+\def\tpa{{\it Theory Probab. Appl.}\ }
+\def\zw{{\it Z. Wahr. ver. Geb.}\ }
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Co-author names for task boxes  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\Brent{{\bf BRENT:}\ }
+\def\David{{\bf DAVID:}\ }
+\def\Erin{{\bf ERIN:}}
+\def\Gerda{{\bf GERDA:}\ }
+\def\Joel{{\bf JOEL:}\ }
+\def\Marc{{\bf MARC:}\ }
+\def\Matt{{\bf MATT:}\ }
+\def\Tianxi{{\bf TIANXI:}\ }
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Project-specific mathematical macros %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\bZE{\bZ_{\scriptscriptstyle E}}
+\def\bZT{\bZ_{\scriptscriptstyle T}}
+\def\bbE{\bb_{\scriptscriptstyle E}}
+\def\bbT{\bb_{\scriptscriptstyle T}}
+\def\bbhatT{\bbhat_{\scriptscriptstyle T}}
+\def\fX{f_{\scriptscriptstyle X}}
+\def\sigeps{\sigma_{\varepsilon}}
+\def\bVtheta{\bV_{\smbtheta}}
+\def\bVthetainv{\bVtheta^{-1}}
+\def\bKsc{\boldsymbol{\Ksc}}
+\def\bxbar{\bar{\bx}}
+\def\bPL{b^{\scriptscriptstyle{\rm PL}}}
+\def\bVA{b^{\scriptscriptstyle{\rm VA}}}
+\def\zPL{z^{\scriptscriptstyle{\rm PL}}}
+\def\zVA{z^{\scriptscriptstyle{\rm VA}}}
+\def\bYmis{\bY_{\scriptscriptstyle{\rm mis}}}
+\def\bYmishat{{\widehat{\bYmis}}}
+\def\bYmisone{\bY_{\scriptscriptstyle{\rm mis,1}}}
+\def\bYmistwo{\bY_{\scriptscriptstyle{\rm mis,2}}}
+\def\bYobs{\bY_{\scriptscriptstyle{\rm obs}}}
+\def\bdobs{\bd_{\scriptscriptstyle{\rm obs}}}
+\def\bdmis{\bd_{\scriptscriptstyle{\rm mis}}}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Macros specific to hazard estimation paper      %                  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\bfDelta{{\mbox{\boldmath$\Delta$}}}
+\def\bfkappa{{\mbox{\boldmath$\kappa$}}}
+\def\bfgamma{{\mbox{\boldmath$\gamma$}}}
+\def\bftheta{{\mbox{\boldmath$\theta$}}}
+\def\bfmu{{\mbox{\boldmath$\mu$}}}
+\def\bfdelta{{\mbox{\boldmath$\delta$}}}
+\def\bfeps{{\mbox{\boldmath$\varepsilon$}}}
+\def\bfnu{{\mbox{\boldmath$\nu$}}}
+\def\bfzeta{{\mbox{\boldmath$\zeta$}}}
+\def\bfchi{{\mbox{\boldmath$\chi$}}}
+\def\bbX{\mathbb{X}}
+\def\bbV{\mathbb{V}} 
+\def\bbA{\mathbb{A}}
+\def\bbB{\mathbb{B}}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Macros specific to Cape Cod missing paper       %                  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\miss{\mbox{{\tiny miss}}}
+\def\obs{\mbox{{\tiny obs}}}
+
+
+
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Macros specific to Ruppert, Wand & Carroll book %                  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\def\bmath#1{\mbox{\boldmath$#1$}}
+\def\fat#1{\hbox{\rlap{$#1$}\kern0.25pt\rlap{$#1$}\kern0.25pt$#1$}}
+\def\wh{\widehat}
+\def\flambda{\fat{\lambda}}
+\def\beps{\bmath{\varepsilon}}
+\def\bSlambda{\bS_{\lambda}}
+\def\ErrorSS{\mbox{RSS}}
+\def\bsqbar{\bar{{b^2}}}
+\def\bcubar{\bar{{b^3}}}
+\def\plargest{p_{\rm \,largest}}
+\def\summheading#1{\subsection*{#1}\hskip3mm}
+\def\summbreak{\vskip3mm\par}
+\def\df{df}
+\def\adf{adf}
+\def\dffit{df_{{\rm fit}}}
+\def\dfres{df_{{\rm res}}}
+\def\dfyhat{df_{\yhat}}
+\def\sigb{\sigma_b}
+\def\sigu{\sigma_u}
+\def\sigepshat{{\widehat\sigma}_{\varepsilon}}
+\def\siguhat{{\widehat\sigma}_u}
+\def\sigepshat{{\widehat\sigma}_{\varepsilon}}
+\def\sigbhat{{\widehat\sigma}_b}
+\def\sighat{{\widehat\sigma}}
+\def\sigsqb{\sigma^2_b}
+\def\sigsqeps{\sigma^2_{\varepsilon}}
+\def\sigsqepszerohat{{\widehat\sigma}^2_{\varepsilon,0}}
+\def\sigsqepshat{{\widehat\sigma}^2_{\varepsilon}}
+\def\sigsqbhat{{\widehat\sigma}^2_b}
+\def\dfnumer{{\rm df(II}|{\rm I)}}
+\def\mhatlam{{\widehat m}_{\lambda}}
+\def\calD{\Dsc}
+\def\Aeps{A_{\epsilon}}
+\def\Beps{B_{\epsilon}}
+\def\Ab{A_b}
+\def\Bb{B_b}
+\def\bXtmain{\tilde{\bX}_r}
+\def\main{\mbox{\tt main}}
+\def\argminbetab{\argmin{\bbeta,\bb}}
+\def\calB{\Bsc}
+\def\respvar{\mbox{\tt log(amt)}}
+
+\def\Abb{\mathbb{A}}
+\def\Bbbb{\mathbb{B}}
+\def\Zbb{\mathbb{Z}}
+\def\Wbb{\mathbb{W}}
+
+\def\Abbhat{\widehat{\mathbb{A}}}
+
+
+\def\pn{\phantom{-}}
+\def\pp{\phantom{1}}
+
+
+\def\Rbb{\mathbb{R}}
+\def\sumk{\sum_{k=1}^K}
+\def\cd{\Csc^{(1)}}
+\def\cc{\Csc^{(0)}}
+\def\crel{\Csc^{\mbox{\tiny rel}}}
+\def\dd{\Dsc^{(1)}}
+\def\dc{\Dsc^{(0)}}
+\def\dsum{\Dsc^{+}}
+\def\Pscun{\underline{\Psc}}
+\def\Pscbar{\bar{\Psc}}
+\def\Cbb{\mathbb{C}}
+\def\Cbbhat{\widehat{\mathbb{C}}}
+\def\Dbb{\mathbb{D}}
+\def\Dbbhat{\widehat{\mathbb{D}}}
+\def\Wbb{\mathbb{W}}
+\def\Wbbhat{\widehat{\mathbb{W}}}
+\def\Cbbtilde{\widetilde{\mathbb{C}}}
+\def\para{\mbox{\tiny par}}
+\def\npar{\mbox{\tiny np}}
+\def\bBfrakz{\bBfrak_{z}}
+\def\bBfrakZ{\bBfrak_{Z}}
+\def\bBfrakZi{\bBfrak_{Z_i}}
+\def\hinv{h^{-1}}
+\def\SHFM{\mbox{\tiny SHFM}}
+\def\Wbbhat{\widehat{\mathbb{W}}}
+\def\opt{\mbox{\tiny opt}}
+%
+%
+%%%%%%%%%%%%%%
+%   THE END  %                  
+%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+
+\hypertarget{midterm-review}{%
+\section{Midterm Review}\label{midterm-review}}
+
+\hypertarget{hypothesis-testing}{%
+\subsection{Hypothesis Testing}\label{hypothesis-testing}}
+
+\begin{enumerate}
+\item Hypothesis testing consists of comparing null and an alternative hypothesis using our data $\bX$. The null hypothesis gives us a null parameter space $\Theta_0$ while the alternative gives us $\Theta_1$ and the full parameter space is $\Theta = \Theta_0 \bigcup \Theta_1$. Under assumptions about how $\bX$ is distributed, we develop a test statistic, and a rejection region $\Rsc$ that specifies for what values of that test statistic do we reject the null hypothesis. 
+\begin{itemize}
+\item For LRT and Neyman-Pearson tests, the test statistic is a ratio of likelihoods (or pdfs) with theta representing the null or alternative spaces. We {\em reject when the likelihood under the null (i.e. when $\theta \in \Theta_0$) is small}. For LRT this means rejecting when $\lambda(\bx)$ is small. For Neyman-Pearson, this means rejecting when $f(x|\theta_1)/f(x|\theta_0)$ is large.
+\item For Karlin-Rubin one sided tests, if we have an MLR in a sufficient statistic, our rejection region is simplified to just be based on that sufficient statistic being large or small (depending on the side of the test).
+\item Lastly, for all tests, we choose our cutoff value (i.e. $c$) that defines our rejection region to give us a size or level $\alpha$ test. Neyman-Pearson and Karlin Rubin tell us that the size can be evaluated when $\theta = \theta_0$, so $\alpha = P_{\theta_0}(\bX \in \Rsc)$. For a general LRT, we need to take the supremum of $P_{\theta_0}(\bX \in \Rsc) = P_{\theta}(\lambda(\bx) \leq c)$ over all values of $\theta$ in $\Theta_0$. Solving for $c$ for a given $\alpha$ often requires knowing the distribution of the test statistic and using a critical value of that distribution or the cdf of that distribution.
+\item Review concepts (in terms of definitions and how to find/describe them) such as: type I error, type II error, power function, unbiased tests, rejection region, size and level of tests, uniformly most powerful tests, p-values
+\item Note we are talking about {\em finite sample} tests and rejection regions. These tests have appropriate size for all sample sizes (i.e. "exact tests"). We have not yet covered asymptotic tests (i.e. Wald test, score test, asymptotic LRTs). This is Chapter 10 of C\&B.
+\end{itemize}
+\item Evaluate tests:
+\begin{itemize}
+\item $\beta(\theta)$ is the power function of a test, which is the probability that we reject when $\theta$ is the true parameter: $P_\theta(\bx \in \Rsc)$ or $P(\bx \in \Rsc|\theta)$, a function of $\theta$.
+\item Note the power function is evaluated over all possible values of $\theta$, that is, both the null and alternative spaces. UMP specifies what the power function looks like on the alternative space. Size and level of test specifies what the power function looks like on the null space.
+\item UMP (Uniformly Most Powerful) tests of a certain class $\Csc$ are tests such that the power function is greater than or equal to every other test of class $\Csc$, for all $\theta$ in the alternative space $\theta \in \Theta_0^C$. 
+\item level $\alpha$ tests have power function less than or equal to $\alpha$ for all $\theta \in \Theta_0$, while size $\alpha$ tests have maximum (supremum) power equal to $\alpha$ over all $\theta \in \Theta_0$.
+\item When $\theta$ is in the null space, $\beta(\theta)$ is the probability of a type I error. When $\theta$ is in the alternative space, $\beta(\theta)$ is {\em 1 - }the probability of type II error.
+\begin{itemize}
+\item The probability of a type I error is $\beta(\theta_0)$ for a specified $\theta_0 \in \Theta_0$. It is just one point on the curve. If the null space consists of just one point i.e $\Theta_0 = \left\{ \theta_0 \right\}$, then the size and level of the test are the same, and the type I error is equal to the size. In this special case, there is only one point in the null space to evaluate the power function at, so we don't need to take the supremum to find the size of the test.
+\item The probability of a type II error is $1-\beta(\theta_1)$ for a specified $\theta_1 \in \Theta_1$. It is just one point on the curve.
+\item "Power" as defined in your applied classes is just referring to one point on the power curve, that is $\beta(\theta_1)$ for a specified $\theta_1 \in \Theta_1$.
+\end{itemize}
+\end{itemize}
+\item Likelihood ratio tests
+\begin{itemize}
+\item Likelihood ratio tests are used for general types of hypothesis testing (complex, simple). They are very flexible and can be used to test one or multiple parameters. They are {\em not guaranteed to be uniformly most powerful (UMP) unless you use either a Neyman-Pearson or Karlin Rubin theorem} to show that the LRT reduces to the same exact rejection region as specified in those theorems.
+\item The likelihood ratio test statistic and rejection region for testing $H_0: \theta \in \Theta_0$ vs $H_1: \theta \in \Theta_0^C$:
+$$\Rsc = \left\{ \bx: \lambda(\bx) \leq c \right\}$$ where
+$$\lambda(\bx) = \frac{\sup_{\Theta_0} \Lsc(\theta|\bx)}{\sup_\Theta \Lsc(\theta|\bx)} $$
+\item The test statistic can reduce to
+$$\lambda(\bx) = \frac{\Lsc(\thetahat_0|\bx)}{\Lsc(\thetahat|\bx)}$$
+where $\thetahat$ is the MLE under the full likelihood space and $\thetahat_0$ is the MLE under the restricted likelihood under the null space, or $\theta_0$ in the case where $\Theta_0 = \{\theta_0\}$.
+\item If we have a sufficient statistic, $T(\bx)$, we can use the LRT statistic:
+$$\lambda(\bx) = \frac{\sup_{\Theta_0} \Lsc^*(\theta|T(\bx))}{\sup_\Theta \Lsc^*(\theta|T(\bx))} $$
+where $\Lsc^*$ is based on the distribution function of $T(\bx)$.
+\item To obtain a size $\alpha$ test we need to choose our cutoff $c$ such that:
+$$\sup_{\theta \in \Theta_0} P_\theta(\bX \in \Rsc) = \sup_{\theta \in \Theta_0} P_\theta (\lambda(\bX) < c) = \alpha$$
+\end{itemize}
+\item Neyman-Pearson Lemma and the sufficient statistic Corollary 8.3.13
+\begin{itemize}
+\item {\em Simple} hypothesis $H_0: \theta = \theta_0$ vs $H_1: \theta = \theta_1$.
+\item UMP level $\alpha$ tests where $\alpha = P_{\theta_0}(\bX \in \Rsc)$ (note it's easy to calculate $\alpha$ since just one point in the null space)
+\item We can define rejection region $\Rsc = \{ \bx: \frac{f_\bX(\bx|\theta_1)}{f_\bX(\bx|\theta_0)} > k\}$ or $\Rsc = \{ \bx: \frac{g_T(t|\theta_1)}{g_T(t|\theta_0)} > k\}$ (assuming the ratio exists and you aren't dividing by 0)
+\item So to obtain a UMP $\alpha$ level test if $\Rsc = \{ \bx: \frac{f_\bX(\bx|\theta_1)}{f_\bX(\bx|\theta_0)} > k\}$, we choose $k$ such that
+$P_{\theta_0}\left(\frac{f_\bX(\bx|\theta_1)}{f_\bX(\bx|\theta_0)} > k\right) = \alpha$
+\item Notice how this ratio is different than the likelihood ratio test we learned first, but it still rejects when the likelihood under the null is sufficiently small.
+\item For some discrete distributions you can calculate the ratio for all possible rejection regions, order the rejection regions by $k$ (increasing or decreasing) and choose your cut $k$ so that you reject whenever the ratio is larger than that $k$.
+\item Corollary says we can use the distribution of a sufficient statistic $T$ instead $\Rsc = \{ \bx: \frac{g_T(t|\theta_1)}{g_T(t|\theta_0)} > k\}$.
+\end{itemize}
+\item Karlin-Rubin Theorem
+\begin{itemize}
+\item {\em One-sided composite} hypothesis
+\item Need monotone likelihood ratio (MLR) in sufficient statistic $T$ -- note this is not the same likelihood ratio as in a LRT (as C\&B defines it). Show either by:
+\begin{itemize}
+\item For $\theta_1 > \theta_2$, show
+$$ \frac{f(t|\theta_1)}{f(t|\theta_2)} = V(t)$$ where $V(t)$ is a monotone non-decreasing function of $T$. 
+\item Show the joint distribution is a regular exponential family with $f(x|\theta) = h(x) c(\theta) e^{w(\theta) T(x)}$ where $w(\theta)$ is a non-decreasing function in $\theta$.
+\end{itemize}
+\item The rejection region is simply in terms of the sufficient statistic $T$. No likelihood ratios needed (MLR takes care of this)!!
+\item UMP level $\alpha$ tests where $\alpha = P_{\theta_0}(\bX \in \Rsc)$ (note we don't need the supremum over $\Theta_0$ since we have an MLR guarantees the supremum is at $\theta_0$)
+\item $\Rsc = \{ T > c \}$ or $\Rsc = \{ T < c \}$ and UMP level $\alpha  = P(\bx \in \Rsc | \theta_0)$. Often we know the distribution of $T$ or some monotone function of $T$ so we can define $c$ in terms of the CDF of that distribution, or a critical value of that distribution (i.e. $z_\alpha$).
+\end{itemize}
+\item p-values
+\begin{itemize}
+\item A p-value is a test statistic (it is random because the data is random!)
+\item Obtain a p-value of a test based on another test statistic $W(\bX)$ where we reject $H_0$ for large values of $W(\bX)$. If we have observed data $W(\bx)$ we can find a valid p-value by defining it as:
+$$p(\bx) = \sup_{\theta \in \Theta_0} P_\theta(W(\bX) \geq W(\bx))$$
+\item Valid p-values are such that $P_\theta (p(\bX) \leq \alpha) \leq \alpha$ for all $\theta \in \Theta_0$ and for any $\alpha \in [0,1]$. This means that we reject the null hypothesis with maximum type I error $\alpha$ by rejecting when the p-value is less than $\alpha$.
+\end{itemize}
+%\item \textbf{Example}: Suppose $\Xndots \sim \Nsc(\mu,\sigma^2)$ both $\mu$ and $\sigma$ are unknown. We wish to test the hypotheses
+%$$ H_0: \sigma^2 = \sigma_0^2 \mbox{ versus } H_1: \sigma^2 \neq \sigma_0^2$$
+%at the level $\alpha$. Show that the likelihood ratio test is equivalent to the $\chi^2$ test.
+%\item C\&B 8.12, 8.17, 8.25, 8.31, 8.38
+\item Good practice problems in C\&B: 
+8.1,
+8.2,
+8.6a\&b,
+8.12
+8.15,
+8.16,
+8.17,
+8.19,
+8.23,
+8.25,
+8.27,
+8.28,
+8.31,
+8.37,
+8.38,
+8.41,
+8.45
+\end{enumerate}
+
+\subsection{Interval Estimation}
+
+\begin{enumerate}
+\item We learned that a confidence interval (or more generally, a confidence region or set) is a random interval based on the data $\bX$ that is used to estimate $\theta$ with a certain amount of precision. It is more than just a point estimate of $\theta$. We are most interested in the confidence coefficient and coverage probability of our confidence set. For example, if we have a confidence interval $[L(\bX), U(\bX)]$ for a parameter $\theta$, the coverage probability is
+$$P_\theta(L(\bX) \leq \theta \leq U(\bX))$$
+and the confidence coefficient is the infimum over all coverage probabilities for all possible $\theta$:
+$$\inf_\theta P_\theta(L(\bX) \leq \theta \leq U(\bX))$$
+Coverage probability can depend on $\theta$, so the confidence coefficient gives us a minimal probability that our interval estimator is covering the true parameter $\theta$, no matter what it is.
+\item When we say a "$1-\alpha$ confidence interval" we mean the confidence interval has confidence coefficient $\geq 1-\alpha$.
+\item A confidence set or region can be a union of multiple disjoint intervals. Hence, in general we refer to this procedure as "interval estimation."
+\item We write a confidence interval/set as $C(\bX)$ as in $C(\bX) = \left\{ \theta: \theta \in [L(\bX), U(\bX)]\right\}$ to denote it is a random interval based on data $\bX$. When we sample from our underlying distribution of $\bX$ and obtain observed data $\bx$, we have $C(\bx)$ which is one observed interval based on observed data (it is no longer random just as $\bx$ is not random but an observation; it is "fixed").
+\item We learned how to construct confidence sets/intervals by inverting test statistics, by using the distribution of a pivot, or by pivoting the CDF of a statistic
+\item Note, again, that these intervals have been based on {\em finite sample} distributions of our data. We will learn about asymptotic based intervals with approximate $1-\alpha$ coverage when covering Chapter 10.
+\item Review concepts: interval estimate, interval estimator, inverting test statistics, coverage probability, confidence coefficient, pivot
+\item Theorem 9.2.2 Inverting a test statistic $\rightarrow$ need to invert a family of tests/null hypotheses (using the acceptance region for each $\theta_0 \in \Theta$) to obtain a confidence set; shows how the level of a test corresponds to the coverage of an confidence set.
+\begin{itemize}
+\item As C\&B states, "The hypothesis test fixes the parameter and asks what sample values (the acceptance region) are consistent with that fixed value [the null space]. The confidence set fixes the sample value [$\bx$] and asks what parameter values (the confidence interval) make this sample value most plausible."
+\item The confidence interval $C(\bX)$ is the set of $\theta$'s such that, for the given data $\bX$ and for each $\theta_0 \in C(\bX)$ you would not be able to reject the null hypothesis $H_0$.
+\item In hypothesis testing, acceptance region is the set of $\bX$ which are very likely for a fixed $\Theta_0$. In interval estimation, a confidence interval is a set of $\theta$'s which make $\bX$ very likely for a fixed $\bX$.
+\item Thm 9.2.2 also tells us that if we start with a confidence interval, we can invert the interval back to obtain an acceptance region and hence formulate a rejection region based on a confidence interval. The relationship is 1 to 1. So, even when we are making a confidence interval with a pivot, we would be able to construct a rejection region for a test of a specific $H_0$ based off of that confidence interval.
+\end{itemize}
+\item Pivotal quantities
+\begin{itemize}
+\item A pivot is a random variable $Q(\bX,\theta)$ that is a function of the data (or a sufficient statistic $T$) and the parameter $\theta$, such that the distribution of a pivot does not depend on the parameter (i.e. $Q(\bX,\theta) \sim $ a standard normal(0,1), or $\chi^2_n$, or $\Gamma(n,1)$ or $Uniform(0,1)$ etc)
+\item using a pivot we can create a confidence set and find the endpoints using the distribution of the pivot
+\item can also pivot the CDF (since the CDF of a random variable has Uniform(0,1) distribution). We can use the theorem that tells us how to find the endpoints $U(\bX) = \theta_U(\bX)$ and $L(\bX) = \theta_L(\bX)$.
+\item You can show something is a pivot by either:
+\begin{enumerate}
+\item Using the transformation theorem or logic/known facts to determine the distribution of $Q(\bX, \theta)$ or $Q(T, \theta)$. For instance, if we know the distribution of $T$ and $Q(T, \theta) = T/\theta$ we can use the transformation theorem to obtain the distribution of $Q(T,\theta)$. Remember the transformation theorem (Theorem 2.1.8 in C\&B) tells us if we know the distribution of $T$ then we can find the distribution of $Y = Q(T)$ (if it is monotone or piece-wise monotone in T):
+$$f_Y(y) = f_T(Q^{-1}(y)) \left| \frac{d}{dy}Q^{-1}(y)\right|$$
+\item Show the distribution of a statistic $T$, $f(t|\theta)$ can be expressed in the form:
+$$f_T(t|\theta) = g(Q(t,\theta))\left|\frac{\partial}{\partial t} Q(t,\theta) \right|$$
+for some function $g$ (that turns out to be the distribution function of $Q(T,\theta)$) and some monotone function $Q$ (monotone in $t$ for each $\theta$).
+\end{enumerate}
+\item In general, differences (i.e. $\Xbar - \mu$) are pivotal for location problems, while ratios or products (i.e. $\sum X_i / \theta$) are pivotal for scale problems.
+\end{itemize}
+\item Evaluate intervals $[L(\bX), U(\bX)]$ of a certain coverage by the length $U(\bX) - L(\bX)$ or expected length $E_\theta\left[ U(\bX) - L(\bX) \right]$.
+\begin{itemize}
+\item Often, given a confidence coefficient $1-\alpha$, we wish to find the CI with the shortest length.
+\item Theorem 9.3.2 tells us that for a unimodal pdf $f(x)$ (not necessarily symmetric) the shortest interval $[a,b]$ is that which $f(a) = f(b)$ where $a \leq x^* \leq b$ with $x^*$ the mode of $f(x)$.
+\end{itemize}
+%\item Homework 4 \#1
+%\item C\&B 9.6a, 9.13, 9.17, 9.25, 9.36, 9.37
+\item Good practice problems in C\&B:  
+9.1,
+9.4a,c,
+9.5,
+9.6,
+9.7,9.9,
+9.11,
+9.13,
+9.16,
+9.17,
+9.23,
+9.25,
+9.34,
+9.35,
+9.36,
+9.37
+\end{enumerate}
+
+\hypertarget{other-concepts-to-know}{%
+\subsection{Other concepts to know}\label{other-concepts-to-know}}
+
+\begin{enumerate}
+\item How to find an MLE of $\theta$
+\item How to find a sufficient statistic
+\item Transformation theorem to find the distribution of a monotone function of $\bX$
+\item How to find the distribution of a order statistic: $X_{(1)}$ or $X_{(n)}$
+\item How to calculate the CDF of a random variable from a pdf distribution
+\end{enumerate}
+
+\hypertarget{other-midterm-review-practice-problems}{%
+\subsection{Other Midterm Review Practice
+Problems}\label{other-midterm-review-practice-problems}}
+
+\begin{enumerate}
+\item Suppose $\Xndots \sim \Nsc(0,\sigma^2).$ We wish to test $H_0: \sigma^2 \leq \sigma_0^2$ vs $H_1: \sigma^2> \sigma_0^2$. What is the UMP level $\alpha$ test? Invert this test to obtain a $1-\alpha$ level confidence region.
+\item Suppose $\Xndots \sim \Nsc(\mu,\sigma^2)$ where $\mu$ is unknown and $\sigma$ is known. Consider two confidence intervals for $\mu:$
+\begin{enumerate}
+\item $ \mu \in [\Xbar - a/\sqrt{n}, \Xbar + a/\sqrt{n}], a >0$
+\item $ \mu \in [\Xbar - \sigma a/\sqrt{n}, \Xbar + \sigma a/\sqrt{n}], a >0$
+\end{enumerate}
+What is the coverage probability and confidence coefficient for each interval?
+%cb 9.17
+\item Find a $1-\alpha$ confidence interval for $\theta$, using pivots, given $\Xndots$ iid with pdf
+\begin{enumerate}
+\item $f(x|\theta) = 1, \theta - \frac{1}{2} < x < \theta + \frac{1}{2}.$
+\item $f(x|\theta) = \frac{2x}{\theta^2}, 0 < x < \theta, \theta > 0.$
+\end{enumerate}
+%cb 9.25
+\item Let $X_1, \ldots X_n$ be iid with pdf $f(x|\mu) = e^{-(x-\mu)}I_{[\mu,\infty)}(x)$. Then $Y=X_{(1)}$ is sufficient for $\mu$ with pdf
+$$f_Y(y|\mu) = ne^{-n(y-\mu)}I_{[\mu,\infty)}(y).$$
+In example 9.2.13 in class, we constructed a $1-\alpha$ confidence interval for $\mu$ using the method of pivoting the CDF. Compare the length of that interval to lengths of $1-\alpha$ intervals obtained by likelihood ratio test and pivotal methods.
+\end{enumerate}
+
+
+\end{document}

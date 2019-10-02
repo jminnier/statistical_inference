@@ -1,0 +1,143 @@
+---
+title: 'BSTA 552: Final Exam Review'
+date: "Spring 2019"
+output:
+  pdf_document:
+    citation_package: natbib
+    includes:
+      in_header:
+        - ../latex_files/header_doc.tex
+        - ../latex_files/my_macros.tex
+    keep_tex: yes
+    number_sections: no
+fontsize: 11pt
+documentclass: article
+---
+⁄
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+# Final Review
+
+The final exam is technically cumulative but with an emphasis on Chapter 10 material (C\&B). It is closed note and closed book except for two sides of *two* 8.5x11 inch ``cheat sheets" of notes.
+
+## Convergence
+\begin{itemize}
+\item A sequence of random variables is a random variable that depends on $n$, i.e. $\Xbar_n$ or $\thetahat_n$.
+\item Convergence in probability of $W_n \to_p W$ or $W_n \to_p \theta$ describes the limit of a probability statment regarding the distance between $W_n$ and what it is converging to, i.e.
+$$\lim_{n\to\infty}P_\theta(|W_n - W| \geq \epsilon) = 0$$
+or
+$$\lim_{n\to\infty}P_\theta(|W_n - \theta| \geq \epsilon) = 0$$
+\item Convergence in distribution $W_n \to_d W$ describes the limit of the CDF of a sequence of random variables to the CDF of another random variable (or a constant $\theta$)
+$$\lim_{n\to\infty} F_{W_n}(w) = F_W(w)$$
+\item Chebychev's Theorem can help us prove convergence in probability
+\item The Weak Law of Large Numbers (WLNN) proves convergence in probability of a sample mean to its expectation, $\Xbar_n = n^{-1}\sumin X_i$:
+$$\Xbar_n \to E(X_i)$$
+\item Central Limit Theorem shows convergence in distribution of a sample mean of $iid$ random variables:
+$$\sqrt{n}(\Xbar_n - E(X_i)) \to_d \Nsc(0, Var(X_i))$$
+\item Convergence in distribution to a constant implies convergence in probability to a constant
+\item Slutsky's Theorem is to prove convergence in distribution of linear combinations of random variables
+\item Delta Method proves that {\em continuous functions} (not functions with {\em n} in them) of random variables that converge to a normal distribution also converge to a normal distribution and it tells us what the variance is
+
+If $$\sqrt{n}(W_n - \theta) \to_d \Nsc(0, \sigma^2)$$
+then
+$$\sqrt{n}(g(W_n) - g(\theta)) \to_d \Nsc(0, \sigma^2 g^\prime(\theta)^2)$$
+
+\end{itemize}
+
+## Point Estimation
+\subsubsection{Consistency}
+Consistency is when a sequence of random variables (depends on $n$) converges to a constant (i.e. $\theta$) in probability. We want our estimators to be consistent.
+\begin{itemize}
+\item Review concepts (in terms of definitions and how to find/describe them): sequence of estimators, convergence of sequence of estimators, MSE, consistency, limits as $n\to\infty$, convergence in probability, unbiased, asymptotically unbiased
+\item Mean Square Error = Variance + Bias$^2$
+\item Consistent sequence of estimators formal definition is convergence in probability to a constant value, $\theta$:
+$$\lim_{n\to\infty}P_\theta(|W_n - \theta|< \epsilon) = 1$$
+\item If $MSE = E(W_n - \theta)^2 \to 0$ then the estimator $W_n$ is consistent for $\theta$.
+\item Be able to prove consistency using these theorems
+\begin{enumerate}
+\item Theorem 10.1.3: If an estimator is asymptotically unbiased and the limiting variance is 0 then we have MSE $\to$ 0, therefore we have consistency.
+\item Theorem 10.1.5: Certain linear combinations of consistent estimators are consistent
+\item Theorem 10.1.6: Consistency of MLEs and continous functions of MLEs
+\end{enumerate}
+\end{itemize}
+
+\subsubsection{Efficiency}
+
+Efficiency is when an estimator has the smallest variance. In *finite samples* that means its variance is equal to the Cramer Rao Lower Bound of the expectation of the estimator (see below). *Asymptotic efficiency* is when the estimator converges to a normal distribution with variance equal to the CRLB for one observation.
+
+Finite sample efficiency:
+$$Var(W_n) = \frac{[\frac{d}{d\theta}E(W_n)]^2}{nI_1(\theta)}$$
+
+Asymptotic efficiency:
+$$\sqrt{n}(W_n - \theta) \to_d \Nsc\left(0, \frac{1}{I_1(\theta)}\right)$$
+
+\begin{itemize}
+\item Review concepts: efficiency, limiting variance, convergence in distribution, asymptotic normality, asymptotic variance, asymptotically efficient, Cramer Rao Lower Bound (CRLB), Fisher's Information, Central Limit Theorem, Delta Method, Slutksy's Theorem, Asymptotic relative efficiency
+\item Asymptotic variance of $W_n$ is the variance of the limiting normal distribution ($\sigma^2$) for a series of constants $k_n$:
+$$k_n(W_n - \tau(\theta)) \xrightarrow{d} \Nsc(0,\sigma^2)$$
+\item Asymptotically unbiased estimator of $\theta$ means
+$$\lim_{n\to\infty} E(W_n) - \theta = 0$$
+and if 
+$$\sqrt{n}(W_n - \theta) \to_d \Nsc\left(0, \frac{1}{I_1(\theta)}\right)$$
+then $W_n$ is asymptotically unbaised for $\theta$.
+\item Theorem 10.1.12 Asymptotic efficiency of MLEs (under regularity conditions)
+\begin{itemize}
+\item MLE $\thetahat$ is asymptotically efficient, with asymptotic variance $v(\theta) = 1/I_1(\theta)$ = CRLB
+$$\sqrt{n}(\thetahat - \theta) \to_d \Nsc\left(0, \frac{1}{I_1(\theta)}\right)$$
+\item Delta Method: functions of asymptotically normal variables are also asymptotically normal, so we also have asymptotic efficiency of a continuous function of the MLE $\tau(\theta)$:
+$$\sqrt{n}\left[\tau(\thetahat) - \tau(\theta)\right] \xrightarrow{d} \Nsc\left(0,\frac{\tau^\prime(\theta)^2}{I_1(\theta)}\right)$$
+
+\item Asymptotically unbiased, asymptotically normal, minimum variance
+\item Proof relies on Taylor Series expansion of score function (derivative of log likelihood function)
+\item This theorem also implies consistency of the MLEs (by Slutsky's Theorem)
+\end{itemize}
+\item Asymptotic relative efficiency compares the asymptotic variances of two estimators. Since the MLE is asymptotic efficient estimator, any other estimator will have relative efficiency > 1 when compared to the MLE.
+\item When estimating the asymptotic variance in finite samples, this is the "large sample variance" of the estimator. We need to estimate Fisher's information. There are two ways to do this:
+\begin{itemize}
+\item Expected Information is using Fisher's information as we usually define it $I(\theta) = E[-\ell^{\prime\prime}(\theta|\bx)]$ and plugging in $\thetahat$ after taking the expecatation to estimate $I(\theta)$, i.e. $I(\thetahat) = E[-\ell^{\prime\prime}(\theta|\bx)]|_{\theta = \thetahat}$.
+$$Var\left[\sqrt{n}(\thetahat - \theta)\right] \approx \frac{1}{I_1(\thetahat)} \Longrightarrow Var(\thetahat) \approx \frac{1}{nI_1(\thetahat)}$$
+\item Observed information is when we do not take the expectation and just plug in $\thetahat$ for $\theta$, i.e. $\hat{I}(\thetahat) = -\ell^{\prime\prime}(\theta|\bx)|_{\theta = \thetahat}$.
+$$Var(\thetahat) \approx \frac{1}{n\hat{I}_1(\thetahat)}$$
+\end{itemize}
+\end{itemize}
+
+\subsection{Hypothesis Testing}
+
+\begin{enumerate}
+\item Review concepts: asymptotic LRTs, Wald tests, Score tests, asymptotic pivot, Score function
+\item Asymptotic distribution of LRTs
+	\begin{itemize}
+	\item Proof uses distribution of second term of Taylor's series of log-likelihood around $\thetahat$
+	\item Theorem 10.3.1 Asymptotic distribution of LRT simple hypothesis $-2\log\lambda(\bX) \to \chi^2_1$ in distribution
+	\item Theorem 10.3.3 null hypothesis concerns a vector of parameters $-2\log\lambda(\bX) \to \chi^2_{\nu}$
+	\end{itemize}
+\item Wald Tests
+$$\frac{\thetahat - \theta}{\sqrt{v(\thetahat)/n}} \xrightarrow{d} \Nsc(0,1)$$
+\begin{itemize}
+\item Proof uses asymptotic normality of MLEs, and slutsky's theorem for using an approximation of the variance (CRLB).
+\item Any consistent estimator of the standard error of $\thetahat$ can be in the denominator.
+\end{itemize}
+\item Score Tests
+$$\frac{S(\theta|\bX)}{\sqrt{I_n(\theta)}} \xrightarrow{d} \Nsc(0,1)$$
+\begin{itemize}
+\item Proof uses Central Limit Theorem since the score function is a sum of iid variables and has variance equal to the information
+\end{itemize}
+\item Convergence in distribution of the test statistics is {\em under the null} $H_0$ to preserve the approximate size of the test
+\item Examples 10.3.2, 10.3.4, 10.3.5, 10.3.6
+\end{enumerate}
+
+\subsection{Interval Estimation}
+
+\begin{enumerate}
+\item Review concepts: inverting asymptotic tests to confidence sets, asymptotic confidence sets/intervals, asymptotic LRT confidence intervals, Wald intervals, Score intervals, intervals with asymptotic pivots (large sample pivot), approximate 
+\item Asymptotic pivotal quantities are sequences of random variables that converge in distribution to a random variable that has CDF free of $\theta$.
+\item Wald interval can be constructed using a pivot (the wald statistic) or using inversion of hypothesis test
+\item Use the Delta Method to obtain intervals for $g(\theta)$ based on the Wald interval for $\thetahat$.
+\item Score intervals (invert Score tests)
+\item Asymptotic Likelihood ratio intervals (invert LRT tests)
+\item Examples 10.4.1, 10.4.2, 10.4.3, 10.4.4, 10.4.5, 10.4.6, 10.4.9
+\end{enumerate}
+
+

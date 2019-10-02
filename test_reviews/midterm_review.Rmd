@@ -1,0 +1,210 @@
+---
+title: 'BSTA 552: Midterm Review'
+date: "Spring 2019"
+output:
+  pdf_document:
+    citation_package: natbib
+    includes:
+      in_header:
+        - ../latex_files/header_doc.tex
+        - ../latex_files/my_macros.tex
+    keep_tex: yes
+    number_sections: no
+fontsize: 11pt
+documentclass: article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+
+
+# Midterm Review
+
+## Hypothesis Testing
+
+\begin{enumerate}
+\item Hypothesis testing consists of comparing null and an alternative hypothesis using our data $\bX$. The null hypothesis gives us a null parameter space $\Theta_0$ while the alternative gives us $\Theta_1$ and the full parameter space is $\Theta = \Theta_0 \bigcup \Theta_1$. Under assumptions about how $\bX$ is distributed, we develop a test statistic, and a rejection region $\Rsc$ that specifies for what values of that test statistic do we reject the null hypothesis. 
+\begin{itemize}
+\item For LRT and Neyman-Pearson tests, the test statistic is a ratio of likelihoods (or pdfs) with theta representing the null or alternative spaces. We {\em reject when the likelihood under the null (i.e. when $\theta \in \Theta_0$) is small}. For LRT this means rejecting when $\lambda(\bx)$ is small. For Neyman-Pearson, this means rejecting when $f(x|\theta_1)/f(x|\theta_0)$ is large.
+\item For Karlin-Rubin one sided tests, if we have an MLR in a sufficient statistic, our rejection region is simplified to just be based on that sufficient statistic being large or small (depending on the side of the test).
+\item Lastly, for all tests, we choose our cutoff value (i.e. $c$) that defines our rejection region to give us a size or level $\alpha$ test. Neyman-Pearson and Karlin Rubin tell us that the size can be evaluated when $\theta = \theta_0$, so $\alpha = P_{\theta_0}(\bX \in \Rsc)$. For a general LRT, we need to take the supremum of $P_{\theta_0}(\bX \in \Rsc) = P_{\theta}(\lambda(\bx) \leq c)$ over all values of $\theta$ in $\Theta_0$. Solving for $c$ for a given $\alpha$ often requires knowing the distribution of the test statistic and using a critical value of that distribution or the cdf of that distribution.
+\item Review concepts (in terms of definitions and how to find/describe them) such as: type I error, type II error, power function, unbiased tests, rejection region, size and level of tests, uniformly most powerful tests, p-values
+\item Note we are talking about {\em finite sample} tests and rejection regions. These tests have appropriate size for all sample sizes (i.e. "exact tests"). We have not yet covered asymptotic tests (i.e. Wald test, score test, asymptotic LRTs). This is Chapter 10 of C\&B.
+\end{itemize}
+\item Evaluate tests:
+\begin{itemize}
+\item $\beta(\theta)$ is the power function of a test, which is the probability that we reject when $\theta$ is the true parameter: $P_\theta(\bx \in \Rsc)$ or $P(\bx \in \Rsc|\theta)$, a function of $\theta$.
+\item Note the power function is evaluated over all possible values of $\theta$, that is, both the null and alternative spaces. UMP specifies what the power function looks like on the alternative space. Size and level of test specifies what the power function looks like on the null space.
+\item UMP (Uniformly Most Powerful) tests of a certain class $\Csc$ are tests such that the power function is greater than or equal to every other test of class $\Csc$, for all $\theta$ in the alternative space $\theta \in \Theta_0^C$. 
+\item level $\alpha$ tests have power function less than or equal to $\alpha$ for all $\theta \in \Theta_0$, while size $\alpha$ tests have maximum (supremum) power equal to $\alpha$ over all $\theta \in \Theta_0$.
+\item When $\theta$ is in the null space, $\beta(\theta)$ is the probability of a type I error. When $\theta$ is in the alternative space, $\beta(\theta)$ is {\em 1 - }the probability of type II error.
+\begin{itemize}
+\item The probability of a type I error is $\beta(\theta_0)$ for a specified $\theta_0 \in \Theta_0$. It is just one point on the curve. If the null space consists of just one point i.e $\Theta_0 = \left\{ \theta_0 \right\}$, then the size and level of the test are the same, and the type I error is equal to the size. In this special case, there is only one point in the null space to evaluate the power function at, so we don't need to take the supremum to find the size of the test.
+\item The probability of a type II error is $1-\beta(\theta_1)$ for a specified $\theta_1 \in \Theta_1$. It is just one point on the curve.
+\item "Power" as defined in your applied classes is just referring to one point on the power curve, that is $\beta(\theta_1)$ for a specified $\theta_1 \in \Theta_1$.
+\end{itemize}
+\end{itemize}
+\item Likelihood ratio tests
+\begin{itemize}
+\item Likelihood ratio tests are used for general types of hypothesis testing (complex, simple). They are very flexible and can be used to test one or multiple parameters. They are {\em not guaranteed to be uniformly most powerful (UMP) unless you use either a Neyman-Pearson or Karlin Rubin theorem} to show that the LRT reduces to the same exact rejection region as specified in those theorems.
+\item The likelihood ratio test statistic and rejection region for testing $H_0: \theta \in \Theta_0$ vs $H_1: \theta \in \Theta_0^C$:
+$$\Rsc = \left\{ \bx: \lambda(\bx) \leq c \right\}$$ where
+$$\lambda(\bx) = \frac{\sup_{\Theta_0} \Lsc(\theta|\bx)}{\sup_\Theta \Lsc(\theta|\bx)} $$
+\item The test statistic can reduce to
+$$\lambda(\bx) = \frac{\Lsc(\thetahat_0|\bx)}{\Lsc(\thetahat|\bx)}$$
+where $\thetahat$ is the MLE under the full likelihood space and $\thetahat_0$ is the MLE under the restricted likelihood under the null space, or $\theta_0$ in the case where $\Theta_0 = \{\theta_0\}$.
+\item If we have a sufficient statistic, $T(\bx)$, we can use the LRT statistic:
+$$\lambda(\bx) = \frac{\sup_{\Theta_0} \Lsc^*(\theta|T(\bx))}{\sup_\Theta \Lsc^*(\theta|T(\bx))} $$
+where $\Lsc^*$ is based on the distribution function of $T(\bx)$.
+\item To obtain a size $\alpha$ test we need to choose our cutoff $c$ such that:
+$$\sup_{\theta \in \Theta_0} P_\theta(\bX \in \Rsc) = \sup_{\theta \in \Theta_0} P_\theta (\lambda(\bX) < c) = \alpha$$
+\end{itemize}
+\item Neyman-Pearson Lemma and the sufficient statistic Corollary 8.3.13
+\begin{itemize}
+\item {\em Simple} hypothesis $H_0: \theta = \theta_0$ vs $H_1: \theta = \theta_1$.
+\item UMP level $\alpha$ tests where $\alpha = P_{\theta_0}(\bX \in \Rsc)$ (note it's easy to calculate $\alpha$ since just one point in the null space)
+\item We can define rejection region $\Rsc = \{ \bx: \frac{f_\bX(\bx|\theta_1)}{f_\bX(\bx|\theta_0)} > k\}$ or $\Rsc = \{ \bx: \frac{g_T(t|\theta_1)}{g_T(t|\theta_0)} > k\}$ (assuming the ratio exists and you aren't dividing by 0)
+\item So to obtain a UMP $\alpha$ level test if $\Rsc = \{ \bx: \frac{f_\bX(\bx|\theta_1)}{f_\bX(\bx|\theta_0)} > k\}$, we choose $k$ such that
+$P_{\theta_0}\left(\frac{f_\bX(\bx|\theta_1)}{f_\bX(\bx|\theta_0)} > k\right) = \alpha$
+\item Notice how this ratio is different than the likelihood ratio test we learned first, but it still rejects when the likelihood under the null is sufficiently small.
+\item For some discrete distributions you can calculate the ratio for all possible rejection regions, order the rejection regions by $k$ (increasing or decreasing) and choose your cut $k$ so that you reject whenever the ratio is larger than that $k$.
+\item Corollary says we can use the distribution of a sufficient statistic $T$ instead $\Rsc = \{ \bx: \frac{g_T(t|\theta_1)}{g_T(t|\theta_0)} > k\}$.
+\end{itemize}
+\item Karlin-Rubin Theorem
+\begin{itemize}
+\item {\em One-sided composite} hypothesis
+\item Need monotone likelihood ratio (MLR) in sufficient statistic $T$ -- note this is not the same likelihood ratio as in a LRT (as C\&B defines it). Show either by:
+\begin{itemize}
+\item For $\theta_1 > \theta_2$, show
+$$ \frac{f(t|\theta_1)}{f(t|\theta_2)} = V(t)$$ where $V(t)$ is a monotone non-decreasing function of $T$. 
+\item Show the joint distribution is a regular exponential family with $f(x|\theta) = h(x) c(\theta) e^{w(\theta) T(x)}$ where $w(\theta)$ is a non-decreasing function in $\theta$.
+\end{itemize}
+\item The rejection region is simply in terms of the sufficient statistic $T$. No likelihood ratios needed (MLR takes care of this)!!
+\item UMP level $\alpha$ tests where $\alpha = P_{\theta_0}(\bX \in \Rsc)$ (note we don't need the supremum over $\Theta_0$ since we have an MLR guarantees the supremum is at $\theta_0$)
+\item $\Rsc = \{ T > c \}$ or $\Rsc = \{ T < c \}$ and UMP level $\alpha  = P(\bx \in \Rsc | \theta_0)$. Often we know the distribution of $T$ or some monotone function of $T$ so we can define $c$ in terms of the CDF of that distribution, or a critical value of that distribution (i.e. $z_\alpha$).
+\end{itemize}
+\item p-values
+\begin{itemize}
+\item A p-value is a test statistic (it is random because the data is random!)
+\item Obtain a p-value of a test based on another test statistic $W(\bX)$ where we reject $H_0$ for large values of $W(\bX)$. If we have observed data $W(\bx)$ we can find a valid p-value by defining it as:
+$$p(\bx) = \sup_{\theta \in \Theta_0} P_\theta(W(\bX) \geq W(\bx))$$
+\item Valid p-values are such that $P_\theta (p(\bX) \leq \alpha) \leq \alpha$ for all $\theta \in \Theta_0$ and for any $\alpha \in [0,1]$. This means that we reject the null hypothesis with maximum type I error $\alpha$ by rejecting when the p-value is less than $\alpha$.
+\end{itemize}
+%\item \textbf{Example}: Suppose $\Xndots \sim \Nsc(\mu,\sigma^2)$ both $\mu$ and $\sigma$ are unknown. We wish to test the hypotheses
+%$$ H_0: \sigma^2 = \sigma_0^2 \mbox{ versus } H_1: \sigma^2 \neq \sigma_0^2$$
+%at the level $\alpha$. Show that the likelihood ratio test is equivalent to the $\chi^2$ test.
+%\item C\&B 8.12, 8.17, 8.25, 8.31, 8.38
+\item Good practice problems in C\&B: 
+8.1,
+8.2,
+8.6a\&b,
+8.12
+8.15,
+8.16,
+8.17,
+8.19,
+8.23,
+8.25,
+8.27,
+8.28,
+8.31,
+8.37,
+8.38,
+8.41,
+8.45
+\end{enumerate}
+
+\subsection{Interval Estimation}
+
+\begin{enumerate}
+\item We learned that a confidence interval (or more generally, a confidence region or set) is a random interval based on the data $\bX$ that is used to estimate $\theta$ with a certain amount of precision. It is more than just a point estimate of $\theta$. We are most interested in the confidence coefficient and coverage probability of our confidence set. For example, if we have a confidence interval $[L(\bX), U(\bX)]$ for a parameter $\theta$, the coverage probability is
+$$P_\theta(L(\bX) \leq \theta \leq U(\bX))$$
+and the confidence coefficient is the infimum over all coverage probabilities for all possible $\theta$:
+$$\inf_\theta P_\theta(L(\bX) \leq \theta \leq U(\bX))$$
+Coverage probability can depend on $\theta$, so the confidence coefficient gives us a minimal probability that our interval estimator is covering the true parameter $\theta$, no matter what it is.
+\item When we say a "$1-\alpha$ confidence interval" we mean the confidence interval has confidence coefficient $\geq 1-\alpha$.
+\item A confidence set or region can be a union of multiple disjoint intervals. Hence, in general we refer to this procedure as "interval estimation."
+\item We write a confidence interval/set as $C(\bX)$ as in $C(\bX) = \left\{ \theta: \theta \in [L(\bX), U(\bX)]\right\}$ to denote it is a random interval based on data $\bX$. When we sample from our underlying distribution of $\bX$ and obtain observed data $\bx$, we have $C(\bx)$ which is one observed interval based on observed data (it is no longer random just as $\bx$ is not random but an observation; it is "fixed").
+\item We learned how to construct confidence sets/intervals by inverting test statistics, by using the distribution of a pivot, or by pivoting the CDF of a statistic
+\item Note, again, that these intervals have been based on {\em finite sample} distributions of our data. We will learn about asymptotic based intervals with approximate $1-\alpha$ coverage when covering Chapter 10.
+\item Review concepts: interval estimate, interval estimator, inverting test statistics, coverage probability, confidence coefficient, pivot
+\item Theorem 9.2.2 Inverting a test statistic $\rightarrow$ need to invert a family of tests/null hypotheses (using the acceptance region for each $\theta_0 \in \Theta$) to obtain a confidence set; shows how the level of a test corresponds to the coverage of an confidence set.
+\begin{itemize}
+\item As C\&B states, "The hypothesis test fixes the parameter and asks what sample values (the acceptance region) are consistent with that fixed value [the null space]. The confidence set fixes the sample value [$\bx$] and asks what parameter values (the confidence interval) make this sample value most plausible."
+\item The confidence interval $C(\bX)$ is the set of $\theta$'s such that, for the given data $\bX$ and for each $\theta_0 \in C(\bX)$ you would not be able to reject the null hypothesis $H_0$.
+\item In hypothesis testing, acceptance region is the set of $\bX$ which are very likely for a fixed $\Theta_0$. In interval estimation, a confidence interval is a set of $\theta$'s which make $\bX$ very likely for a fixed $\bX$.
+\item Thm 9.2.2 also tells us that if we start with a confidence interval, we can invert the interval back to obtain an acceptance region and hence formulate a rejection region based on a confidence interval. The relationship is 1 to 1. So, even when we are making a confidence interval with a pivot, we would be able to construct a rejection region for a test of a specific $H_0$ based off of that confidence interval.
+\end{itemize}
+\item Pivotal quantities
+\begin{itemize}
+\item A pivot is a random variable $Q(\bX,\theta)$ that is a function of the data (or a sufficient statistic $T$) and the parameter $\theta$, such that the distribution of a pivot does not depend on the parameter (i.e. $Q(\bX,\theta) \sim $ a standard normal(0,1), or $\chi^2_n$, or $\Gamma(n,1)$ or $Uniform(0,1)$ etc)
+\item using a pivot we can create a confidence set and find the endpoints using the distribution of the pivot
+\item can also pivot the CDF (since the CDF of a random variable has Uniform(0,1) distribution). We can use the theorem that tells us how to find the endpoints $U(\bX) = \theta_U(\bX)$ and $L(\bX) = \theta_L(\bX)$.
+\item You can show something is a pivot by either:
+\begin{enumerate}
+\item Using the transformation theorem or logic/known facts to determine the distribution of $Q(\bX, \theta)$ or $Q(T, \theta)$. For instance, if we know the distribution of $T$ and $Q(T, \theta) = T/\theta$ we can use the transformation theorem to obtain the distribution of $Q(T,\theta)$. Remember the transformation theorem (Theorem 2.1.8 in C\&B) tells us if we know the distribution of $T$ then we can find the distribution of $Y = Q(T)$ (if it is monotone or piece-wise monotone in T):
+$$f_Y(y) = f_T(Q^{-1}(y)) \left| \frac{d}{dy}Q^{-1}(y)\right|$$
+\item Show the distribution of a statistic $T$, $f(t|\theta)$ can be expressed in the form:
+$$f_T(t|\theta) = g(Q(t,\theta))\left|\frac{\partial}{\partial t} Q(t,\theta) \right|$$
+for some function $g$ (that turns out to be the distribution function of $Q(T,\theta)$) and some monotone function $Q$ (monotone in $t$ for each $\theta$).
+\end{enumerate}
+\item In general, differences (i.e. $\Xbar - \mu$) are pivotal for location problems, while ratios or products (i.e. $\sum X_i / \theta$) are pivotal for scale problems.
+\end{itemize}
+\item Evaluate intervals $[L(\bX), U(\bX)]$ of a certain coverage by the length $U(\bX) - L(\bX)$ or expected length $E_\theta\left[ U(\bX) - L(\bX) \right]$.
+\begin{itemize}
+\item Often, given a confidence coefficient $1-\alpha$, we wish to find the CI with the shortest length.
+\item Theorem 9.3.2 tells us that for a unimodal pdf $f(x)$ (not necessarily symmetric) the shortest interval $[a,b]$ is that which $f(a) = f(b)$ where $a \leq x^* \leq b$ with $x^*$ the mode of $f(x)$.
+\end{itemize}
+%\item Homework 4 \#1
+%\item C\&B 9.6a, 9.13, 9.17, 9.25, 9.36, 9.37
+\item Good practice problems in C\&B:  
+9.1,
+9.4a,c,
+9.5,
+9.6,
+9.7,9.9,
+9.11,
+9.13,
+9.16,
+9.17,
+9.23,
+9.25,
+9.34,
+9.35,
+9.36,
+9.37
+\end{enumerate}
+
+## Other concepts to know
+
+\begin{enumerate}
+\item How to find an MLE of $\theta$
+\item How to find a sufficient statistic
+\item Transformation theorem to find the distribution of a monotone function of $\bX$
+\item How to find the distribution of a order statistic: $X_{(1)}$ or $X_{(n)}$
+\item How to calculate the CDF of a random variable from a pdf distribution
+\end{enumerate}
+
+## Other Midterm Review Practice Problems
+
+\begin{enumerate}
+\item Suppose $\Xndots \sim \Nsc(0,\sigma^2).$ We wish to test $H_0: \sigma^2 \leq \sigma_0^2$ vs $H_1: \sigma^2> \sigma_0^2$. What is the UMP level $\alpha$ test? Invert this test to obtain a $1-\alpha$ level confidence region.
+\item Suppose $\Xndots \sim \Nsc(\mu,\sigma^2)$ where $\mu$ is unknown and $\sigma$ is known. Consider two confidence intervals for $\mu:$
+\begin{enumerate}
+\item $ \mu \in [\Xbar - a/\sqrt{n}, \Xbar + a/\sqrt{n}], a >0$
+\item $ \mu \in [\Xbar - \sigma a/\sqrt{n}, \Xbar + \sigma a/\sqrt{n}], a >0$
+\end{enumerate}
+What is the coverage probability and confidence coefficient for each interval?
+%cb 9.17
+\item Find a $1-\alpha$ confidence interval for $\theta$, using pivots, given $\Xndots$ iid with pdf
+\begin{enumerate}
+\item $f(x|\theta) = 1, \theta - \frac{1}{2} < x < \theta + \frac{1}{2}.$
+\item $f(x|\theta) = \frac{2x}{\theta^2}, 0 < x < \theta, \theta > 0.$
+\end{enumerate}
+%cb 9.25
+\item Let $X_1, \ldots X_n$ be iid with pdf $f(x|\mu) = e^{-(x-\mu)}I_{[\mu,\infty)}(x)$. Then $Y=X_{(1)}$ is sufficient for $\mu$ with pdf
+$$f_Y(y|\mu) = ne^{-n(y-\mu)}I_{[\mu,\infty)}(y).$$
+In example 9.2.13 in class, we constructed a $1-\alpha$ confidence interval for $\mu$ using the method of pivoting the CDF. Compare the length of that interval to lengths of $1-\alpha$ intervals obtained by likelihood ratio test and pivotal methods.
+\end{enumerate}

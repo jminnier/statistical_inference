@@ -1,0 +1,384 @@
+---
+title: "Likelihood Ratio Tests (Chapter 8)"
+author: "Jessica Minnier"
+date: '`r Sys.Date()`'
+output:   
+  html_document:
+    code_folding: hide
+    highlight: pygments
+    keep_md: no
+    number_sections: yes
+    smart: yes
+    theme: yeti
+    toc: yes
+    toc_float: yes
+---
+
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(readxl)
+library(skimr)
+library(janitor)
+library(jmmisc)
+library(glue)
+library(patchwork)
+library(latex2exp)
+#### Global chunk options -----------------------------
+
+knitr::opts_chunk$set(
+  eval       = TRUE,    # whether to run code in code chunk
+  include    = TRUE,    # whether to include the chunk output
+  echo       = TRUE,   # Whether to show code chunk in final output
+  error      = TRUE,    # whether to display error messages
+  message    = FALSE,   # whether to preserve messages
+  warning    = FALSE,   # whether to preserve warnings
+  comment    = "#>",    # a character string to append at start
+                        # of each line of results in final document
+  tidy       = FALSE,   # whether to tidy code chunks for display
+  #out.width  = "100%",   # controls the output size
+  fig.align  = "center" # give plot room to breathe
+)
+
+ggplot2::theme_set(theme_bw())
+```
+
+# LRT Normal Example
+
+```{r}
+nn = 20
+true_mean = -2
+true_sd = 2
+
+# generate data
+set.seed(100)
+mydata <- data_frame(xvar = rnorm(n=nn,true_mean, true_sd))
+mle <- mean(mydata$xvar)
+```
+
+Let's see an example of the normal distribution likelihood ratio test.
+
+Let's sample $n=`r nn`$ from a normal distribution N(`r true_mean`, sd=`r true_sd`). This is the true underlying distribution. 
+
+We don't know the true mean and we are trying to estimate it. Let's weirdly assume we know the standard deviation $\sigma=2$ (in real life we have to estimate this, too)
+
+## Histogram of data:
+
+
+We've drawn a sample so we can plot the sample distribution. The MLE is the sample mean:
+
+$\bar{X}$ = `r signif(mle,3)`
+
+```{r}
+# plot histogram
+ggplot(mydata, aes(xvar))+geom_histogram() +geom_vline(xintercept = mle, color="red") +
+  ggtitle("Histogram of data, MLE in red")
+```
+
+## Calculate LRT
+
+The likelihood ratio test is the ratio of the likelihood maximized under the null space and the likelihood maximized under the full parameter space.
+
+Let's test the hypotheses:
+
+$H_0: \mu \geq -1$ vs $H_1: \mu < -1$
+
+```{r}
+# likelihood is the distribution function at that data point
+lik_data <- data_frame(mu=seq(-5,1,by=.005)) %>%
+  rowwise() %>% # dnorm is not vectorized w.r.t mean=mu
+  mutate(likelihood=prod(dnorm(mydata$xvar,mean=mu, sd=2))) %>%
+  ungroup()
+  
+mle_null  <- lik_data %>% filter(mu >= -1) %>% filter(likelihood==max(likelihood))
+mle_alternative <- lik_data %>% filter(mu < -1, likelihood==max(likelihood))
+mle_global <- lik_data %>% filter(likelihood==max(likelihood))
+
+lrt_stat <- (mle_null %>% pull(likelihood))/(mle_global %>% pull(likelihood))
+```
+
+## Where is the maximum likelihood estimator?
+
+Under the null? Under the alternative? Under the whole space? For the likelihood ratio test we need the MLE under the null space and also the MLE under the entire parameter space.
+
+```{r}
+ggplot(lik_data, aes(x=mu, y=likelihood))+
+  geom_line() + 
+  geom_area(aes(y=ifelse(mu > -1, 1.1*max(likelihood), 0),x=mu),fill="red",alpha=0.2)+
+  geom_area(aes(y=ifelse(mu <= -1, 1.1*max(likelihood), 0),x=mu),fill="blue",alpha=0.2)+
+  geom_area(aes(y=ifelse(mu > -1, likelihood, 0),x=mu),fill="red",alpha=0.7)+
+  geom_area(aes(y=ifelse(mu <= -1, likelihood, 0),x=mu),fill="blue",alpha=0.7)+
+  ggtitle(glue("Likelihood function of sample of X, LRT = ? \n n={nn}, mu={true_mean}"))+
+  annotate("text",x=-4, y=max(lik_data$likelihood),label=glue("H1: mu < -1"))+
+  annotate("text",x=0, y=max(lik_data$likelihood),label=glue("H0: mu >= -1"))
+```
+
+
+```{r}
+ggplot(lik_data, aes(x=mu, y=likelihood))+
+  geom_line() + 
+  geom_area(aes(y=ifelse(mu > -1, 1.1*max(likelihood), 0),x=mu),fill="red",alpha=0.2)+
+  geom_area(aes(y=ifelse(mu <= -1, 1.1*max(likelihood), 0),x=mu),fill="blue",alpha=0.2)+
+  geom_area(aes(y=ifelse(mu > -1, likelihood, 0),x=mu),fill="red",alpha=0.7)+
+  geom_area(aes(y=ifelse(mu <= -1, likelihood, 0),x=mu),fill="blue",alpha=0.7)+
+  ggtitle(glue("Likelihood function of sample of X, LRT = {signif(lrt_stat,3)} \n n={nn}, mu={true_mean}"))+
+  annotate("text",x=-4, y=max(lik_data$likelihood),label=glue("H1: mu < -1\n muhat_1 = {mle_alternative%>%pull(mu)} \n L(muhat_1)={signif(mle_alternative%>%pull(likelihood),3)}"))+
+  annotate("text",x=0, y=max(lik_data$likelihood),label=glue("H0: mu >= -1\n muhat_0 = {mle_null%>%pull(mu)} \n L(muhat_0)={signif(mle_null%>%pull(likelihood),3)}"))+
+  geom_vline(xintercept=mle_null %>% pull(mu), color="orange")+
+  geom_vline(xintercept=mle_alternative %>% pull(mu),color="green")
+```
+
+## MLE and LRT as $H_0$ threshold varies
+
+Let's change our null hypotheses. How do the MLE and the LRT change?
+
+```{r plot_lrt_fun, fig.width = 10, fig.height = 8, dpi=300}
+
+plot_lrt <- function(mu_cut, lik_data, nn=20, true_mean=-2, true_sd=2) {
+  
+  mle_null  <- lik_data %>% filter(mu >= mu_cut) %>% filter(likelihood==max(likelihood))
+  mle_alternative <- lik_data %>% filter(mu < mu_cut) %>% filter(likelihood==max(likelihood))
+  mle_global <- lik_data %>% filter(likelihood==max(likelihood))
+  
+  lrt_stat <- (mle_null %>% pull(likelihood))/(mle_global %>% pull(likelihood))
+  
+  p <- ggplot(lik_data, aes(x=mu, y=likelihood))+
+    geom_line() + 
+    geom_area(aes(y=ifelse(mu > mu_cut, 1.1*max(likelihood), 0),x=mu),fill="red",alpha=0.2)+
+    geom_area(aes(y=ifelse(mu <= mu_cut, 1.1*max(likelihood), 0),x=mu),fill="blue",alpha=0.2)+
+    geom_area(aes(y=ifelse(mu > mu_cut, likelihood, 0),x=mu),fill="red",alpha=0.7)+
+    geom_area(aes(y=ifelse(mu <= mu_cut, likelihood, 0),x=mu),fill="blue",alpha=0.7)+
+    ggtitle(glue("Likelihood function of sample of X\n n={nn}, true mu={true_mean}, LRT = {signif(lrt_stat,3)}"))+
+    annotate("text",x=-4, y=max(lik_data$likelihood),label=glue("H1: mu < {mu_cut}\n muhat_1 = {mle_alternative%>%pull(mu)} \n L={signif(mle_alternative%>%pull(likelihood),3)}"))+
+    annotate("text",x=0, y=max(lik_data$likelihood),label=glue("H0: mu >= {mu_cut}\n muhat_0 = {mle_null%>%pull(mu)} \n L={signif(mle_null%>%pull(likelihood),3)}"))+
+    geom_vline(xintercept=mle_null %>% pull(mu), color="orange")+
+    geom_vline(xintercept=mle_alternative %>% pull(mu),color="green")
+  return(p)
+}
+
+
+p1 <- plot_lrt(0, lik_data = lik_data)
+p2 <- plot_lrt(-1, lik_data = lik_data)
+p3 <- plot_lrt(-2, lik_data = lik_data)
+p4 <- plot_lrt(-3, lik_data = lik_data)
+
+#(p1 + p2) / (p3 + p4)
+p1 + p2 + p3 + p4 + plot_layout(ncol=2)
+```
+
+## Different samples from same underlying population, same H0 and H1
+
+Let's keep the null hypothesis the same:
+
+$H_0: \mu \geq -1.5$ vs $H_1: \mu < -1.5$ 
+
+but draw randomly from the same distribution a few times. Our true mean is pretty close to the null hypothesis threshold. How does our conclusion change with each sample data?
+
+
+```{r, fig.width = 10, fig.height = 12, dpi=300}
+make_data <- function(nn, true_mean, true_sd) {
+  mydata <- data_frame(xvar = rnorm(n=nn,true_mean, true_sd))
+  mle <- mean(mydata$xvar)
+  
+  lik_data <- data_frame(mu=seq(-5,1,by=.005)) %>%
+    rowwise() %>% # dnorm is not vectorized w.r.t mean=mu
+    mutate(likelihood=prod(dnorm(mydata$xvar,mean=mu, sd=2))) %>%
+    ungroup()
+  
+  return(list("mydata"=mydata, "lik_data"=lik_data))
+  }
+
+newnn = 20
+set.seed(50)
+newdata <- map(1:6, ~ make_data(nn=newnn, true_mean = -2, true_sd = 2))
+p1 <- plot_lrt(-1.5, lik_data = newdata[[1]][[2]], nn=newnn)
+p2 <- plot_lrt(-1.5, lik_data = newdata[[2]][[2]], nn=newnn)
+p3 <- plot_lrt(-1.5, lik_data = newdata[[3]][[2]], nn=newnn)
+p4 <- plot_lrt(-1.5, lik_data = newdata[[4]][[2]], nn=newnn)
+p5 <- plot_lrt(-1.5, lik_data = newdata[[5]][[2]], nn=newnn)
+p6 <- plot_lrt(-1.5, lik_data = newdata[[6]][[2]], nn=newnn)
+p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(ncol=2)
+```
+
+### Increase sample size to 100
+
+```{r, fig.width = 10, fig.height = 12, dpi=300}
+newnn = 100
+set.seed(50)
+newdata <- map(1:6, ~ make_data(nn=newnn, true_mean = -2, true_sd = 2))
+p1 <- plot_lrt(-1.5, lik_data = newdata[[1]][[2]], nn=newnn)
+p2 <- plot_lrt(-1.5, lik_data = newdata[[2]][[2]], nn=newnn)
+p3 <- plot_lrt(-1.5, lik_data = newdata[[3]][[2]], nn=newnn)
+p4 <- plot_lrt(-1.5, lik_data = newdata[[4]][[2]], nn=newnn)
+p5 <- plot_lrt(-1.5, lik_data = newdata[[5]][[2]], nn=newnn)
+p6 <- plot_lrt(-1.5, lik_data = newdata[[6]][[2]], nn=newnn)
+p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(ncol=2)
+
+```
+
+# Example 8.2.3, Exponential LRT
+
+This is a shift exponential distribution:
+
+$$f(x) = \exp{[-(x-\theta)]} I(x>\theta)$$
+
+We can simulate under this distribution by simulating a variable $X+\theta$ where $X$ has the typical Exp(1) distribution.
+
+Let's assume $\theta = 4$.
+
+
+```{r}
+nn = 20
+true_theta = 4
+
+# generate data
+set.seed(1)
+mydata <- data_frame(xvar = rexp(n=nn,rate=1)+true_theta)
+mle <- min(mydata$xvar)
+```
+
+Let's sample $n=`r nn`$ from this distribution. The MLE of the $\theta$ is the minimum of the sample data $X_{(1)}$. In this sample it is, $X_{(1)}$ = `r signif(mle,4)`.
+
+## Histogram
+
+
+We've drawn a sample so we can plot the sample distribution.
+
+```{r}
+# plot histogram
+ggplot(mydata, aes(xvar))+geom_histogram() +geom_vline(xintercept = mle, color="red") +
+  ggtitle("Histogram of data, MLE in red")
+```
+
+## Calculate LRT
+
+The likelihood ratio test is the ratio of the likelihood maximized under the null space and the likelihood maximized under the full parameter space.
+
+## Hypothesis where MLE $X_{(1)} > \theta_0$.
+
+Let's test the hypotheses:
+
+$H_0: \theta \leq 3$ vs $H_1: \theta > 3$
+
+Note that we have set $\theta_0 = 3$ and we have the MLE $X_{(1)} > \theta_0$.
+
+```{r}
+theta_0 = 3
+# likelihood is the distribution function at that data point
+lik_data <- data_frame(theta=seq(1,5,by=.005)) %>%
+  rowwise() %>% # dnorm is not vectorized w.r.t mean=mu
+  mutate(likelihood=(theta<=mle)*(exp(-1*sum(mydata$xvar)+nn*theta))) %>%
+  ungroup()
+  
+mle_null  <- lik_data %>% filter(theta <= theta_0) %>% filter(likelihood==max(likelihood))
+mle_alternative <- lik_data %>% filter(theta > theta_0) %>% filter(likelihood==max(likelihood))
+mle_global <- lik_data %>% filter(likelihood==max(likelihood))
+
+lrt_stat <- (mle_null %>% pull(likelihood))/(mle_global %>% pull(likelihood))
+```
+
+### Where is the maximum likelihood estimator?
+
+Under the null? Under the alternative? Under the whole space? For the likelihood ratio test we need the MLE under the null space and also the MLE under the entire parameter space.
+
+```{r}
+ggplot(lik_data, aes(x=theta, y=likelihood))+
+  geom_line() + 
+  geom_area(aes(y=ifelse(theta <= theta_0, 1.1*max(likelihood), 0),x=theta),fill="red",alpha=0.2)+
+  geom_area(aes(y=ifelse(theta > theta_0, 1.1*max(likelihood), 0),x=theta),fill="blue",alpha=0.2)+
+  geom_area(aes(y=ifelse(theta <= theta_0, likelihood, 0),x=theta),fill="red",alpha=0.7)+
+  geom_area(aes(y=ifelse(theta >theta_0, likelihood, 0),x=theta),fill="blue",alpha=0.7)+
+  ggtitle(glue("Likelihood function of sample of X, LRT = {signif(lrt_stat,3)} \n n={nn}, true theta={true_theta}"))+
+  annotate("text",x=3.5, y=max(lik_data$likelihood),label=glue("H1: theta > {theta_0}\n thetahat_1 = {mle_alternative%>%pull(theta)} \n L(thetahat_1)={signif(mle_alternative%>%pull(likelihood),4)}"))+
+  annotate("text",x=2, y=max(lik_data$likelihood),label=glue("H0: theta <= {theta_0}\n thetahat_0 = {mle_null%>%pull(theta)} \n L(thetahat_0)={signif(mle_null%>%pull(likelihood),3)}"))+
+  xlim(1,5)+
+  geom_vline(xintercept=mle_null %>% pull(theta), color="orange")+
+  geom_vline(xintercept=mle_alternative %>% pull(theta),color="green")
+```
+
+
+## Hypothesis where MLE $X_{(1)} > \theta_0$ > true $\theta$.
+
+Let's get close to the true $\theta$ by testing the hypotheses:
+
+$H_0: \theta \leq 4.1$ vs $H_1: \theta > 4.1$
+
+Note that we have set $\theta_0 = 4.1$ and we still have the MLE $X_{(1)} > \theta_0$.
+
+```{r}
+theta_0 = 4.1
+# likelihood is the distribution function at that data point
+lik_data <- data_frame(theta=seq(1,6,by=.005)) %>%
+  rowwise() %>% # dnorm is not vectorized w.r.t mean=mu
+  mutate(likelihood=(theta<=mle)*(exp(-1*sum(mydata$xvar)+nn*theta))) %>%
+  ungroup()
+  
+mle_null  <- lik_data %>% filter(theta <= theta_0) %>% filter(likelihood==max(likelihood))
+mle_alternative <- lik_data %>% filter(theta > theta_0) %>% filter(likelihood==max(likelihood))
+mle_global <- lik_data %>% filter(likelihood==max(likelihood))
+
+lrt_stat <- (mle_null %>% pull(likelihood))/(mle_global %>% pull(likelihood))
+```
+
+### Where is the maximum likelihood estimator?
+
+Under the null? Under the alternative? Under the whole space? For the likelihood ratio test we need the MLE under the null space and also the MLE under the entire parameter space.
+
+```{r}
+ggplot(lik_data, aes(x=theta, y=likelihood))+
+  geom_line() + 
+  geom_area(aes(y=ifelse(theta <= theta_0, 1.1*max(likelihood), 0),x=theta),fill="red",alpha=0.2)+
+  geom_area(aes(y=ifelse(theta > theta_0, 1.1*max(likelihood), 0),x=theta),fill="blue",alpha=0.2)+
+  geom_area(aes(y=ifelse(theta <= theta_0, likelihood, 0),x=theta),fill="red",alpha=0.7)+
+  geom_area(aes(y=ifelse(theta >theta_0, likelihood, 0),x=theta),fill="blue",alpha=0.7)+
+  ggtitle(glue("Likelihood function of sample of X, LRT = {signif(lrt_stat,3)} \n n={nn}, true theta={true_theta}"))+
+  annotate("text",x=4.65, y=max(lik_data$likelihood),label=glue("H1: theta > {theta_0}\n thetahat_1 = {mle_alternative%>%pull(theta)} \n L(thetahat_1)={signif(mle_alternative%>%pull(likelihood),4)}"))+
+  annotate("text",x=3.5, y=max(lik_data$likelihood),label=glue("H0: theta <= {theta_0}\n thetahat_0 = {mle_null%>%pull(theta)} \n L(thetahat_0)={signif(mle_null%>%pull(likelihood),3)}"))+
+  xlim(2.9,5)+
+  geom_vline(xintercept=mle_null %>% pull(theta), color="orange")+
+  geom_vline(xintercept=mle_alternative %>% pull(theta),color="green")
+```
+
+
+
+## Hypothesis where MLE $X_{(1)} \leq \theta_0$.
+
+Now let's test the hypotheses:
+
+$H_0: \theta \leq 5$ vs $H_1: \theta > 5$
+
+Note that we have set $\theta_0 = 5$ and we have the MLE $X_{(1)} \leq \theta_0$.
+
+```{r}
+theta_0 = 5
+# likelihood is the distribution function at that data point
+lik_data <- data_frame(theta=seq(1,7,by=.005)) %>%
+  rowwise() %>% # dnorm is not vectorized w.r.t mean=mu
+  mutate(likelihood=(theta<=mle)*(exp(-1*sum(mydata$xvar)+nn*theta))) %>%
+  ungroup()
+  
+mle_null  <- lik_data %>% filter(theta <= theta_0) %>% filter(likelihood==max(likelihood))
+mle_alternative <- lik_data %>% filter(theta > theta_0) %>% filter(likelihood==max(likelihood))
+mle_global <- lik_data %>% filter(likelihood==max(likelihood))
+
+lrt_stat <- (mle_null %>% pull(likelihood))/(mle_global %>% pull(likelihood))
+```
+
+### Where is the maximum likelihood estimator?
+
+Under the null? Under the alternative? Under the whole space? For the likelihood ratio test we need the MLE under the null space and also the MLE under the entire parameter space.
+
+```{r}
+ggplot(lik_data, aes(x=theta, y=likelihood))+
+  geom_line() + 
+  geom_area(aes(y=ifelse(theta <= theta_0, 1.1*max(likelihood), 0),x=theta),fill="red",alpha=0.2)+
+  geom_area(aes(y=ifelse(theta > theta_0, 1.1*max(likelihood), 0),x=theta),fill="blue",alpha=0.2)+
+  geom_area(aes(y=ifelse(theta <= theta_0, likelihood, 0),x=theta),fill="red",alpha=0.7)+
+  geom_area(aes(y=ifelse(theta >theta_0, likelihood, 0),x=theta),fill="blue",alpha=0.7)+
+  ggtitle(glue("Likelihood function of sample of X, LRT = {signif(lrt_stat,3)} \n n={nn}, true theta={true_theta}"))+
+  annotate("text",x=5, y=max(lik_data$likelihood),label=glue("H1: theta > {theta_0}\n thetahat_1 = NA \n L(thetahat_1)=NA"))+
+  annotate("text",x=2, y=max(lik_data$likelihood),label=glue("H0: theta <= {theta_0}\n thetahat_0 = {mle_null%>%pull(theta)} \n L(thetahat_0)={signif(mle_null%>%pull(likelihood),3)}"))+
+  geom_vline(xintercept=mle_null %>% pull(theta), color="orange")
+```
+
+

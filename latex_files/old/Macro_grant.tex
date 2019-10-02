@@ -1,0 +1,496 @@
+\def\wfrakhat{\widehat{\wfrak}}
+\def\blue{\color{blue}}
+\def\red{\color{red}}
+\def\green{\color{green}}
+
+\newcommand{\Lambeps}{\Lambda_{\epsilon}}
+\newcommand{\iip}{i\imath}
+
+\newcommand{\ip}{\imath}
+\newcommand{\ikp}{\imath\kappa}
+\newcommand{\Diip}{\D \iip}
+\newcommand{\Dikikp}{\D_{ik}^{\ikp}}
+\newcommand{\Deltahatdi}{\Deltahat_{\D i}}
+\newcommand{\Deltahatdik}{\Deltahat_{\D ik}}
+\newcommand{\Mhatdik}{\Mhat_{\D ik}}
+\newcommand{\Thatdi}{\That_{\D i}}
+\newcommand{\Thatdik}{\That_{\D ik}}
+\newcommand{\Thatdip}{\That_{\D \imath}}
+\newcommand{\Thatdikp}{\That_{\D \imath\kappa}}
+\newcommand{\epsi}{\epsilon_{i}}
+\newcommand{\epsik}{\epsilon_{ik}}
+\newcommand{\epsip}{\epsilon_{\ip}}
+\newcommand{\epsikp}{\epsilon_{\ikp}}
+\newcommand{\etadikikp}{\eta_{\Dikikp}}
+\newcommand{\etadiip}{\eta_{\Diip}}
+\renewcommand{\sumip}{\sum_{\imath < i}}
+\renewcommand{\sumikikp}{\sum_{i < \imath }\sum_{k, \kappa}}
+\newcommand{\ydip}{Y_{\D \imath}}
+\newcommand{\ydikp}{Y_{\D \imath\kappa}}
+\newcommand{\ycjp}{Y_{\C \jmath}}
+\newcommand{\ycjlp}{Y_{\C \jmath\iota}}
+
+\def\FhatZ{\Fhat_{\Zsc}}
+\def\FhatZq{\Fhat_{\Zsc q}}
+\def\FZ{F_{\Zsc}}
+\def\FZq{F_{\Zsc q}}
+
+\newcommand{\Udif}{{ \Udi^{\scriptstyle{(f)}}}}
+\newcommand{\Udikf}{{ \Udik^{\scriptstyle{(f)}}}}
+\newcommand{\Uhatdikf}{{\Uhatdik^{\scriptstyle{(f)}}}}
+\newcommand{\Vdif}{\Vdi^{\scriptstyle{(f)}}}
+\newcommand{\Vdikf}{\Vdik^{\scriptstyle{(f)}}}
+\newcommand{\Vhatdif}{\Vhatdi^{\scriptstyle{(f)}}}
+\newcommand{\Vhatdikf}{\Vhatdik^{\scriptstyle{(f)}}}
+\newcommand{\intf}{\int_0^f}
+
+\newcommand{\Xikq}{X_{ik}^{(q)}}
+\newcommand{\Iikq}{I_{ik}^{(q)}}
+
+\newcommand{\Ihatc}{\Ischat_{\C}}
+\newcommand{\IhatcZ}{\Ischat_{\C, \bZ}}
+\newcommand{\IhatcZik}{\Ischat_{\C, \bZik}}
+\newcommand{\Icj}{I_{\C j}}
+
+\newcommand{\Pdi}{\Psc_{\D i}}
+\newcommand{\Pcj}{\Psc_{\C j}}
+
+
+\newcommand{\Phatdi}{\widehat{\Psc}_{\D i}}
+\newcommand{\Phatcj}{\widehat{\Psc}_{\C j}}
+
+
+\renewcommand{\Ndinv}{\Nd^{-1}}
+\renewcommand{\Ncinv}{\Nc^{-1}}
+\newcommand{\ndhalfoverNd}{\frac{\ndhalf}{\Nd}}
+
+\newcommand{\pauctilde}{\widetilde{\pauc}}
+\newcommand{\auctilde}{\widetilde{\auc}}
+\def\pauchat{\widehat{\pauc}}
+
+
+%\newcommand{\bVtilde}{\tilde{\bV}}
+
+\newcommand{\eik}{e_{ik}}
+\newcommand{\New}{\mbox{New}}
+\newcommand{\DP}{\mbox{D\&P}}
+\newcommand{\En}{\mbox{E-}}
+
+
+%%%%%%%%%%%%%%%%% Model Checking %%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\ehatika}{{\ehat_{ik}^a}}
+\newcommand{\ehatikf}{{\ehat_{ik}^f}}
+\newcommand{\ehata}{{\ehat^a}}
+\newcommand{\ehatf}{{\ehat^f}}
+\newcommand{\ehatik}{{\ehat_{ik}}}
+\newcommand{\ehatstarik}{{\ehat_{ik}^*}}
+\newcommand{\eaik}{{e_{ik}^a}}
+\newcommand{\efik}{{e_{ik}^f}}
+\newcommand{\ea}{{e^a}}
+\newcommand{\ef}{{e^f}}
+\newcommand{\eika}{{e_{ik}^a}}
+\newcommand{\eikf}{{e_{ik}^f}}
+\newcommand{\estarik}{{e_{ik}^*}}
+\newcommand{\uik}{u_{ik}}
+\newcommand{\uikhat}{\uhat_{ik}}
+
+\newcommand{\hbalpha}{h_{\balpha}}
+\newcommand{\hbalphat}{h_{\balpha_0}}
+\newcommand{\hhatbalpha}{\hhat_{\balpha}}
+\newcommand{\hhatbalphahat}{\hhat_{\balphahat}}
+\newcommand{\hbalphahat}{\hhat_{\balphahat}}
+\def\sL{{\scriptscriptstyle L}}\def\sC{{\scriptscriptstyle C}}
+\def\sI{{\scriptscriptstyle I}}
+\def\MhatL{\Mhat_{\sL}}
+\def\MhatC{\Mhat_{\sC}}
+\def\MhatI{\Mhat_{\sI}}
+\def\MtildeL{\Mtilde_{\sL}}
+\def\MtildeC{\Mtilde_{\sC}}
+\def\MtildeI{\Mtilde_{\sI}}
+\newcommand{\SL}{\Ssc_{\mbox{\tiny \sl L}}}
+\newcommand{\SC}{\Ssc_{\mbox{\tiny \sl C}}}
+\newcommand{\SI}{\Ssc_{\mbox{\tiny \sl I}}}
+
+\newcommand{\etaa}{\eta_{_a}}
+\newcommand{\detaa}{\dot{\eta}_{_a}}
+\newcommand{\Zjlq}{Z_{jlq}}
+
+
+\newcommand{\pen}{{\sf pen}}
+\newcommand{\bsigmabsq}{\bsigma_b^2}
+\newcommand{\bsigmabsqhat}{\bsigmahat_b^2}
+\newcommand{\bsigmabnsq}{\bsigma_b^{-2}}
+\newcommand{\sigmabksq}{\sigma_{bk}^2}
+
+\newcommand{\bYveci}{\vec{\bY}_i}
+\newcommand{\bYvec}{\vec{\bY}}
+\newcommand{\define}{\overset{def}{=}}
+\newcommand{\pl}{{\pfrak\lfrak}}
+
+\newcommand{\ylam}{y^{\scriptstyle (\lambda_0)}}
+\newcommand{\ylamhat}{y^{\scriptstyle (\lambdahat_0)}}
+\newcommand{\ydilam}{\ydi^{\scriptstyle (\lambda_0)}}
+\newcommand{\ydiklam}{\ydik^{\scriptstyle (\lambda_0)}}
+\newcommand{\ycjlam}{\ycj^{\scriptstyle (\lambda_0)}}
+\newcommand{\ycjllam}{\ycjl^{\scriptstyle (\lambda_0)}}
+\newcommand{\ydilamt}{\ydi^{\scriptstyle (\lambda_{00})}}
+\newcommand{\ydiklamt}{\ydik^{\scriptstyle (\lambda_{00})}}
+\newcommand{\ycjlamt}{\ycj^{\scriptstyle (\lambda_{00})}}
+\newcommand{\ycjllamt}{\ycjl^{\scriptstyle (\lambda_{00})}}
+
+\newcommand{\bXilam}{\bfXi^{\scriptstyle (\blambda_{x})}}
+\newcommand{\bXiklam}{\bXik^{\scriptstyle (\blambda_x)}}
+\newcommand{\bXiklamtrans}{\bXik^{\scriptstyle (\blambda_x)\trans}}
+
+\newcommand{\bZjlam}{\bZj^{\scriptstyle (\blambda_{z})}}
+\newcommand{\bZjllam}{\bZjl^{\scriptstyle (\blambda_1)}}
+\newcommand{\bZjllamtrans}{\bZjl^{\scriptstyle (\blambda_1)\trans}}
+
+\newcommand{\bXvecilam}{\vec{\bX}_i^{\scriptstyle ({\blambda}_{x})}}
+\newcommand{\bXveciklam}{\bXvecik^{\scriptstyle (\blambda_x)}}
+\newcommand{\bXveciklamtrans}{\bXvecik^{\scriptstyle (\blambda_x)\trans}}
+
+\newcommand{\bZvecjlam}{\vec{\bZ}_{j}^{\scriptstyle ({\blambda}_{z})}}
+\newcommand{\bZvecjllam}{\bZvecjl^{\scriptstyle (\blambda_z)}}
+\newcommand{\bZvecjllamtrans}{\bZvecjl^{\scriptstyle (\blambda_z)\trans}}
+
+\newcommand{\bZilam}{\bZi^{\scriptstyle (\blambda_{z})}}
+\newcommand{\bZiklam}{\bZik^{\scriptstyle (\blambda_{z})}}
+\newcommand{\bZiklamtrans}{\bZik^{\scriptstyle (\blambda_{z})\trans}}
+
+\newcommand{\bXiplam}{\bX_{\imath}^{\scriptstyle (\blambda_{x})}}
+\newcommand{\bXikplam}{\bX_{\imath\kappa}^{\scriptstyle (\blambda_{x})}}
+\newcommand{\bXikplamtrans}{\bX_{\imath\kappa}^{\scriptstyle (\blambda_{x})\trans}}
+
+\newcommand{\bZjplam}{\bZ_{\jmath}^{\scriptstyle (\blambda_{z})}}
+\newcommand{\bZjlplam}{\bZ_{\jmath\iota}^{\scriptstyle (\blambda_{z})}}
+\newcommand{\bZjlplamtrans}{\bZ_{\jmath\iota}^{\scriptstyle (\blambda_{z})\trans}}
+
+\newcommand{\bZiplam}{\bZ_{\imath}^{\scriptstyle (\blambda_{z})}}
+\newcommand{\bZikplam}{\bZ_{\imath\kappa}^{\scriptstyle (\blambda_{z})}}
+\newcommand{\bZikplamtrans}{\bZ_{\imath\kappa}^{\scriptstyle (\blambda_{z})\trans}}
+
+\newcommand{\bZdilam}{\bZdi^{\scriptstyle (\blambda_{\zd})}}
+\newcommand{\bZdiklam}{\bZdik^{\scriptstyle (\blambda_{\zd})}}
+\newcommand{\bZdiklamtrans}{\bZdik^{\scriptstyle (\blambda_{\zd})\trans}}
+
+
+\newcommand{\bXlam}{\bX^{\scriptstyle (\blambda_{x})}}
+\newcommand{\bZlam}{\bZ^{\scriptstyle (\blambda_{z})}}
+\newcommand{\bZlamhat}{\bZ^{\scriptstyle (\blambdahat_{z})}}
+\newcommand{\bZdlam}{\bZd^{\scriptstyle (\blambda_{z_{\D}})}}
+\newcommand{\bZdlamhat}{\bZd^{\scriptstyle (\blambdahat_{z_{\D}})}}
+\newcommand{\zd}{z_{\scriptscriptstyle \mbox{\tiny D}}}
+\newcommand{\blamx}{\blambda_{x}}
+\newcommand{\blamvecx}{\vec{\blambda}_{x}}
+\newcommand{\blamz}{\blambda_{z}}
+\newcommand{\blamzd}{\blambda_{z_{\D}}}
+\newcommand{\bxvec}{\vec{\bx}}
+
+
+\newcommand{\balphad}{\balpha_{\D}}
+\newcommand{\bbetad}{\bbeta_{\D}}
+\newcommand{\bbetadhat}{\bbetahat_{\D}}
+\newcommand{\betadzero}{\beta_{\D }}
+\newcommand{\bbetadone}{\bbeta_{\D 1}}
+\newcommand{\bbetadtwo}{\bbeta_{\D 2}}
+\newcommand{\lamc}{\lambda_{\C}}
+\newcommand{\bbetac}{\bbeta_{\C}}
+\newcommand{\bbetachat}{\bbetahat_{\C}}
+\newcommand{\bbetachattrans}{\bbetahat_{\C}^{_{\transpose}}}
+\newcommand{\bbetacone}{\bbeta_{\C 1}}
+\newcommand{\bbetaconehat}{\bbetahat_{\C 1}}
+\newcommand{\bbetaczero}{\beta_{\C 0}}
+\newcommand{\bbetahatlam}{\bbetahat_{\lambda}}
+
+\newcommand{\lamd}{\lambda_{\D}}
+\newcommand{\bthetad}{\btheta_{\D}}
+\newcommand{\bbetahatd}{\bbetahat_{\D}}
+\newcommand{\bbetahatc}{\bbetahat_{\C}}
+\newcommand{\bbetahatdlam}{\bbetahat_{\D \blambda}}
+\newcommand{\bbetahatclam}{\bbetahat_{\C \blambda}}
+\newcommand{\bbetahatdlamhat}{\bbetahat_{\D \blambdahat}}
+\newcommand{\bbetahatclamhat}{\bbetahat_{\C \blambdahat}}
+\newcommand{\bthetac}{\btheta_{\C}}
+\newcommand{\bthetachat}{\bthetahat_{\C}}
+
+\newcommand{\Qhatd}{\Qhat_{\D}}
+\newcommand{\Qhatc}{\Qhat_{\C}}
+\newcommand{\bQhatd}{\bQhat_{\D}}
+\newcommand{\bQhatc}{\bQhat_{\C}}
+
+\newcommand{\epsd}{\epsilon_{\D}}
+\newcommand{\epsc}{\epsilon_{\C}}
+\newcommand{\epsdi}{\epsilon_{\D i}}
+\newcommand{\epscj}{\epsilon_{\C j}}
+\newcommand{\epsdilam}{\epsilon_{\D i}(\lambda_{\D})}
+\newcommand{\epscjlam}{\epsilon_{\C j}(\lambda_{\C})}
+\newcommand{\epsdiplam}{\epsilon_{\D \imath}(\lambda_{\D})}
+\newcommand{\epscjplam}{\epsilon_{\C \jmath}(\lambda_{\C})}
+
+\newcommand{\epsdik}{\epsilon_{\D ik}}
+\newcommand{\epscjl}{\epsilon_{\C jl}}
+
+\newcommand{\varepscjl}{{\varepsilon}_{\C jl}}
+\newcommand{\varepsdik}{{\varepsilon}_{\D ik}}
+\newcommand{\varepshatcjl}{\widehat{\varepsilon}_{\C jl}}
+\newcommand{\varepshatdik}{\widehat{\varepsilon}_{\Dik}}
+
+\newcommand{\balphachattrans}{\balphahat_{\C}^{_{\transpose}}}
+\newcommand{\balphac}{\balpha_{\C}}
+\newcommand{\balphachat}{\balphahat_{\C}}
+\newcommand{\smbalphac}{\smbalpha_{\C}}
+\newcommand{\smbalphachat}{{\widehat \smbalpha}_{\C}}
+
+\newcommand{\Mchat}{\Mhat_{\C}}
+\newcommand{\Mchatq}{\Mhat_{\C_q}}
+\newcommand{\Mchatcovq}{\Mhat_{\C_{q \zfrak}}}
+\newcommand{\Mchatmu}{\Mhat_{\C_{\mu}}}
+\newcommand{\Mchatsig}{\Mhat_{\C_{\sigma}}}
+\newcommand{\Mctilde}{\Mtilde_{\C}}
+\newcommand{\Mctildeq}{\Mtilde_{\C_q}}
+\newcommand{\Msccj}{\Msc_{\C j}}
+\newcommand{\Msccjq}{\Msc_{\C_q j}}
+\newcommand{\Mschatcj}{\Mschat_{\C j}}
+\newcommand{\Mschatcjq}{\Mschat_{\C_q j}}
+\newcommand{\Msci}{\Msc_{i}}
+\newcommand{\Mscj}{\Msc_{j}}
+\newcommand{\bMsci}{\bMsc_{i}}
+\newcommand{\bMscj}{\bMsc_{j}}
+\newcommand{\Mschati}{\Mschat_{i}}
+\newcommand{\Mschatj}{\Mschat_{j}}
+
+\newcommand{\bAsccj}{\bAsc_{\C j}}
+\newcommand{\bAscj}{\bAsc_{j}}
+\newcommand{\bAsci}{\bAsc_{i}}
+
+\newcommand{\Sscc}{\Ssc_{\C}}
+\newcommand{\Sschatc}{\widehat{\Ssc}_{\C}}
+\newcommand{\Sschatcq}{\widehat{\Ssc}_{\C_q}}
+\newcommand{\Ssctildec}{\widetilde{\Ssc}_{\C}}
+
+\newcommand{\Hcnul}{\mbox{H}_{\C 0}}
+\newcommand{\Hl}{\mbox{H}_{\link}}
+\newcommand{\Hxq}{\mbox{H}_{x_q}}
+\newcommand{\Hint}{\mbox{H}_{\mbox{\tiny int}}}
+
+\newcommand{\Fhatd}{\Fhat_{{\D}}}
+\newcommand{\Fhatc}{\Fhat_{{\C}}}
+\newcommand{\Fcinv}{F_{\C}^{-1}}
+\newcommand{\glamd}{g_{_{\lamd}}}
+\newcommand{\glamc}{g_{_{\lamc}}}
+\newcommand{\Flamd}{F_{{\lamd}}}
+\newcommand{\Flamc}{F_{{\lamc}}}
+\newcommand{\xilamdd}{\xi_{\lamd, \lamd, 1}}
+\newcommand{\xilamdc}{\xi_{\lamd, \lamc, \alpha_1}}
+\newcommand{\xilamcc}{\xi_{\lamc, \lamc, 1}}
+
+\newcommand{\xidd}{\xi_{\D \D}}
+\newcommand{\xidc}{\xi_{\D \C}}
+\newcommand{\xicc}{\xi_{\C \C}}
+
+\newcommand{\pd}{p_{_{\D}}}
+\newcommand{\pc}{p_{_{\C}}}
+\newcommand{\wD}{w_{\D}}
+\newcommand{\wC}{w_{\C}}
+\newcommand{\vC}{v_{\C}}
+\newcommand{\vD}{v_{\D}}
+\newcommand{\bvC}{\bv_{\C}}
+\newcommand{\bvD}{\bv_{\D}}
+
+%%%%%%%%%%%%%%%%%%%
+%%% PSA Problem %%%
+%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Ystar}{Y^*}
+\newcommand{\Ybari}{\Ybar_i}
+\newcommand{\bXstar}{\bX^*}
+\newcommand{\trt}{\mbox{Trt}}
+\newcommand{\Yij}{Y_{ij}}
+\newcommand{\tij}{t_{ij}}
+\newcommand{\tini}{t_{in_i}}
+\newcommand{\rhoi}{\rho_i}
+\newcommand{\rhohati}{\rhohat_i}
+\newcommand{\pii}{\pi_i}
+\newcommand{\pihati}{\pihat_i}
+\newcommand{\Vi}{V_i}
+\newcommand{\Di}{D_i}
+\newcommand{\IPW}{\mbox{\tiny IPW}}
+\newcommand{\SPE}{\mbox{\tiny SPE}}
+\newcommand{\FI}{\mbox{\tiny FI}}
+\newcommand{\MSI}{\mbox{\tiny MSI}}
+\newcommand{\pfrakhat}{\widehat{\pfrak}}
+
+\newcommand{\tistar}{t_i^*}
+\newcommand{\Ysci}{\Ysc_i}
+
+
+\newcommand{\Yscdi}{\Ysc_{\D i}}
+\newcommand{\Ysccj}{\Ysc_{\C j}}
+\newcommand{\Ldi}{L_{\D i}}
+\newcommand{\Lcj}{L_{\C j}}
+\newcommand{\Rdi}{R_{\D i}}
+\newcommand{\Rcj}{R_{\C j}}
+
+\newcommand{\Yscdik}{\Ysc_{\D ik}}
+\newcommand{\Ysccjl}{\Ysc_{\C jl}}
+\newcommand{\Ystardik}{Y^*_{\D ik}}
+\newcommand{\Ystarcjl}{Y^*_{\C jl}}
+\newcommand{\Ldik}{L_{\D ik}}
+\newcommand{\Lcjl}{L_{\C jl}}
+\newcommand{\Rdik}{R_{\D ik}}
+\newcommand{\Rcjl}{R_{\C jl}}
+
+\newcommand{\Deltaldik}{\Delta_{\D ik}^L}
+\newcommand{\Deltalcjl}{\Delta_{\C jl}^L}
+\newcommand{\Deltardik}{\Delta^R_{\D ik}}
+\newcommand{\Deltarcjl}{\Delta^R_{\C jl}}
+\newcommand{\Deltadik}{\Delta_{\D ik}}
+\newcommand{\Deltacjl}{\Delta_{\C jl}}
+
+\newcommand{\ehatdik}{\ehat_{\D ik}}
+\newcommand{\ehatcjl}{\ehat_{\C jl}}
+
+
+\newcommand{\Udikp}{U_{\D \iota\kappa}}
+\newcommand{\Uhatdikp}{\Uhat_{\D \iota\kappa}}
+\renewcommand{\bXikp}{\bX_{\iota\kappa}}
+
+\newcommand{\marg}{\mbox{\tiny marg}}
+\newcommand{\defn}{\overset{def}{=}}
+
+\def\bZveci{\bZvec_i}
+\def\Kbb{\mathbb{K}}
+\def\Kbbh{\mathbb{K}_h}
+\def\Kbbhn{\mathbb{K}_{h_n}}
+\def\Kh{K_h}
+\def\Khn{K_{h_n}}
+\def\bZij{\bZ_{ij}}
+\def\bZi{\bZ_{i}}
+\def\bZj{\bZ_{j}}
+\def\pme{p_{\mbox{\tiny ME}}}
+\def\pome{p_{\mbox{\tiny OME}}}
+\def\phatme{\phat_{\mbox{\tiny ME}}}
+\def\phatome{\phat_{\mbox{\tiny OME}}}
+\def\ppv{\mbox{PPV}}
+\def\npv{\mbox{NPV}}
+\def\fnr{\mbox{FNR}}
+\def\fnrhat{\widehat{\mbox{FNR}}}
+
+\def\omr{\mbox{OMR}}
+\def\omrhat{\widehat{\mbox{OMR}}}
+
+
+\def\Spt{S_{\mbox{\tiny P},t}}
+\def\Snt{S_{\mbox{\tiny N},t}}
+\def\elltilde{\tilde{\ell}}
+\def\pe{\mbox{PE}}
+\def\palpha{p_{\alpha}}
+\def\calphat{c_{\alpha_t}}
+\def\pehat{\widehat{\pe}}
+\def\ppvhat{\widehat{\ppv}}
+\def\npvhat{\widehat{\npv}}
+\def\omr{\mbox{O}}
+\def\omrhat{\widehat{\mbox{O}}}
+\def\omrtilde{\widetilde{\mbox{O}}}
+\def\bigsumin{{\displaystyle \sumin}}
+\def\ctfn{\Csc_t^{\tiny FN}}
+\def\ctfp{\Csc_t^{\tiny FP}}
+\def\WscLam{\Wsc_{\Lambda_0}}
+\def\WschatLam{\Wschat_{\Lambda_0}}
+\def\trace{\mbox{trace}}
+\def\bKi{\bK_{i}}
+\def\bKj{\bK_{j}}
+\def\bKl{\bK_{l}}
+\def\Kii{K_{ii}}
+\def\Kjj{K_{jj}}
+\def\Kll{K_{ll}}
+\def\Kbb{\mathbb{K}}
+\def\Kbbtilde{\widetilde{\Kbb}}
+\def\Kbbinv{\mathbb{K}^{-1}}
+\def\Kij{K_{ij}}
+\def\Klj{K_{lj}}
+\def\Bbbhat{\widehat{\Bbb}}
+\def\Sbbhat{\widehat{\Sbb}}
+\def\sumln{\sum_{l=1}^n}
+\def\dLsc{\dot{\Lsc}}
+\def\ddLsc{\ddot{\Lsc}}
+\def\Deltabar{\bar{\Delta}}
+\def\Wbbhat{\widehat{\Wbb}}
+\def\sfrakhat{\widehat{\sfrak}}
+\def\Fscr{\mathscr{F}}
+\def\Dscr{\mathscr{D}}
+\def\Gscr{\mathscr{G}}
+\def\Pscr{\mathscr{P}}
+\def\Zscr{\mathscr{Z}}
+\def\Pscrhat{\widehat{\mathscr{P}}}
+\def\Sscr{\mathscr{S}}
+\def\Sscrhat{\widehat{\mathscr{S}}}
+
+\def\se{\mbox{SE}}
+\def\sp{\mbox{SP}}
+\def\npv{\mbox{NPV}}
+\def\ppv{\mbox{PPV}}
+
+\def\sehat{\widehat{\se}}
+
+\def\Vbb{\mathbb{V}}
+\def\Dbb{\mathbb{D}}
+\def\Ubb{\mathbb{U}}
+\def\Bbb{\mathbb{B}}
+\def\Ebb{\mathbb{E}}
+\def\Sbb{\mathbb{S}}
+\def\Wbb{\mathbb{W}}
+\def\Ibb{\mathbb{I}}
+\def\Kbb{\mathbb{K}}
+
+ \def\Ibbhat{\widehat{\Ibb}}
+\def\Kbbhalf{\Kbb^{\half}}
+\def\Dbbhalf{\Dbb^{\half}}
+\def\Vbbtilde{\widetilde{\mathbb{V}}}
+\def\Dbbtilde{\widetilde{\mathbb{D}}}
+\def\Kbbtilde{\widetilde{\mathbb{K}}}
+\def\Kbbtildehalf{\Kbbtilde^{\half}}
+\def\bKtildei{\bKtilde_i}
+\def\bKtildehalf{\bKtilde^{\half}}
+\def\bKtildehalfi{\bKtilde^{\half}_i}
+\def\bWtildei{\bWtilde_i}
+\def\bWtildehalf{\bWtilde^{\half}}
+\def\bWtildehalfi{\bWtilde^{\half}_i}
+\def\bBtildei{\bBtilde_i}
+\def\bBtildehalf{\bBtilde^{\half}}
+\def\bBtildehalfi{\bBtilde^{\half}_i}
+
+\def\SE{\mbox{SE}}
+\def\SP{\mbox{SP}}
+\def\AUCtn{\mbox{AUC}_{t_0}}
+\def\ROCtn{\mbox{ROC}_{t_0}}
+\def\SEtn{\mbox{SE}_{t_0}}
+\def\SPtn{\mbox{SP}_{t_0}}
+\def\NPVtn{\mbox{NPV}_{t_0}}
+\def\PPVtn{\mbox{PPV}_{t_0}}
+\def\SEtnhat{\widehat{\SE}_{t_0}}
+\def\SPtnhat{\widehat{\SP}_{t_0}}
+
+\def\bUvec{\vec{\bU}}
+\def\bWvec{\vec{\bW}}
+
+\def\beqs{\vspace{-.1in}\begin{equation*}}
+\def\eeqs{\vspace{-.08in}\end{equation*}}
+
+\def\beq{\vspace{-.1in}\begin{equation}}
+\def\eeq{\vspace{-.08in}\end{equation}}
+
+\def\auctn{\auc_{t_0}}
+\def\auctnhat{\auchat_{t_0}}
+\def\auctnhatcv{\auchat_{t_0}^{\mbox{\tiny CV}}}
+\def\roctn{\roc_{t_0}}
+\def\roctnhat{\rochat_{t_0}}
+
+\def\omegatnhati{\omegahat_{t_0 i}}
+\def\omegatnhatj{\omegahat_{t_0 j}}
+
+
+
+

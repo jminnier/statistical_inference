@@ -1,0 +1,841 @@
+# Hypothesis Testing (C\&B 8)
+
+## Definitions and Intro (8.1)
+
+\noindent {\bf Definition 8.1.1} A hypothesis is a statement about a population parameter.
+
+\noindent {\bf Definition 8.1.2} In a hypothesis testing problem, we have two competing hypotheses, the null $H_0$, and alternative, $H_1$ (or $H_a$), hypotheses.
+
+The general form of the pair of hypotheses is
+$$ H_0 : \theta \in \Theta_0 \mbox{ versus } H_1: \theta \in \Theta^c_0,$$
+where $\Theta_0$ is some subset of the parameter space and $\Theta^C_0$ is the complement of $\Theta_0$. We will often write these more simply, for example:
+$$H_0: \theta = \theta_0 \mbox{ and } H_1: \theta \neq \theta_0 \mbox{ or } H_0: \theta \leq \theta_0 \mbox{ and } H_1: \theta > \theta_0$$
+
+\noindent {\bf Definition 8.1.3} A hypothesis testing procedure or hypothesis test is a rule that specifies:
+
+\begin{enumerate}
+\item The {\bf rejection (critical) region}: for which sample values $H_0$ is rejected and $H_1$ is accepted as true.
+\item The {\bf acceptance region}: for which sample values the decision is made to accept $H_0$ as true.
+\end{enumerate}
+
+**How to describe a hypothesis test?** A rule which says for which sample values we will reject the null hypothesis and for which values we will "not reject" the null hypothesis.
+
+In the textbook C\&B mention the controversy over the use of the phrase "accept the null hypothesis." For the most part, we won't use that terminology in making conclusions, although we will use it for discussion of types of errors in hypothesis testing.
+
+*Notes*
+
+- Typically, a hypothesis test is specified in terms of a *test statistic* $W(X_1, \ldots, X_n) = W(\bX)$, a function of the sample.
+- Examples of a *test statistic*: $W(X_1, \ldots, X_n) = \ninv\sumin{X_i}$ or $W(X_1, \ldots, X_n) = X_2$ or $W(X_1, \ldots, X_n) = X_{(1)}$
+- Like point estimators, tests *must be evaluated* before we can determine whether they provide useful inference. But first we must describe methods of finding tests.
+- Definition of rejection and acceptance regions involves using evidence against or for the null. The evidence comes from our sample data!
+
+## Methods of Finding Tests (8.2)
+
+There are various approaches for finding hypothesis tests.
+
+We will start with likelihood ratio tests, which have connections to maximum likelihood estimation.
+
+### Likelihood Ratio Tests (LRTs)
+
+- **Goal**: compare the likelihood of the sample data under the null and the alternative hypotheses. 
+- If the likelihood of the sample data under the alternative hypothesis is significantly greater than under the null hypothesis then we will reject the null hypothesis in favor of the alternative hypothesis. 
+- The rule is typically defined in terms of a *test statistic* involving...you guessed it, likelihoods!
+
+Recall that if the join pdf (pmf) for data $X_1, \ldots, X_n$ is denoted by $f(\bx | \theta)$, the *likelihood function* is:
+$$ \Lsc(\theta | \bx) = \Lsc(\theta | x_1, \ldots,x_n) = f(\bx | \theta),$$
+where $\theta$ could be a scalar or a vector.
+
+Let $\Theta$ denote the full parameter space.
+
+\noindent {\bf Definition 8.2.1 LRT} The *likelihood ratio test statistic* for testing $H_0: \theta \in \Theta_0$ versus $H_1: \theta \in \Theta_0^c$ is\footnote{sup = supremum, or least upper bound, is similar to maximum but is more general; a supremum of set $S$ is the smallest upper bound of $S$, where an upper bound is a number $B$ such that $x\leq B$ for all $x\in S$, and if the upper bound is in $S$ then it is the maximum of $S$.}
+$$\lambda(\bx) = \frac{\sup_{\theta \in\Theta_0} \Lsc(\theta | \bx)}{\sup_{\theta \in \Theta} \Lsc(\theta | \bx)}.$$ 
+A *likelihood ratio test (LRT)* is any test that has a rejection region of the form $${\{\bx: \lambda(\bx) \leq c\}},$$ where $c$ is any number satisfying $0\leq c \leq 1$.
+
+
+
+Note that if the likelihood of the sample is greater for some value of the parameter, $\theta$, under the alternative compared to all values of the parameter under the null hypothesis, the denominator of the LRT statistic will be greater than the numerator, and hence the LRT statistic will be less than 1. In this case, we think of the alternative as more likely than the null hypothesis. (small/large)
+
+Recall that MLEs were defined as maximizing the likelihood functions. If we maximize the likelihood in the restricted null hypothesis space and maximize the likelihood over the entire parameter space we have found which $\theta$ estimates give us the top and bottom pieces of the LRT fraction. Thus we can express the LRT statistic using MLE's as follows:
+$$\boxed{\lambda(\bx) = \frac{\Lsc(\thetahat_0 | \bx)}{\Lsc(\thetahat | \bx)}}$$
+where $\thetahat_0$ denotes a restricted MLE obtained by maximizing the likelihood over a restricted parameter space. Specifically, $\thetahat_0 = \thetahat_0(\bx)$, is the value of $\theta \in \Theta_0$ that maximizes $\Lsc(\theta| \bx)$.
+
+
+\noindent {\bf Example} (*Example 8.2.2, Normal LRT*): Let $X_1, \ldots, X_n$ be a random sample from a $\Nsc(\theta,1)$ population. Consider testing $H_0: \theta = \theta_0$ versus $H_1: \theta \neq \theta_0$. Here $\theta_0$ is a number fixed by the experimenter prior to the experiment. Since there is only one value of $\theta$ specified by $H_0$, the numerator of $\lambda(\bx)$ is $\Lsc(\theta_0 |\bx)$. In Example 7.2.5 the (unrestricted) MLE of $\theta$ was found to be $\bXbar$, the sample mean. Thus the denominator of $\lambda(\bx)$ is $\Lsc(\bxbar | \bx)$. So the LRT statistic is:
+\begin{align*}
+\lambda(\bx) &= \frac{(2\pi)^{-n/2}\exp [-\sumin (x_i - \theta_0)^2 /2]}{(2\pi)^{-n/2}\exp [-\sumin (x_i - \bxbar)^2/2]}\\
+&= \exp \left[\left( -\sumin (x_i - \theta_0)^2 + \sumin (x_i - \bxbar)^2 \right)/2\right]\\
+&= \exp \left[ \left(-\sumin(x_i - \bxbar + \bxbar - \theta_0)^2  + \sumin (x_i - \bxbar)^2  \right)/2\right]\\
+&= \exp \left[ \left(-\sumin(x_i - \bxbar)^2 - 2 (\bxbar - \theta_0) \sumin (x_i - \bxbar) - n (\xbar - \theta_0)^2 + \sumin (x_i - \bxbar)^2  \right)/2\right]\\
+&= \exp [-n(\bxbar - \theta_0)^2/2]
+\end{align*}
+For this test statistic to lend itself to become a test procedure, we need to define the rejection and acceptance regions. An LRT is a test that rejects $H_0$ for small values of $\lambda(\bx)$. From (8.2.2), the rejection region $\{\bx: \lambda(\bx) \leq c\}$, can be written as
+$$ \{ \bx: | \bxbar - \theta_0 | \geq \sqrt{-2(\log c)/n}\}$$
+As $c$ ranges between 0 and 1, $\sqrt{-2(\log c)/n}$ ranges between 0 and $\infty$. Thus, the LRTs are just those tests that reject $H_0: \theta = \theta_0$ if the sample mean differs from the hypothesized value $\theta_0$ by more than a specified amount. (Note this test procedure is not very useful unless we choose a $c$, more on this later).
+
+Recap: First find the expression for $\lambda(\bX)$, then we can simplify the rejection region as an expression involving $|\bXbar - \theta_0|$ (remember $\bXbar$ is a sufficient statistic). This simplification is a recurring theme (and will become theorem 8.2.4.)
+
+\noindent {\bf Example} (*Example 8.2.3, Exponential LRT*)
+
+But suppose the solution to the optimization is not a simple interior point. Let $X_1, \ldots, X_n$ be a random sample from an exponential population with pdf
+$$f(x) = 
+\begin{cases}
+e^{-(x-\theta)},& x\geq \theta\\
+0, & x<\theta
+\end{cases}
+$$
+where $-\infty < \theta < \infty$. Note how the support of $\bx$ depends on $\theta$. You typically do not know the value of $\theta$ and so you must estimate it. The likelihood function is:
+$$\Lsc(\theta |\bx) = \begin{cases}
+e^{-\sumin x_i + n \theta}, & \theta \leq x_{(1)}\\
+0, & \theta > x_{(1)}
+\end{cases}
+$$
+Now suppose you (the experimenter and the analyst) choose a $\theta_0$ and wish to test:
+$$H_0: \theta \leq \theta_0$$
+$$H_1: \theta > \theta_0$$
+
+We have two cases, $x_{(1)} \leq \theta_0$ or $x_{(1)} > \theta_0$.
+
+We have $\Theta =  {-\infty < \theta \leq x_{(1)} }$ (we know this is the possible range of values for $\theta$, given our model and pdf), we see that if we maximize the likelihood in this parameter space we see the maximum at $x_{(1)}$:
+$$\Lsc(\thetahat_0 |\bx) = \Lsc(x_{(1)}|\bx) = e^{-\sumin x_i + nx_{(1)}}$$
+since the function is increasing in $\theta$ and $\theta \leq x_{(1)}$. This is the denominator of $\lambda(\bx)$, the unrestricted maximum of $\Lsc(\theta | \bx)$.
+
+Now we need the restricted maximum (supremum) in the null hypothesis parameter space for our numerator. We think of our cases:
+
+If $x_{(1)} > \theta_0$, we have $\sup_{\Theta_0} \Lsc(\theta|\bx) = e^{-\sumin x_i+ n\theta_0}$ as this is the largest $\theta$ under $H_0$ (actually the limit, since we need the supremum).
+
+If $x_{(1)} \leq \theta_0$, we have $\sup_{\Theta_0} \Lsc(\theta | \bx) = e^{-\sumin x_i + n x_{(1)}}$ because the model requires $\theta \leq x$.
+
+Hence, we have our LRT:
+$$\lambda(\bx) = \begin{cases}
+1, & x_{(1)} \leq \theta_0\\
+e^{-n(x_{(1)} - \theta_0)}, & x_{(1)} > \theta_0.
+\end{cases}
+$$
+Again we are left with our LRT simplified in an expression of a sufficient statistic for $\theta$.
+
+We actually could have started this by using the distribution of the sufficient statistic $x_{(1)}$, because of the following theorem.
+
+\noindent {\bf Theorem 8.2.4 -- LRT's and Sufficient Statistics}: If $T(\bX)$ is a sufficient statistic for $\theta$ and $\lambda^*(t)$ and $\lambda(\bx)$ are the LRT statistics based on $T$ and $\bX$, respectively, then $\lambda^*(T(\bx)) = \lambda(\bx)$ for every $\bx$ in the sample space.
+
+\noindent {\bf Proof}: Recall from the Factorization Theorem (Theorem 6.2.6), the pdf or pmf of $\bX$ can be written as $f(\bx|\theta) = g(T(\bx)\theta) h(\bx)$, where $g(t|\theta)$ is the pdf or pmf of $T$ and $h(\bx)$ does not depend on $\theta$. Thus
+\begin{align*}
+\lambda(\bx) &= \frac{\sup_{\theta \in\Theta_0} \Lsc(\theta | \bx)}{\sup_{\theta \in \Theta} \Lsc(\theta | \bx)}\\
+&= \frac{\sup_{\theta \in\Theta_0} f(\bx | \theta )}{\sup_{\theta \in \Theta} f( \bx|\theta)}\\
+&= \frac{\sup_{\theta \in\Theta_0} g(T(\bx) | \theta )h(\bx)}{\sup_{\theta \in \Theta} g(T( \bx)|\theta)h(\bx)}\\
+&= \frac{\sup_{\theta \in\Theta_0} g(T(\bx) | \theta )}{\sup_{\theta \in \Theta} g(T( \bx)|\theta)}\\
+&= \frac{\sup_{\theta \in\Theta_0} \Lsc^*(\theta | T(\bx)  )}{\sup_{\theta \in \Theta} \Lsc^*(\theta|T( \bx))}\\
+&= \lambda^*(T(\bx)).
+\end{align*}
+$\Lsc^*(\theta|T(\bx))$ is the likelihood based on $T$.
+
+So, the likelihood ratio test statistic depends on the data only through $T$ if $T$ is sufficient for $\theta$.
+
+\noindent \textbf{Summary:} Sometimes it is easier to reduce by sufficiency first to find the form of the LRT.
+
+\noindent \textbf{Note:} Likelihood ratio tests are also useful in situations where there are nuisance parameters, that is, parameters that are present in a model but are not of direct inferential interest. For example, when we have a normally distributed variable and only care to make inference on the true mean but do not know the true variance (or care to know it).
+
+\noindent {\bf Example} (*Example 8.2.6, Normal LRT with unknown variance*)
+
+In the case where we have normally distributed data and want to make inference on the mean, the standard deviation $\sigma$ becomes a nuisance parameter. Let $X_1, \ldots, X_n$ be a random sample from a $\Nsc(\mu,\sigma^2)$ population. Consider testing $H_0: \mu \leq \mu_0$ versus $H_1: \mu > \mu_0$. The LRT statistic is
+
+\begin{align*}
+\lambda(\bx) &= \frac{\max_{\mu, \sigma: \mu \leq\mu_0, \sigma^2 >0 } \Lsc(\theta | \bx)}{\max_{\mu, \sigma: -\infty < \mu < \infty, \sigma^2 > 0} \Lsc(\theta | \bx)} 
+= \frac{L(\muhat_0, \sigmahat_0^2)}{L(\muhat, \sigmahat^2)}
+\end{align*}
+
+
+If $\muhat > \mu_0$
+
+$$\muhat = \Xbar, \, \sigmahat^2 = \sumin(X_i - \Xbar)/n$$
+$$\muhat_0 = \mu_0, \, \sigmahat_0^2 = \sumin(X_i - \mu_0)/n$$
+
+while if $\muhat < \mu_0$
+$$\muhat = \muhat_0 = \Xbar, \, \sigmahat^2 = \sigmahat_0^2 = \sumin(X_i - \Xbar)/n$$
+
+so we have
+
+$$\lambda(\bx) = \begin{cases}
+1, & \muhat  \leq \mu_0\\
+\frac{L(\muhat, \sigmahat^2)}{L(\muhat_0, \sigmahat_0^2)}, & \muhat > \mu_0.
+\end{cases}
+$$
+
+<!-- \subsubsection{Union-Intersection and Intersection-Union Tests} -->
+
+<!-- Used to simplify complex tests, often specified as individual simple tests. Read section 8.2.3 for details. An example is a two tailed test, where we reject $H_0: \{\mu: \mu\leq \mu_0\} \bigcap \{\mu: \mu\geq \mu_0\}$ stated as the intersection of two parameter spaces for the mean, with a union of rejection regions: -->
+<!-- $$\left\{\frac{\bXbar - \mu_0}{S/\sqrt{n}} \geq t_L\right\} \bigcup  \left\{ \frac{\bXbar - \mu_0}{S/\sqrt{n}} \leq t_U\right\}$$ -->
+
+**Example: Two sample exponential**
+
+Suppose that we have two independent random samples: $X_1, \ldots X_n$ are exponential($\theta$) and $Y_1, \ldots, Y_m$ are exponential($\mu$). Find the LRT of $H_0: \theta = \mu$ versus $H_1: \theta \neq \mu$.
+
+
+
+## Review
+
+\noindent\textbf{What do we know about likelihoods?}
+
+\begin{enumerate}
+\item The {\em likelihood of the sample} is a function of the parameter $\theta$
+\item It is defined as the joint probability (discrete sample) or joint density (continuous sample) of the sample data
+\item We can then ask: Given the data we've collected we can measure how "likely" was the data generated from the specific pmf/pdf $f(\theta)$ for each possible value of $\theta$?
+\item Factorization Theorem: If (and only if) it can be factored into two functions $\Lsc(\theta |\bX) = g(T(\theta) | \bX)h(\bX)$ then $T(\bX)$ is a sufficient statistic for $\theta$
+\item Under the Likelihood Principle, if two likelihood functions from two sample points $\bx$ and $\by$ are proportional (as functions of $\theta$) then the two sample points will give identical inference on  $\theta$.
+\item We can create a Likelihood Ratio Test if we maximize the likelihood on a restricted null hypothesis parameter space and on the full space and take the ratio
+\item We can maximize likelihoods to obtain an MLE estimator $\thetahat$ which has "nice" properties
+\begin{itemize}
+\item Invariance property: $t(\thetahat)$ is the MLE of $t(\theta)$
+\item Asymptotically (for large-samples) under regularity conditions, $\thetahat$ is consistent (asymptotically unbiased) and normally distributed (the nicest of distributions) with mean $\theta$ and known variance related to the Information
+\end{itemize}
+
+\end{enumerate}
+
+\noindent\textbf{What do we know about hypothesis tests?}
+\begin{enumerate}
+\item A hypothesis test involves making a statement about parameter(s) and then using a statistic to compare the observed sample with the theory
+\item The test statistic (like an estimator) is a function of the sample measurements.
+\item The test statistic (like an estimator) is a random variable.
+\item The rejection region specifies the values of the test statistic for which the null hypothesis is to be rejected in favor of the alternative hypothesis. We now answer the question, how do we determine a good rejection region?
+
+\end{enumerate}
+
+\newpage
+
+## Methods of Evaluating Tests (C\&B 8.3)
+
+### Types of Errors
+
+When we select a rejection region for a hypothesis test, we need to examine the probabilities of making mistakes.
+
+For the testing problem
+$$H_0: \theta \in \Theta_0 \mbox{ versus } H_1: \theta \in \Theta_0^C$$
+there are two basic types of mistakes as displayed in the table below:
+
+\begin{tabular}{|c|c|c|c|}\hline
+  \multicolumn{2}{|c|}{}  & \multicolumn{2}{c|}{Decision}  \\\hline 
+  \multicolumn{2}{|c|}{}  & Accept $H_0$ & Reject $H_0$ \\\hline 
+\multirow{ 2}{*}{Truth} & $H_0$ & Correct & {\em Type I Error} \\
+  & $H_1$ & {\em Type II error} & Correct\\\hline
+  \end{tabular}
+
+A *type I error* is made if $H_0$ is rejected when $H_0$ is true. The *probability of a type I error* is denoted by $\alpha$.
+
+A *type II error* is made if $H_0$ is accepted when $H_a$ is true. The *probability of a type II error* is denoted by $\beta$.
+
+Traditionally, we are very conservative with our Type 1 error, think of "innocent until proven guilty" where we try hard not to make a Type 1 error by convicting an innocent person.
+  
+### Power Function
+
+Let $\Rsc$ denote the rejection region for the test.
+
+- If $\theta \in \Theta_0$ and $\bX \in \Rsc$ then the decision to reject is a mistake (type I error). The probability of a type I error depends on $\theta$ and is $P_\theta (\bX \in \Rsc)$ for $\theta \in \Theta_0$.
+- If $\theta \in \Theta_0^C$ and $\bX \in \Rsc^C$, then the decision to fail to reject is a mistake (type II error). The probability of a type II error depends on $\theta$ and is written $P_\theta(\bX \in \Rsc^C)$ for $\theta \in \Theta_0^C$.
+
+Note for all $\theta$,  $P_\theta(\bX \in \Rsc^c) = 1 - P_\theta(\bX \in \Rsc)$, so the function $P_\theta(\bX \in \Rsc)$ contains all the information about the test with rejection region $\Rsc$. It contains all the information about the error probabilities for a test.  Notably:
+$$
+P_\theta(\bX \in \Rsc) = 
+\begin{cases}
+P_\theta (\mbox{ Type I Error } ), & \theta \in \Theta_0\\
+1 - P_\theta( \mbox {Type II Error }), & \theta \in \Theta_0^c.
+\end{cases}
+$$
+
+\noindent {\bf Definition 8.3.1} This function of $\theta$ is called the *power function* of a test based on rejection $\Rsc$:
+$$\beta(\theta) = P_\theta(\bX \in R)$$
+
+Ideally we would use a test that has high power when $\theta \in \Theta_0^c$ and low power (type I error) when $\theta \in \Theta_0$. The perfect test would have a power function that is 0 for all $\theta \in \Theta_0$ and 1 for all $\theta \in \Theta_0^c$, but this can only be attained in trivial situations.
+
+\noindent {\bf Example}
+Suppose $X_1, \ldots, X_n \sim_ {i.i.d} Bernoulli(p)$ and we want to test:
+$$H_0: p\leq 1/2 \mbox{ versus } H_1: p > 1/2$$
+Suppose we have $n=10$ and form a rejection region, $\Rsc = \{\bx: \sumin x_i \geq 9\}$. We can then calculate the power function:
+$$P_p(\bX \in \Rsc) = P_p\left(\sumin X_i \geq 9\right) = {10 \choose 9}p^9(1-p)^1 + {10 \choose 10}p^{10}(1-p)^0.$$
+A graph of this power function is given below. Note that it is an increasing function of $p$:
+
+```{r}
+mydata <- tibble(p = seq(0,1, by=0.001)) %>% mutate(power = 10*p^9*(1-p)+1*p^10*(1-p)^0)
+ggplot(mydata, aes(x=p, y=power))+geom_line()+
+  ggtitle(TeX("Binomial power function: $10p^9(1-p)+p^{10}(1-p)^0$"))+
+  geom_area(aes(y=ifelse(p > 0.5, 1, 0),x=p),fill="blue",alpha=0.2)+
+  geom_area(aes(y=ifelse(p <= 0.5, 1, 0),x=p),fill="red",alpha=0.2)+
+  annotate("text",x=0.1, y=.9,label="H[0]: p < 0.5", parse=TRUE)+
+  annotate("text",x=0.6, y=.9,label="H[1]: p >= 0.5", parse=TRUE)
+
+```
+
+
+At $p=1/2$, the power of the test is 0.011. For $p< 1/2$ the values are all less than 0.011. For $p>1/2$ the values increase with $p$.
+
+### Size and level of tests
+
+Generally we can't make both error probabilities as small as we'd like for a fixed sample size. A common approach is to put a bound on the type I error probability and find a good test (or `best' test if you can) among those with P(type I error) $\leq$ bound.
+
+\noindent {\bf Definition 8.3.5} For $0\leq \alpha \leq 1$, a test with power function $\beta(\theta)$ is a *size $\alpha$ test* if $\sup_{\theta \in \Theta_0} \beta(\theta) = \alpha$.
+\noindent {\bf Definition 8.3.6} For $0\leq \alpha \leq 1$, a test with power function $\beta(\theta)$ is a *level $\alpha$ test* if $\sup_{\theta \in \Theta_0} \beta(\theta)  \leq \alpha$.
+
+Different authors may use different definitions for size and level. In C\&B, all size $\alpha$ tests are also level $\alpha$ tests. (For level $\alpha$ tests, the maximum type I error may be strictly less than $\alpha$)
+
+In planning a study (such as a clinical trial), researchers will often select a sample size, so that the test for the primary hypothesis has desired power for a specific value of $\theta \in \Theta_0^c$ and a specific size or level.
+
+In the previous section we found the form of the rejection region of a variety of tests without specifying the details for the RR. That is, the test may have been of the form $\bXbar \geq c$ without specification of the value $c$. Using a condition for the size of the test, let us identify the value of $c$.
+
+
+\noindent {\bf Example (Example 8.3.3 Normal power function)} Let $X_1, \ldots, X_n \sim_{iid} Normal(\mu, \sigma^2), \sigma^2$ known. We choose our hypotheses:
+$$H_0: \mu \leq \mu_0 \mbox{ versus } H_1: \mu > \mu_0$$
+
+Let's use Theorem 8.2.4 which says we can use the distribution of our sufficient statistic $T(X) = \bXbar ~ \Nsc(\mu, \frac{\sigma^2}{n})$. So, the likelihood is
+$$\Lsc(\mu | \xbar) = (2\pi\sigma^2/n)^{-1} \exp\left(\frac{-(\xbar-\mu)^2}{2\sigma^2/n}\right)$$
+
+If we maximize this likelihood in the full parameter space, we get the MLE $\muhat = \bxbar$. 
+
+
+If $\mu_0 < \xbar$ we have $\muhat_0 = \mu_0$. So the LRT in this case is
+
+$$\lambda(\xbar) = \frac{(2\pi\sigma^2/n)^{-1} \exp\left(\frac{-(\xbar-\mu_0)^2}{2\sigma^2/n}\right)}{(2\pi\sigma^2/n)^{-1} \exp\left(\frac{-(\xbar-\xbar)^2}{2\sigma^2/n}\right)} = 
+\exp\left(\frac{-(\xbar-\mu_0)^2}{2\sigma^2/n}\right)$$.
+
+
+
+If $\mu_0 \geq \xbar$ we have $\muhat_0 = \xbar$ and so the LRT = 1.
+
+Hence, the LRT is
+
+$$\lambda(\xbar) = \begin{cases}
+1, & \mu_0 \geq \xbar\\
+\exp\left(\frac{-(\xbar-\mu_0)^2}{2\sigma^2/n}\right), & mu_0 < \bxbar
+\end{cases}
+$$
+
+and the rejection region is
+
+\begin{align*}
+\Rsc &= \left\{\bx : \exp\left(\frac{-(\xbar-\mu_0)^2}{2\sigma^2/n}\right) \leq c\right\}\\
+&=\left\{\bx : |\xbar-\mu_0| \geq \sqrt{-2\sigma^2\log(c)/n}\right\}\\
+&= \left\{\bx : \xbar \geq \mu_0 + \sqrt{-2\sigma^2\log(c)/n}\right\}\\
+&= \left\{\bx: \xbar \geq k\right\}
+\end{align*}
+
+
+The LRT rejects *iff* $\xbar \geq k$. To obtain a size $\alpha$ test, choose $k$, so that $\sup_{\mu \leq \mu_0} P(\bXbar \geq k) = \alpha$. Then the power function is:
+
+\begin{align*}
+ \beta(\mu) = P_\mu(\bXbar\geq k) &= P_\mu \left(\frac{\bXbar - \mu}{\sigma/\sqrt{n}} \geq \frac{k - \mu}{\sigma/\sqrt{n}}\right)\\
+&=P_\mu \left(Z \geq \frac{k - \mu}{\sigma/\sqrt{n}}\right)\\
+&= 1 - \Phi\left(\frac{k - \mu}{\sigma/\sqrt{n}} \right)
+\end{align*}
+where $Z$ is a standard normal variable and $\Phi(z)$ is the cdf of a Normal(0,1) variable. This is an increasing function of $\mu$ for any fixed $k, n,$ and $\sigma$. So the supremum of this function with respect to $\mu$ under $H_0$ occurs at $\mu = \mu_0$. So, to determine the size we have:
+$$\alpha =  \sup_{\mu \leq \mu_0}\beta(\mu) = \beta(\mu_0) = 1 - \Phi\left(\frac{k - \mu_0}{\sigma/\sqrt{n}} \right)$$
+Now if we use the standard normal distribution to calculate $z_\alpha$ such that $1-\Phi(z_\alpha) = P(Z > z_\alpha) = \alpha$ we have:
+$$k = \mu_0 + z_\alpha\frac{\sigma}{\sqrt{n}}.$$
+
+For example, if $\alpha = 0.05$, we have $z_\alpha = 1.64$ (approximately) as $1-\Phi(1.64) = 1 - P(Z\leq 1.64) \approx 0.05$.
+
+Now we have found an appropriate $k$ to keep the size at $\alpha$. So, our LRT rejection region is:
+$$\Rsc = \left\{\bx: \bxbar \geq \mu_0 + z_\alpha\sigma/\sqrt{n}\right\}$$
+and our power function is:
+
+\begin{align*}
+\beta(\mu) &= P_\mu\left(\bXbar\geq \mu_0 + z_\alpha\frac{\sigma}{\sqrt{n}}\right) = 1 - \Phi\left(\frac{\mu_0 - \mu}{\sigma/\sqrt{n}} + z_\alpha\right)
+\end{align*}
+
+We can plot $\beta(\mu)$ for various $\mu_0$:
+
+```{r plot_normal_power_curve, echo = TRUE}
+ss <- 3 # sigma
+nn <- 20
+alpha <- 0.05
+mydata <- crossing(mu0 = c(3,5,7), mu = seq(2,11,by=0.01)) %>%
+  mutate(power = 1-pnorm((mu0-mu)/(ss/sqrt(nn))+qnorm(1-alpha)),
+         mu0 = factor(mu0))
+ggplot(mydata,aes(x = mu, y = power, color=mu0))+
+  geom_line()+
+  ggtitle(TeX("Normal power curve $\\beta(\\mu)$; n = 20, $\\sigma$ = 3, $\\alpha$ = 0.05"))+
+  geom_hline(aes(yintercept=1-pnorm(qnorm(1-alpha)-sqrt(nn)/2)),color="black",lty=2)+
+  annotate("text",x=3,y=.77,label=TeX("$\\beta(\\mu_0+\\sigma/2)$"))+
+  scale_color_discrete(name=TeX("$\\mu_0$"))
+```
+
+How do we determine power under the alternative? When the size and $\mu_0$ is fixed, power depends on $\mu$ and $n$. Suppose we care about a specific $\mu_1$ in the alternative space, $\mu_1 = \mu_0 + \sigma/2$. Now we can calculate the power of our test under the alternative at this particular $\mu_1$:
+
+\begin{align*}
+\beta(\mu_0 + \sigma/2) &= 1 - \Phi\left(\frac{\mu_0 - (\mu_0 + \sigma/2)) }{\sigma/\sqrt{n}} + z_\alpha\right)\\
+&= 1- \Phi\left(z_\alpha - \sqrt{n}/2\right)
+\end{align*}
+
+We see that this is now a function of $n$. So, for example, if we set our size to be $\alpha = 0.05$ then we have $z_\alpha = 1.64$, and if we have $n=20$, then the power at $\mu_1 = \mu_0 + \sigma/2$ is $1-\Phi(1.64-\sqrt{20}/2) \approx 0.72$ which we can see in the plot above at $\mu_1 = \mu_0+3/2$ for each $\mu_0$.
+
+We can also plot power for a fixed $\mu_0$ and various $n$:
+
+```{r plot_normal_power_curve_n, echo = TRUE}
+ss <- 3 # sigma
+alpha <- 0.05
+mydata <- crossing(nn = c(5,20,100), mu0 = 5, mu = seq(2,11,by=0.01)) %>%
+  mutate(power = 1-pnorm((mu0-mu)/(ss/sqrt(nn))+qnorm(1-alpha)),
+         nn_fac = factor(nn))
+ggplot(mydata,aes(x = mu, y = power, color=nn_fac))+
+  geom_line()+
+  ggtitle(
+    TeX("Normal power curve $\\beta(\\mu)$; $\\mu_0$ = 5, $\\sigma$ = 3, $\\alpha$ = 0.05"))+
+  geom_hline(aes(yintercept=1-pnorm(qnorm(1-alpha)-sqrt(nn)/2), color=nn_fac),lty=2)+
+  geom_vline(xintercept = 5, lty=3)+
+  annotate("text",x=3,y=.77,label=TeX("$\\beta(\\mu_0+\\sigma/2)$"))+
+  scale_color_discrete(name="n (sample size)")
+```
+
+Now we see that $\beta(\mu_0 + \sigma/2)$ increases with $n$.
+
+### Unbiased tests
+
+We would like a test we use to have at least as good power when the alternative is true as when the null hypothesis is true. In other words we want our power *under the alternative* to be higher than the *level* of our test (type I error). Tests that satisfy this property are referred to as unbiased.
+
+\noindent {\bf Definition 8.3.9} A test with power function $\beta(\theta)$ is *unbiased* if $\beta(\theta^\prime) \geq \beta(\theta^{\prime\prime})$ for every $\theta^\prime \in \Theta_0^C$ and $\theta^{\prime\prime} \in \Theta_0$.
+
+\noindent {\bf Example (Example 8.3.10 Conclusion of 8.3.3 Normal power function)} 
+We saw earlier that the power function for the size $\alpha$ LRT of $H_0: \mu \leq \mu_0$ versus $H_1: \mu > \mu_0$ was monotone increasing in $\mu$, so the power for any $\mu$ such that $\mu > \mu_0$ is greater than the power for any such $\mu$ such that $\mu \leq \mu_0$. Hence the LRT test for this setting is unbiased. We see this in the plot of the power function above where the power function is always larger than $\alpha = 0.05$ when $\mu > \mu_0$.
+
+### Most powerful tests
+
+There can be many size $\alpha$ tests for a given problem, also many unbiased tests for a given problem, so we will look for additional criteria to select a good test. The first consideration will be to find the most powerful level $\alpha$ test.
+
+\noindent {\bf Definition 8.3.11} Let $\Cbb$ be a class of tests for testing $H_0: \theta \in \Theta_0$ versus $H_1: \theta \in \Theta_0^C$. A test in class $\Cbb$, with power function $\beta(\theta)$, is a **uniformly most powerful (UMP)** class $\Cbb$ test if $\beta(\theta)\geq \beta^\prime(\theta)$ for every $\theta \in \Theta_0^C$ and every $\beta^\prime(\theta)$ that is a power function of a test in class $\Cbb$.
+
+First we will consider the class $\Cbb$ to be the class of all level $\alpha$ tests. We find the UMP level $\alpha$ test (when it exists) using the following theorem.
+
+\noindent {\bf Theorem 8.3.12: Neyman-Pearson Lemma} Consider testing $H_0: \theta = \theta_0$ versus $H_1 : \theta = \theta_1$, where the pdf or pmf corresponding to $\theta_i$ is $f(\bx | \theta_i), i = 0,1$ using a test with *rejection region* $\Rsc$ that satisfies (8.3.1):
+$$\bx \in \Rsc \mbox{ if } f(\bx|\theta_1) > k f(\bx | \theta_0), \mbox{ and }$$
+$$\bx \in \Rsc^c \mbox{ if } f(\bx|\theta_1) < k f(\bx | \theta_0),$$
+for some $k\geq 0$, and (8.3.2):
+$$ \alpha = P_{\theta_0} (\bX \in \Rsc).$$
+Then:
+
+a) (*Sufficiency*) Any test that satisfies the above conditions (8.3.1 and 8.3.2) is a UMP level $\alpha$ test.
+b) (*Necessity*) If there exists a test satisfying the above conditions (8.3.1 and 8.3.2) with $k>0$, then every UMP level $\alpha$ test is a size $\alpha$ test and every UMP level $\alpha$ test satisfies 8.3.1 (except perhaps on a set that has probability zero when $\theta = \theta_0$ and $\theta = \theta_1$).
+
+\noindent {\bf Proof}: See C\&B.
+Note that $\alpha = P_{\theta_0} (\bX \in \Rsc)$ implies a size $\alpha$ test and hence a level $\alpha$ test since $\Theta_0$ has only one point.
+
+\noindent {\bf Note} we are not saying anything about the form of the test when $f(\bx|\theta_1) = k f(\bx| \theta_0)$.
+
+\noindent {\bf Note}, also, we can write the rejection region as
+$$\Rsc = \left\{ \bx: \frac{f(\bx | \theta_1)}{f(\bx | \theta_0)} > k\right\}$$
+and
+$$\Rsc^c = \left\{ \bx: \frac{f(\bx | \theta_1)}{f(\bx | \theta_0)} < k\right\}$$
+provided we are not dividing by zero. This is an easier form of the lemma to work with.
+
+\noindent {\bf Note} in the Neyman-Pearson Lemma there is no requirement that the observations are $iid$. The pdf (pmf) could be from non-$iid$ observations such as in a regression setting. We will see examples of this later.
+
+
+As with the LRT test, we can also first reduce by sufficiency and then apply NP using the pdf (pmf) of the sufficient statistic.
+
+\noindent {\bf Corollary 8.3.13: } Consider the same hypothesis problem as in the Neyman-Pearson lemma. Suppose $T = T(\bX)$ is sufficient for $\theta$ and $g(t|\theta_i)$ is the pdf or pmf of $T$ corresponding to $\theta_i, i = 0,1$. Then, any test based on $T$ with rejection region $S$ is a UMP level $\alpha$ test if it satisfies
+$$t \in S \mbox{ if } g(t|\theta_1) > k g(t | \theta_0), \mbox{ and }$$
+$$t \in S^c \mbox{ if } g(t|\theta_1) < k g(t | \theta_0),$$
+for some $k\geq 0$,
+$$\alpha = P_{\theta_0}(T\in S). \mbox{ (8.3.5) }$$
+
+\noindent {\bf Proof}: By the factorization theorem, see C\&B.
+
+It can be easier to work with the pdf (or pmf) of a sufficient reduction of the data and hence this theorem is useful. 
+
+We can write the rejection region as
+
+$$\Ssc = \left\{ \bx: \frac{g(\bt | \theta_1)}{g(\bt | \theta_0)} > k\right\}$$
+
+
+\noindent{\bf Example (Example 8.3.14 UMP binomial test}: Let $X \sim Binomial(2,\theta)$. We want to test
+$$H_0:  \theta = 1/2 \mbox{ versus } H_1: \theta = 3/4.$$
+
+We can use Neyman-Pearson lemma by calculating
+$$\frac{f(\bx | \theta_1)}{f(\bx | \theta_0)} $$
+for each possible value of $\bx$, and finding a constant $k$ that satisfies the lemma.
+
+Calculating the ratios of the pmfs gives:
+$$\frac{f(0|\theta = 3/4)}{f(0|\theta = 1/2)} = \frac{1}{4},
+\frac{f(1|\theta = 3/4)}{f(1|\theta = 1/2)} = \frac{3}{4}, \mbox{ and } \frac{f(2|\theta = 3/4)}{f(2|\theta = 1/2)} = \frac{9}{4}$$
+
+We need to choose a rejection region and $k$.
+
+If we choose $3/4 < k < 9/4$, the NP lemma says that the rejection region $\Rsc = \{X = 2\}$ is the UMP test with level $\alpha = \sup_{\theta = 1/2} \beta(\theta)= P(X=2 | \theta = 1/2) = 1/4$. This is because
+for $$\bx \in \Rsc , \, \frac{f(\bx | \theta_1)}{f(\bx | \theta_0)} > k$$ and
+for $$ \bx \in \Rsc^c , \, \frac{f(\bx | \theta_1)}{f(\bx | \theta_0)} < k.$$
+
+On the other hand, if the rejection region is $\{X =1 \mbox{ or } 2\}$, the NP lemma is satisfied with $1/4 < k < 3/4$ and so this test is UMP level $\alpha = P(X = 1 \mbox{ or } 2 | \theta = 1/2) = 3/4$ test.
+
+For extreme (trivial) cases, a $k < 1/4$ would correspond to the UMP test with rejection region $\{ X >= 0\}$ and level $\alpha = P(X >= 0 | \theta = 1/2) = 1$, and if $k > 9/4$ yields the UMP test with rejection region $X > 2\}$ and level $\alpha = P(X > 2 | \theta = 1/2) = 0$.
+
+\textbf{Note:} this shows that for a discrete distribution, the $\alpha$ level at which a test can be done is a function of the particular pmf of the data. No such problem arises in the continuous case. Any $\alpha$ level can be attained.
+
+\noindent {\bf Example (Example 8.3.15 UMP normal test)}: Again we have $X_i \sim_{iid} N(\mu,\sigma^2)$ with $\sigma^2$ known. The same mean $\bXbar$ is the sufficient statistic for $\mu$. Consider testing $H_0: \mu = \mu_0$ versus $H_1: \mu = \mu_1$ where $\mu_0 > \mu_1$. The inequality
+$$g(\bxbar | \mu_1) > k g(\bxbar | \mu_0)$$ is equivalent to
+\begin{align*}
+\frac{\sqrt{n}}{\sigma\sqrt{2\pi}}e^{-n(\bxbar - \mu_1)^2/(2\sigma^2)} &> k \frac{\sqrt{n}}{\sigma\sqrt{2\pi}}e^{-n(\bxbar - \mu_0)^2/(2\sigma^2)} \Longleftrightarrow\\
+(\bxbar - \mu_1)^2 & <(2\sigma^2 \log(k))/n + (\bxbar - \mu_0)^2\\
+\bxbar &< \frac{(2\sigma^2 \log(k))/n - \mu_0^2 + \mu_1^2}{2(\mu_0 - \mu_1)}.
+\end{align*}
+
+The right-hand side increases from $-\infty$ to $\infty$ as $k$ increases from $0$ to $\infty$. Thus, by Corollary 8.3.13, the test with rejection region $\bxbar < c$ is the UMP level $\alpha$ test, where $\alpha = P_{\mu_0}(\bXbar < c)$. If a particular $\alpha$ is specified, then the UMP test rejects $H_0$ if $\bXbar < c = \mu_0 -\sigma z_\alpha /\sqrt{n}$ (from above size calculations). This choice of $c$ ensures that 8.3.5 is true.
+
+<!-- \noindent {\bf Example 10 (A Randomized Bernoulli Test)} Suppose $X_1 \sim Bernoulli(p)$ so $f(x|p) = p^x (1-p)^{1-x}$ . We wish to test $H_0: p = 1/2$ versus $H_1: p = 3/4$. We have -->
+<!-- \begin{align*} -->
+<!-- \frac{f(x|p_1)}{f(x|p_0)} = \frac{3/4}{1/2} = 3/2, \mbox{ when } x = 1\\ -->
+<!-- \frac{f(x|p_1)}{f(x|p_0)} = \frac{1/4}{1/2} = 1/2, \mbox{ when } x = 0. -->
+<!-- \end{align*} -->
+<!-- When $k = 0$, then $\Rsc = \{0,1\}$ so the size of the test is $P(X=1 \cup X = 0 | p_0) =1$. -->
+<!-- When $k = 1$, then $\Rsc = \{1\}$ so the size of the test is $P(X=1 | p_0) = 1/2$. We can't find a 0.05 level test without doing something more sophisticated. With discrete distributions we sometimes run into this problem where we cannot attain an $\alpha$ level. Suppose we construct a new test: -->
+
+<!-- Reject with probability .10 if $X_1=1$, otherwise do not reject. -->
+
+<!-- Now, the probability of rejecting when $p=1/2$ is $0.10*1/2 = 0.05$. So, this randomized test has size $\alpha = 0.05$. Also, note that we can write the test function that describes the probability of rejection: -->
+<!-- $$\phi(x) =  -->
+<!-- \begin{cases} -->
+<!-- 1, & f(x|p_1) > (3/2) f(x|p_0)\\ -->
+<!-- .10, &  f(x|p_1) = (3/2) f(x|p_0)\\ -->
+<!-- 0, &  f(x|p_1) < (3/2) f(x|p_0)\\ -->
+<!-- \end{cases} -->
+<!-- $$ -->
+<!-- So, this is the form of a NP test of size 0.05. Hence, this is UMP of size 0.05, but it is a test we wouldn't want to conduct. These randomized tests are useful for assessing properties of competitors. -->
+
+\newpage
+
+### Composite hypotheses
+
+The NP lemma and corollary are concerned with *simple* hypotheses where only one distribution is specified by $H_0$ and $H_1$. In most realistic problems, the hypotheses of interest specify more than one possible distribution for the sample and are *composite* hypotheses.
+
+For instance, suppose we are interested in a test of the form $H_0: \mu \leq \mu_0$ versus $H_1: \mu > \mu_0$, where, here we can see that each of the two hypotheses contain several parameter values (and hence several distributions). These types of hypotheses are composite hypotheses and in fact is a *one-sided* hypothesis.
+
+The Neyman Pearson Lemma in many cases can be extended to composite hypotheses. In particular this may be the case for certain one-sided hypotheses.
+
+For two-sided hypotheses, such as $H: \theta \neq \theta_0$, we cannot typically extend NP to get UMP tests.
+
+For tests of one-sided hypotheses some distributions have a property that readily leads to UMP tests.
+
+\noindent {\bf Definition 8.3.16}  A family of pdfs or pmfs $\{ f(x|\theta): \theta \in \Theta\}$ for a univariate random variable $X$ with real valued parameter $\theta$ has a \textbf{monotone likelihood ratio (MLR)} if for every $\theta_1 > \theta_2$
+$$ \frac{f(t|\theta_1)}{f(t|\theta_2)} = V(T(X), \theta_1, \theta_2)$$ where $V(T, \theta_1, \theta_2)$ is a monotone *non-decreasing* function of $T$. 
+
+**Notes**
+
+- $c/0$ is defined as $\infty$ if $c>0$
+- C&B define MLR slightly differently, using the distribution of $T(X)$. This is equivalent due to the factorization and transformation theorems! C&B also define MLR as *either* monotone non-decreasing or non-increasing, but we need non-decreasing for the big theorem in this section.
+- Many common families of distributions have an MLR. *Any regular exponential family with $f(x|\theta) = h(x) c(\theta) e^{w(\theta) T(x)}$ has an MLR if $w(\theta)$ is a non-decreasing function.* For example, normal (known variance, unknown mean), Poisson, and binomial all have an MLR.
+
+**Example: Bernoulli distribution** Consider a family of Bernoulli distributions $\{B(p): p \in [0,1]\}$. The ratio of joint pmf of $X_1, \ldots, X_n$ is
+
+$$\frac{f(\bX| p_1)}{f(\bX | p_2)} = \frac{p_1^{\sum X_i} (1-p_1)^{n-\sum X_i}}{p_2^{\sum X_i}(1-p_2)^{n-\sum X_i}} = 
+\left( \frac{1-p_1}{1-p_2}\right)^n \left( \frac{p_1(1-p_2)}{p_2(1-p_1)}\right)^{\sum X_i} $$
+
+For $p_1 > p_2$,
+$$\frac{p_1(1-p_2)}{p_2(1-p_1)} > 1$$
+
+and, therefore, the likelihood ratio is monotone increasing (non-decreasing) in $T(\bX) = \sumin X_i$.
+
+Other ways to prove MLR: We could have also written this ratio as a function of $T$:
+
+$$V(t) = \left( \frac{1-p_1}{1-p_2}\right)^n \left( \frac{p_1(1-p_2)}{p_2(1-p_1)}\right)^{t} $$
+with derivative
+$$\frac{\partial}{\partial t}V(t) =  \left( \frac{1-p_1}{1-p_2}\right)^n t \left( \frac{p_1(1-p_2)}{p_2(1-p_1)}\right)^{t-1} $$
+which is a product of three numbers $\geq0$, so the derivative is $\geq 0$, and hence the ratio $V(t)$ is non-decreasing in $t$.
+
+We could have also written the joint distribution as a regular exponential family where $w(p) = \log(p/(1-p))$, a non-decreasing function of $p$, since
+$$f(\bx|p) = p^{\sum_i x_i} (1-p)^{n-\sum_i x_i} = (1-p) \left( \frac{p}{1-p}\right)^{\sum_i x_i} = (1-p)^n \exp\left[ \left(\log \frac{p}{1-p}\right)\sum_i x_i\right].$$
+
+**Example: Exponential distribution**
+Consider a family of Exponential distributions $\{Exp(\beta): \beta \in (0,\infty)\}$. The ratio of joint pmf of $X_1, \ldots, X_n$ is
+$$\frac{f(\bX| \beta_1)}{f(\bX | \beta_2)} = \frac{\beta_1^{-1}\exp(-\sum X_i/\beta_1)}{\beta_2^{-1}\exp(-\sum X_i/\beta_2)} =
+\left(\frac{\beta_2}{\beta_1}\right)\exp(\sum X_i / \beta_2 - \sum X_i/\beta_1) = 
+\left(\frac{\beta_2}{\beta_1}\right) \exp \left[\frac{\beta_1 - \beta_2}{\beta_1\beta_2}\sum X_i \right]
+$$
+Since $\frac{\beta_1 - \beta_2}{\beta_1\beta_2} > 0$, this ratio is monotone non-decreasing in $T(\bX) = \sum X_i$.
+
+Other ways to prove MLR: We could also have written this as a regular exponential family where $w(\beta) = -1/\beta$ which is a non-decreasing function of $\beta$. We could have also taken the derivative of the ratio with respect to $t$ and shown it is $\geq 0$. 
+
+**Theorem 8.3.17 (Karlin-Rubin)** Consider testing
+$$H_0: \theta \leq \theta_0 \mbox{ versus } H_1: \theta > \theta_0.$$
+Suppose, for any $t_0$,
+\begin{enumerate}
+\item $T$ is a sufficient statistic for $\theta$ and
+\item the family of pdfs or pmfs $\{f(x|\theta): \theta \in \Theta\}$ of an MLR in $T$
+\item $\alpha = P_{\theta_0} (T >t_0$)
+\end{enumerate}
+
+\noindent Then the test with rejection region
+$$\Rsc = \{t: T> t_0\}$$
+is a **UMP level $\alpha$ test**.
+
+Conversely, if testing
+$$H_0: \theta \geq \theta_0 \mbox{ versus } H_1: \theta < \theta_0,$$
+with $T$ a sufficient statistic for $\theta$ and $\{f(x|\theta): \theta \in \Theta\}$ has an MLR in $T$. Then for any $t_0$, the $\Rsc = \{t: T< t_0\}$ is a UMP level $\alpha$ test, where $\alpha = P_{\theta_0} (T < t_0)$.
+
+\noindent {\bf Proof:} In book. Essentially, the MLR allows us to use Neyman Pearson Lemma for any $\theta_1$ in $\Theta_0$ and $\theta_2$ in $\Theta_1$. We have the correct size test because the MLR gives us a power function $\beta(\theta) = P_\theta(T>t_0)$ that is also non-decreasing in $\theta$.
+
+<!-- (i) The power function is: $\beta(\theta) = P_{\theta} (T > t_0).$ -->
+<!-- $\beta(\theta)$ is nondecreasing if the family of $T$ has a MLR $\Rightarrow \sup_{\theta \in \Theta_0} \beta(\theta) = \beta(\theta_0) = \alpha$, so we have a level $\alpha$ test. -->
+
+<!-- The proof of above is Exercise 8.34 and 8.28a in Casella \& Berger. Basically, for $\theta \leq \theta_0$, we need to show -->
+<!-- $\beta(\theta_0) \geq \beta(\theta)$ -->
+<!-- which is equivalent to -->
+<!-- $$1-F(t_0| \theta_0) \geq 1-F(t_0 | \theta) \Leftrightarrow$$ -->
+<!-- $$0\geq F(t_0| \theta_0)-F(t_0 | \theta).$$ -->
+<!-- Since -->
+<!-- $$\frac{d}{dt_0} [F(t_0| \theta_0)-F(t_0 | \theta)] = f(t_0 | \theta_0) - f(t_0 | \theta) =   -->
+<!-- f(t_0 | \theta) \left(\frac{ f(t_0 | \theta_0)}{ f(t_0 | \theta)} - 1\right)$$ -->
+<!-- and $T$ has an MLR $\Rightarrow$  fraction is increasing $\Rightarrow$  derivative on the left can only go from negative to positive sign $\Rightarrow$ any interior point is a minimum $\Rightarrow$ $F(t_0| \theta_0)-F(t_0 | \theta)$ is maximized by its value at $-\infty$ or $\infty$ which is 0. -->
+
+
+<!-- (ii) Now consider testing $H_0^\prime: \theta  = \theta_0$ versus $H_1^\prime: \theta = \theta^\prime$ for a fixed $\theta^\prime > \theta_0$. Let  -->
+<!-- $$k^\prime = \inf_{t \in \Tsc}\frac{g(t|\theta^\prime)}{g(t | \theta_0)} $$  -->
+<!-- where $\Tsc = \{t: t > t_0$ and either $g(t|\theta^\prime)>0$ or $g(t | \theta_0)>0 \}$, it follows that  -->
+<!-- $$ T > t_0 \Leftrightarrow \frac{g(t|\theta^\prime)}{g(t | \theta_0)} > k^\prime$$ -->
+<!-- and the requirements of the corollary of NP are satisfied. Since $\theta^\prime$ was arbitrary, the test is a UMP level $\alpha$ test. -->
+
+
+**Example: Exponential**
+
+Suppose we have $X_1, \ldots X_n \sim$ Exp($\beta$). We wish to test the hypothesis:
+$$H_0: \beta \leq \beta_0 \mbox{ versus } H_1: \beta > \beta_0.$$
+
+Can we find a UMP size $\alpha$ test?
+
+From above we know that this family of distributions has an MLR in $T(\bX) = \sumin X_i$. So we can reject the null hypothesis with rejection region
+$$\Rsc = \left\{\bx: \sumin X_i > t_0\right\}$$
+
+where $t_0$ is selected to satisfy the equation
+$$\alpha = P_{\beta_0}\left(\sumin X_i > t_0\right)$$
+
+To solve for $t_0$, we use the fact that $\sumin X_i \sim \Gamma_{n, \beta} = \mbox{Gamma}(n,\beta)$ and so 
+$t_0 = \gamma_{\alpha, n, \beta_0}$ which is the critical value of a Gamma($n, \beta_0$) distribution such that 
+
+$$\alpha = P_{\beta_0}\left(\Gamma_{n, \beta_0} > \gamma_{\alpha, n, \beta_0}\right)$$
+
+
+\noindent {\bf Example: Normal UMP Test continued (Ex 8.3.18, continuation of Ex 8.3.15)}
+
+Again we have our normal data with variance known. Consider testing $$H_0: \mu \geq \mu_0 \mbox{ versus } H_1: \mu < \mu_0$$ using the test with rejection region:
+$$\Rsc = \{\bx: \bxbar < \mu_0 - \sigma z_\alpha/\sqrt{n}\}.$$
+
+Let's **show this test is UMP and size ** $\alpha$.
+
+As $\bXbar$ is sufficient and its distribution is Normal($\mu, \sigma^2/n$) with variance known and so is a one-dimensional exponential family with $w(\mu) = \mu/(2\sigma^2)$ increasing in $\mu$, it follows from Karlin-Rubin Theorem (Thm 8.3.17) that the test is a UMP level $\alpha$ test in this problem.
+
+We know the power of this test
+$$\beta(\mu) = P_{\mu}(\bXbar < \mu_0 - \sigma z_\alpha/\sqrt{n}) = 
+P\left(Z < \frac{\mu_0 - \mu}{\sigma/\sqrt{n}}+ z_\alpha\right) = \Phi\left(\frac{\mu_0 - \mu}{\sigma/\sqrt{n}}+ z_\alpha\right)$$ is  a decreasing function of $\mu$ since $\mu$ is a location parameter in the distribution of $\bXbar$ and so $\beta(\mu)$ is maximized in the null hypothesis space at $\mu_0$ and $\beta(\mu_0) = \alpha$.
+
+\noindent {\bf Example: Two-sided Normal Test (Example 8.3.19)}  Now consider the same Normality setting but with a two-sided test:
+$$H_0: \mu = \mu_0 \mbox{ versus } H_1: \mu\neq\mu_0.$$
+Can we find a UMP level $\alpha$ test in this setting?
+
+Consider first the above one-sided test where we have $H^*_0: \mu \geq \mu_0$ versus $H^*_1: \mu < \mu_0$ and the UMP level $\alpha$ test rejects this $H^*_0$ if $\bXbar < \mu_0 - z_\alpha \sigma/\sqrt{n}$. Let the power of this test be $\beta^*(\mu)$ and call this Test 1. Recall by NP Lemma that the best test must be of this form except on a set that has probability zero.
+
+Conversely, if we wish to test $H^{**}_0: \mu \leq \mu_0$ against $H^{**}_1: \mu > \mu_0$ we can prove that the UMP level $\alpha$ test that rejects if $\bXbar > \mu_0 + z_\alpha \sigma/\sqrt{n}$. Let the power of this test be $\beta^{**}(\mu)$ and call it Test 2.
+
+Now consider $\mu_1 > \mu_0$ which falls under the null hypothesis space of $H^*_0$ and the alternative space $H^{**}_1$. Let's evaluate the power of the second one-sided test at $\mu_1$:
+\begin{align*}
+\beta^{**}(\mu_1) &= P_{\mu_1} (\bXbar > \mu_0 + z_\alpha \sigma/\sqrt{n})\\
+&= P_{\mu_1} \left(\frac{\bXbar - \mu_1}{\sigma/\sqrt{n}} > \frac{\mu_0 - \mu_1}{\sigma/\sqrt{n}}+ z_\alpha\right)\\
+&> P(Z > z_\alpha)\\
+&= P(Z < -z_\alpha)\\
+&> P_{\mu_1} \left(\frac{\bXbar - \mu_1}{\sigma/\sqrt{n}} < \frac{\mu_0 - \mu_1}{\sigma/\sqrt{n}}- z_\alpha\right)\\
+&= P_{\mu_1} (\bXbar < \mu_0 - z_\alpha \sigma/\sqrt{n})\\
+&= \beta^{*}(\mu_1)
+\end{align*}
+
+So, the power of the Test 2 at $\mu_1$ is greater than the power of Test 1 at $\mu_1$. Hence, Test 1 cannot be the best test for all $\mu$. But, recall the best test had to be of that form. So, no best test exists.
+
+You can see in the plot below that although Test 1 and Test 2 have slightly higher powers than Test 3 for some parameter points, Test 3 has much higher power than Test 1 and Test 2 at other parameter points.
+
+So, to get a "best" test for a setting like this we will have to **restrict the class of tests** we are willing to consider. The class we will consider here is the **class of unbiased tests**.
+
+Note in this example for Test 1 the power is high when $\mu$ is small, but not when $\mu$ is large. In fact the power is $<\alpha$ when $\mu > \mu_0$. The opposite is true for Test 2. We'd like the power when the alternative hypothesis is true to be large and specifically greater than the power under the null hypothesis. Recall, we define the class of unbiased tests as tests with power function, $\beta(\theta)$, satisfying
+$$\beta(\theta^\prime)\geq \beta(\theta^{\prime\prime}), \mbox{ for every, } \theta^\prime \in \Theta_0^C, \theta^{\prime\prime}\in\Theta_0.$$
+
+
+Then we can often find a UMP unbiased level $\alpha$ test for one parameter problems involving composite hypotheses and for many two-sided problems as well.
+
+
+\noindent {\bf Example: Two-sided Normal Test Unbiased (Example 8.3.20)}  
+When no UMP level $\alpha$ test exists within the class of all tests, we might try to find a UMP level $\alpha$ test within the class of unbiased tests.
+
+The test which rejects $H_0: \theta = \theta_0$ in favor of $H_1: \theta \neq \theta_0$, if and only if
+$$\bXbar > \mu_0 + z_{\alpha/2} \sigma/\sqrt{n}, \mbox{ or } \bXbar < \mu_0 - z_{\alpha/2} \sigma/\sqrt{n}$$
+is a UMP unbiased level $\alpha$ test; that is, it is UMP in the class of unbiased tests.
+
+
+
+```{r plot_normal_power_curve_ump, echo = TRUE}
+ss <- 1 # sigma
+alpha <- 0.05
+nn <- 10
+mydata <- tibble(mu = seq(-1.8,1.8,by=0.01)) %>%
+  mutate(upper_tail = 1-pnorm((-mu)/(ss/sqrt(nn))+qnorm(1-alpha)),
+         lower_tail = pnorm((-mu)/(ss/sqrt(nn))-qnorm(1-alpha)),
+         two_tail = 1+pnorm((-mu)/(ss/sqrt(nn))-qnorm(1-alpha/2)) -
+           pnorm((-mu)/(ss/sqrt(nn))+qnorm(1-alpha/2))
+         ) %>%
+  gather(key="test",value="power",-mu)
+ggplot(mydata,aes(x = mu, y = power, color=test, lty = test))+
+  geom_line()+
+  xlab("mu - mu0")+
+  ylab("power function")+
+  ggtitle("Power of upper, lower, and two-tailed test")
+```
+
+
+### p-values
+
+As you know, it is more useful to report p-values than just what the size of the test is and what the test decision is (reject or not). 
+
+\noindent\textbf{Definition 8.3.26} A *p-value* $p(\bX$) is a **test statistic** satisfying $0\leq p(\bx)\leq1$ for every sample point $\bx$. Small values of $p(\bX)$ give evidence that $H_1$ is true.
+
+A p-value is *valid* if, for every $\theta \in \Theta_0$ and every $0\leq \alpha \leq 1$,
+$$P_\theta (p(\bX) \leq \alpha) \leq \alpha.$$
+
+\begin{itemize}
+\item if $p(\bX)$ is valid $\rightarrow$ can construct a level $\alpha$ test based on $p(\bX)$: the test that rejects $H_0$ if and only if $p(\bX) \leq \alpha$ is a level $\alpha$ test
+\item reporting a test result via a p-value allows reader to choose the $\alpha$ he/she considers appropriate and compare reported $p(\bx)$ to $\alpha$
+\item smaller p-value $\rightarrow$ stronger evidence for rejecting $H_0$
+\item p-value reports the results of a test on a more continuous scale, rather than just dichotomous decision "Accept $H_0$" or "Reject $H_0$."
+\end{itemize}
+
+\noindent \textbf{Theorem 8.3.27} Let $W(\bX)$ be a test statistic such that large values of $W$ give evidence that $H_1$ is true. For each sample point $\bx$, define
+\begin{equation}
+p(\bx) = \sup_{\theta\in\Theta_0} P_\theta (W(\bX) \geq W(\bx)). \tag{8.3.9}
+\end{equation}
+Then, $p(\bX)$ is a valid p-value.
+
+\noindent \textbf{Proof} Fix $\theta \in \Theta_0$. Let $F_\theta(w)$ denote the cdf of $-W(\bX)$. Define
+$$p_\theta(\bx) = P_\theta (W(\bX) \geq W(\bx)) = P_\theta(-W(\bX) \leq -W(\bx)) = F_\theta (-W(\bx)).$$
+
+\begin{itemize}
+\item Hence, $p_\theta (\bX)$ is a random variable and is equal to $F_\theta(-W(\bX))$.
+\item By the Probability Integral Transformation, $p_\theta(\bX) \sim $Uniform(0,1) (or is stochastically equal to or greater than)
+\item Hence, $P_\theta(p_\theta(\bX) \leq \alpha) \leq \alpha$ for every $0\leq \alpha \leq 1$.
+\end{itemize}
+
+Now, since $p(\bx) = \sup_{\theta^\prime \in \Theta_0} p_{\theta^\prime}(\bx) \geq p_\theta(\bx)$ for every $\bx$:
+$$P_\theta(p(\bX) \leq \alpha) \leq P_\theta(p_\theta(\bX) \leq \alpha) \leq \alpha.$$
+This is true for every $\theta \in \Theta_0$ and for every $0\leq \alpha \leq 1 \Rightarrow p(\bX)$ is a valid p-value.
+
+\noindent \textbf{Example: One-sided normal p-value (Example 8.3.29)} Assume we have $X_1,\ldots X_n \sim N(\mu,\sigma^2)$ with $\sigma^2$ unknown. Consider testing $H_0: \mu \leq \mu_0$ versus $H_1: \mu > \mu_0$. The LRT rejects $H_0$ for large values of $W(\bX) = (\bXbar - \mu_0)/(S/\sqrt{n})$ (see C&B exercise 8.37) which has a Student's $t$ distribution with $n-1$ degrees of freedom.
+
+We can show that the supremum in the previous theorem always occurs at a parameter $(\mu_0, \sigma)$ and the value of $\sigma$ does not matter:
+
+For $\mu \leq \mu_0$ and any $\sigma$:
+\begin{align*}
+P_{\mu,\sigma}(W(\bX) \geq W(\bx)) &= P_{\mu,\sigma}\left(\frac{ \bXbar - \mu_0}{S/\sqrt{n}} \geq W(\bx)\right)\\
+&= P_{\mu,\sigma}\left(\frac{ \bXbar - \mu}{S/\sqrt{n}} \geq W(\bx) + \frac{\mu_0 - \mu}{S/\sqrt{n}}\right)\\
+&= P_{\mu,\sigma}\left(T_{n-1} \geq W(\bx)+ \frac{\mu_0 - \mu}{S/\sqrt{n}} \right)\\
+&\leq P(T_{n-1} \geq W(\bx)).
+\end{align*}
+
+\begin{itemize}
+\item The last inequality is true since $\mu_0 \geq \mu$ and $(\mu_0 - \mu)/(S/\sqrt{n})$ is a non-negative random variable. \item The probability does not depend on $(\mu, \sigma)$ so we can drop the subscript.
+\item $P(T_{n-1} \geq W(\bx)) = P_{\mu_0, \sigma}\left(  \frac{ \bXbar - \mu_0}{S/\sqrt{n}}  \geq W(\bx) \right) = P_{\mu_0, \sigma}(W(\bX) \geq W(\bx))$, and since $(\mu_0, \sigma)\in \Theta_0$ this probability is included in the supremum in (8.3.9).
+\end{itemize}
+Thus, the p-value from (8.3.9) for this one sided $t$ test is $$p(\bx) = P(T_{n-1} \geq W(\bx)) = P(T_{n-1} \geq (\bxbar - \mu_0)/(s/\sqrt{n})).$$
+
+\noindent \textbf{Note:} Another method for defining a valid p-value, an alternative to using (8.3.9), involves conditioning on a sufficient statistic. If $S(\bX)$ is a sufficient statistic for the model $\{ f(\bx|\theta): \theta \in \Theta_0\}$ and the null hypothesis is true, the conditional distribution of $\bX | S=s$ does not depend on $\theta$. So we define
+$$p(\bx) = P(W(\bX) \geq W(\bx) | S = S(\bx)).$$
+
+Similar to the proof in Theorem 8.3.27, but considering only the single distribution that is the conditional distribution $\bX | S=s$, we see that, for any $0 \leq \alpha \leq 1$,
+$$P(p(\bX) \leq \alpha | S = s) \leq \alpha.$$
+Thus, for any $\theta \in \Theta_0$, unconditionally we have
+$$P_\theta(p(\bX) \leq \alpha) = \sum_s P(p(\bX) \leq \alpha | S = s) P_\theta(S = s) \leq \sum_s \alpha P_\theta (S = s) \leq \alpha.$$
+Thus, $p(\bX)$ is a valid p-value. (Sums can be replaced by integrals for continuous $S$.)
+
+\begin{itemize}
+\item Fisher's Exact Test for comparing two proportions is a conditional test -- using a conditional distribution to obtain the p-value.
+\item Conditional methods are often used in settings with "nuisance" parameters -- parameters that are unknown but not of interest.
+\end{itemize}
+
+
+\noindent \textbf{Example: Fisher's Exact Test (Example 8.3.30)} Let $S_1 \sim binomial(n_1,p_1)$ and $S_2 \sim binomial(n_2, p_2)$ be independent. Consider testing
+$$H_0: p_1 = p_2 \mbox{ versus } H_1: p_1 > p_2.$$
+
+
+We can write the 2 $\times$ 2 table:
+
+\begin{tabular}{c|c|c||c}\hline & Group 1 & Group 2 &  Total \\\hline 
+Condition 1 &  $S_1$ & $S_2$ & S \\\hline 
+Condition 2 & $n_1 - S_1$ & $n_2 - S_2$ & $n-S$ \\\hline \hline
+Total & $n_1$ & $n_2$ & $n$ \\\hline\\ \end{tabular}
+
+Under $H_0$, if we let $p = p_1 = p_2$, the joint pmf of $(S_1, S_2)$ is
+
+\begin{align*}
+f(s_1, s_2 | p) &= {n_1 \choose s_1} p^{s_1}(1-p)^{n_1 - s_1} {n_2 \choose s_2} p^{s_2}(1-p)^{n_2 - s_2}\\
+&= {n_1 \choose s_1} {n_2 \choose s_2} p^{s_1 + s_2} (1-p)^{n_1 + n_2 - (s_1 + s_2)}
+\end{align*}
+
+\begin{itemize}
+\item Thus $S = S_1 + S_2$ is sufficient for $p$ under $H_0$ (factorization).
+\item Now, $p$ is unknown under $H_0$. So, we can't reduce this problem directly to one for which Neyman Pearson Lemma applies.
+\item However, since $S$ is sufficient, we if we condition on $S$, we get a distribution that, under $H_0$, does not depend on $p$.
+\item Given the value of $S = s$, we can use $S_1$ as a test statistic and reject $H_0$ in favor of $H_1$ for large values of $S_1$ because large values of $S_1$ correspond to small values of $S_2 = s - S_1$.
+\item The conditional distribution, under $H_0$, of $S_1 | S = s$ is hypergeometric($n_1 + n_2$, $n_1, s$). {\em(exercise 8.48)}
+\item We reject $H_0$ if $S_1$ is big and use the hypergeometric distribution to get the p-value: $$P(S_1 \geq s_1 | S; n_1 + n_2, n_1).$$ Here, the p-value is based on a conditional distribution.
+\item The conditional p-value is a sum of hypergeometric probabilities:
+$$p(s_1, s_2) = P(S_1 \geq s_1 | S; n_1 + n_2, n_1) = \sum_{j=s_1}^{\min(n_1,s)} f(j|s)$$
+\item The test defined by this p-value is the Fisher's Exact Test, the best conditional test of the given size.
+\end{itemize}
+
+
+
+### Bayesian Tests (C\&B 8.2.2)
+
+Recall that in the Bayesian paradigm, we place a prior distribution on the parameter $\theta$ and incorporate this with the likelihood given our sample data to obtain a posterior distribution. The classical/frequentist statistician considers $\theta$ to be fixed and consequently a hypothesis is either *true* or *false* and so the probabilities $P(H_0 \mbox{ is true } | \bx)$ and $P(H_1 \mbox{ is true } | \bx)$ are either 1 or 0 depending on the fixed value $\theta$. However, in a Bayesian hypothesis testing problem, we believe $\theta$ to have a distribution and so the probability $P(H_0  \mbox{ is true }  | \bx) = P(\theta \in \Theta_0 | \bx)$ (and analogously for $H_1$) is meaningful and may be computed.
+
+To test hypotheses, a Bayesian approach compares $P(\theta \in \Theta_0 | \bX)$ to $P(\theta \in \Theta^C_0|\bX)$. Various rules can be devised. For example, we may decide to *accept* $H_0$ if $P(\theta \in \Theta_0|\bX) \geq P(\theta \in \Theta_0^C|\bX)$ and *reject* $H_0$ otherwise. Or, we may consider other criterion, such as *accept* $H_0$ if $P(\theta \in \Theta_0|\bX)$ is quite large (say $>$  0.99).
+
+\noindent \textbf{Posterior Probability:} 
+Recall, by Bayes' Rule:
+\begin{align*}
+f(\theta | \bx) &= \frac{f(\bx | \theta) f(\theta)}{f(\bx)}\\
+&\propto f(\bx | \theta) f(\theta)
+\end{align*}
+where $f$ is are the pmf's or pdf's of the random variables, and so we can use this to obtain the posterior distribution of $\theta | \bx$ from the distributions of $\bx | \theta$ and $\theta$.
+
+\noindent {\bf Example} (*Bernoulli(p), $p \sim$ Uniform*)
+
+Let $X_1, \ldots, X_n \sim i.i.d.$ Bernoulli($p$) and let the prior on $p$ be Uniform such that $p\sim\Usc(0,1)$. We set the null and alternative hypotheses:
+$$
+H_0: p\leq 1/2 \mbox{ versus } H_1: p > 1/2.
+$$
+
+Now our pmf is $$f(\bx | p) = p^{\sumin x_i}(1-p)^{n-\sumin x_i} \prod_{i=1}^n x_i$$ and we can calculate the posterior
+$$f(p|\bx) = Beta(\sumin x_i + 1, n-\sumin x_i + 1).$$
+We decide we will reject $H_0$ if $P(p\leq 1/2 |\bx) \leq 0.5.$
+
+We obtain our data based on $n=20$ and find $\sumin x_i = 11$. Thus we have
+$$P(Beta(12,10)\leq 1/2) = 0.33.$$
+So we would reject $H_0$ and conclude that $p>1/2$.
+
+However, if we were to observe $\sumin x_i = 9$, we'd have $P(Beta(10,12)\leq 1/2) = 0.67$ and would not reject $H_0$.
+
+\newpage
+
+### Summary of C&B Hypothesis Test Section
+
+\begin{itemize}
+\item The test statistic is a function of the sample i.e., $W(\bX)$
+\item The power function of the test is $\beta(\theta) = P_\theta(\bX \in \mbox{Rejection Region})$
+\item A test is unbiased if $\beta(\theta_1) \geq \beta(\theta_2)$ for all $\theta_1 \in \Theta_A$ and $\theta_2 \in \Theta_0$
+\item The size of a test is $\alpha = \sup_{\theta \in \Theta_0} \beta(\theta)$
+\item A p-value $p(\bX)$ is a test statistic and we are interested in valid p-values where $P_\theta(p(\bX) \leq \alpha) \leq \alpha)$ so we may reject $H_0$ with an $\alpha$ level test: $\Rsc: \{\bx: p(\bx) \leq \alpha\}$
+\item The Likelihood Ratio Test (LRT) is one useful way to create a test statistic
+ $$\lambda(\bx) = \frac{\sup_{\theta \in\Theta_0} \Lsc(\theta | \bx)}{\sup_{\theta \in \Theta} \Lsc(\theta | \bx)}.$$
+	\begin{itemize} 
+	\item Rejection Region of the form: $\{\bx: \lambda(\bx) \leq c\}$
+	\item MLEs ($\thetahat_{MLE}$) help us to estimate the LRT since $\thetahat$ is the value of $\theta$ that maximizes the likelihood, but we also need to maximize the restricted ($\theta \in \Theta_0$) likelihood
+	\end{itemize}
+\item Neyman-Pearson Lemma: When testing a null hypothesis against a simple alternative, tests based on a ratio of distributions (essentially, a ratio of likelihoods) are the most powerful.
+\item Karlin-Rubin Theorem: When testing against a one-sided hypothesis, having a Monotone Likelihood Ratio and one sided rejection region based on a sufficient statistic $T$ gives us UMP test.
+\item Think about the Normal (known variance) one sided hypothesis problem. 
+\begin{itemize}
+\item We have a one sided null hypothesis $H_0: \mu < \mu_0$ and $H_1: \mu \geq \mu_0$
+\item LRT rejects $H_0$ iff $\bXbar - \mu_0 \geq c$ for some $c$
+\item If we want a size $\alpha$ test in this form, we determine that we need to reject $H_0$ iff $\bXbar \geq \mu_0 + z_\alpha \sigma/\sqrt{n}$.
+\item Karlin Rubin tells us this is the Uniformly Most Powerful level $\alpha$ test for this hypothesis in the class of $\alpha$ level tests. 
+\item So we reject $H_0$ {\em iff} $\bXbar \in [\mu_0 + z_\alpha \sigma/\sqrt{n},\infty)$. In Chapter 9 of $C\& B$ we will learn more about interval estimates and how they correspond to rejection regions.
+\item As $n$ becomes large, the critical point (i.e. the boundary of the rejection region) moves closer to $\theta_0$. This will become interesting when we talk about asymptotic theory.
+\end{itemize}
+\end{itemize}

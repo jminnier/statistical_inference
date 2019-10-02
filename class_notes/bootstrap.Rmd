@@ -1,0 +1,150 @@
+
+
+
+\subsection{Sampling and Resampling (Bootstrap)}
+
+\subsubsection{Basic Concepts of Random Samples (5.1)}
+Recall the definition of a random sample (or, $iid$ random sample)\\
+\noindent\textbf{Definition} The random variables $\Xndots$ are called a {\em random sample} from the population $f_X(x)$ if
+\begin{enumerate}
+\item $\Xndots$ are mutually independent
+\item The marginal pdf (pmf) of each $X_i$ is the same function $f_X(x)$
+\end{enumerate}
+When we say ``random sample" we mean that we are sampling from an infinite population. We can alternatively sample from a {\em finite} population, say $\{x_1, x_2, \ldots, x_N\}$ where $N< \infty$ denotes the size of the population. In this case, we are drawing a sample $X^*_1, X^*_2, \ldots, X^*_n$ from the set $\{x_1, x_2, \ldots, x_N\}$. There are two options for this type of (re-)sampling:
+\begin{enumerate}
+\item Simple random sample {\em with replacement}
+\begin{itemize}
+\item Each value $x_i$ is ``replaced'' after it is selected (every time you draw a number from a hat you put it back in the hat before drawing the next value)
+\item Each sample $X^*_i$ has a discrete uniform distribution with equal probability mass $1/N$ on each of the values $x_1, x_2, \ldots, x_N$.
+\item The $X^*_i$'s are mutually independent because the process of choosing each $x^*_i$ is the same, regardless of the values that are chosen for any of the other variables $\Rightarrow$ $X^*_1, X^*_2, \ldots, X^*_n$ are $iid$.
+\item This type of sampling is the basis of the resampling technique known as {\em bootstrapping}
+\end{itemize}
+\item Simple random sample {\em without replacement}
+\begin{itemize}
+\item When sampling from the set $\{x_1, x_2, \ldots, x_N\}$, each value $x_i$ is not replaced after it is selected (do not put the number back in the hat before choosing the next value)
+\item The $X^*_i$'s are no longer mutually independent because the probability that $X^*_i$ is equal to some value depends on all the other values selected before it, for instance:
+\begin{align*}
+P(X^*_1 = x_i) &= 1/N\\
+P(X^*_2 = x_i | X^*_1=x_i) &= 0\\
+\mbox{however, if } x_j \neq x_i, \mbox{ then } P(X^*_2 = x_i | X^*_1=x_j) &= 1/(N-1).
+\end{align*}
+\item However, the $X^*_i$'s are identically distributed (they have the same marginal distributions, see pg 210 for explanation).
+\item If the population size $N$ is ``large" then this type of sampling is approximately equal to sampling from an infinite population, and the samples are ``nearly independent" in that the conditional distributions are very close to the marginal distributions.
+\end{itemize}
+\end{enumerate}
+
+
+\subsubsection{Non-parametric Bootstrap}
+
+\begin{itemize}
+\item In statistics, we learn about the characteristics of the population by taking samples.  The sample represents the population so if we obtain inference about the sample average we should learn about the mean of the distribution, if we obtain inference on the sample variance we should learn about the variability, and so on.
+\item In some cases we can derive the sampling distribution of a statistic so explicitly so we know how to calculate standard errors and can calculate confidence intervals using exact distributions. In other cases the sampling distribution may be too complicated so we can approximate it using resampling (bootstrap).
+\item The bootstrap helps us learn about the sample characteristics by taking {\em resamples} and use this information to infer to the population.
+\item The bootstrap was developed by Efron in the late 1970s (see Efron 1979a, b, 1982, 1998 references in C\&B, also {\em An Introduction to Statistical Learning} by James et al 2013 and {\em An Introduction to the Bootstrap} by Efron and Tibshirani 1993 for an introduction to resampling methods).
+\item The bootstrap is used in many contexts, usually to provide a measure of accuracy for a parameter estimate or of a data fitting model or statistical learning method.
+\item Much of the utility of bootstrapping became practical when computing power increased.
+\item We rely on asymptotic convergence to show that the inference from this method is valid.
+\end{itemize}
+
+\subsubsection{Bootstrap Standard Errors (10.1.4)}
+The {\em bootstrap} provides an method for calculating standard errors and confidence intervals.
+
+
+\noindent\textbf{Example 10.1.19 Bootstrapping a variance} This is an example where bootstrap is not really needed, but it is simple so we will start here. Suppose we have an observed sample of four numbers:
+$$2,4, 9, 12$$
+We have $n=4$ observations and we wish to draw $n=4$ samples for every resample. If we draw with replacement (and do not care about the ordering) we have $N^* = n^n$ possible samples that are equiprobable.
+Suppose we care about estimating the average of the population. We can calculate the mean of our observed sample, $\xbar$ which is the observation of the random variable $\Xbar$ for this sample. $\Xbar$ is an estimator of the population mean $\theta$, and in this case $\xbar = 6.75$. But what is the variance of the statistic $\Xbar$?
+
+For the $i$th resample, let $\xbar_i^*$ be the mean of that resample. We can then estimate the variance of the sample mean $\Xbar$ by
+$$\mbox{Var}^*(\Xbar) = \frac{1}{n^n-1} \sum_{i=1}^{n^n} (\xbar_i^* - \xbar^*)^2$$
+where
+$$\xbar^* = \frac{1}{n^n} \sum_{i=1}^n \xbar_i^*,$$ the mean of the resamples.
+
+For this example, we have that the bootstrap mean and variance are $\xbar^*$ = 6.75 and Var$^*(\Xbar)$ = 3.94. It turns out that, for means and variances, the bootstrap estimates are almost the same the usual estimates, in this case they are nearly identical to $\Xbar$ and $\sigmahat^2/n$ from the original sample.
+
+The bootstrap is not just for inference using the sample mean. We can use bootstrap for any estimator $\thetahat(\bx) = \thetahat$:
+$$\mbox{Var}^*(\thetahat) = \frac{1}{n^n-1-1} \sum_{i=1}^{n^n} (\thetahat_i^* - \bar{\thetahat^*})^2$$
+where $\thetahat_i^*$ is the estimator calculated from the $i$th resample and $\overline{\thetahat^*} = \frac{1}{n^n}\sum_{i=1}^{n^n} \thetahat_i^*$, the mean of the resampled values. {\em Note that $\mbox{Var}^*(\thetahat)  $ is an estimator of Var($\thetahat$).}
+
+\noindent\textbf{Example 10.1.20 Bootstrapping a binomial variance} In Example 10.1.15, we used the Delta Method to estimate the variance of $\phat(1-\phat)$. Based on a sample of size $n$ we could alternatively estimate the variance by bootstrap:
+$$Var^*(\phat(1-\phat)) = \frac{1}{n^n-1} \sum_{i=1}^{n^n} (\phat(1-\phat)^*_i - \overline{\phat(1-\phat)^*})^2$$
+
+\noindent{What if we have too many possible resamples?} If $n=4$ we have $4^4 = 256$ possible samples. However, if we have a large $n$, then it becomes intractable to calculate the parameter estiamte for all possible $n^n$ resamples. Thus, we take a sample of the resamples:
+
+For a sample $\xbar = (x_1, x_2, \ldots, x_n)$ and an estimate $\thetahat(x_1, x_2, \ldots, x_n) = \thetahat$, select $B$ resamples (or {\em bootstrap samples}) and calculate
+$$\mbox{Var}_B^*(\thetahat) = \frac{1}{B-1} \sum_{i=1}^B (\thetahat_i^* - \overline{\thetahat^*})^2.$$
+
+So for a sample of size $n=24$ for the binomial example, we have $24^24 \approx 1.33 \times 10^{13}$ possible resamples, so we compute the bootstrap variance estimate of $\phat(1-\phat)$ using $B=1000$. We also use the Delta Method to calculate the variance estimate.
+For $\phat \neq 1/2$ we use the first-order Delta Method variance and for $\phat = 1/2$ we use the second-order Delta Method Variance (from Example 10.1.5 and Exercise 10.16).
+
+\begin{itemize}
+\item In Table 10.1.1 in C\&B, we see that the bootstrap variance estimate is closer to the true variance, while the Delta Method is an underestimate (it is based on a lower bound CRLB and asymptotic efficiency of MLEs).
+\item The Delta Method is a ``first order" approximation based on the first term of a Taylor series expansion
+\item For $\phat = 1/2$ we obtain a 2nd order approximation using the second term of the Taylor series
+\item The bootstrap can often have ``second-order" accuracy due to the expansions in the proof of convergence (Miscellanea 10.6.3)
+\end{itemize}
+
+\subsubsection{Parametric bootstrap}
+
+\begin{itemize}
+\item We have been describing non-parameteric bootstrap, assuming no functional form for the population pdf of cdf. In contrast, we may have a parametric bootstrap where we draw samples from the distribution of the data distribution.
+\item Suppose we have a sample $\Xndots$ from a distribution with pdf $f(x|\theta)$, where $\theta$ may be a vector of parameters. We can estimate $\theta$ with $\thetahat$ the MEL, and draw samples
+$$X_1^*, X_2^*, \ldots, X_n^* \sim f(x|\thetahat).$$
+If we take $B$ such samples we can estimate the variance of $\thetahat$ with
+$$\mbox{Var}_B^*(\thetahat) = \frac{1}{B-1} \sum_{i=1}^B (\thetahat_i^* - \overline{\thetahat^*})^2.$$
+where $\thetahat^* = \thetahat(x_1^*, x_2^*, \ldots, x^*_n)$.
+\item Note that these samples are not resamples of the data, but actual random samples drawn from $f(x|\thetahat)$, which is sometimes called the {\em plug-in distribution}.
+\end{itemize}
+\noindent\textbf{Example 10.1.22 Parametric bootstrap}
+Suppose we have a sample
+$$-1.81, 0.63, 2.22, 2.41, 2.95, 4.16, 4.24, 4.53, 5.09$$
+so that we observe $\xbar = 2.71$ and $s^2 = 4.82$. If we assume that the underlying distribution is normal, then a parametric bootstrap would take samples:
+$$X_1^*, X_2^*, \ldots, X_n^* \sim \Nsc(2.71,4.82).$$
+Based on $B=1000$ samples we can calculate Var$^*_B(S^2)$ = 4.33.
+
+Or, based on normal theory, the variance of $S^2$ is 2$(\sigma^2)^2/8$, which we could estimate with the MLE as $2(4.82)^2/8 = 5.81$.
+
+In this case, the true value of $\sigma^2$ is 4, so the true variance of $S^2$ is $Var(S^2) = 2(4^2)^2/8  = 4$. The parametric bootstrap gives a closer estimate in this case.
+
+
+\subsubsection{Theory}
+\begin{itemize}
+\item How do we know this is a good method?
+\item In the case of the binomial example, it seemed to outperform the Delta Method for estimation of variance.
+\item The Delta Method which is based on MLE, will usually give consistent estimators. What about bootstrap?
+\item Difficult to answer in great generality, but in many cases the bootstrap does provide a reasonable estimate that is consistent.
+\item To prove that the bootstrap estimate gives accurate inference we must:
+\begin{enumerate}
+\item Establish that the variance from a bootstrap subsample converges to the variance from all bootstrap samples as $B \to \infty$
+$$\mbox{Var}_B^*(\thetahat)  \xrightarrow{B\to \infty}\mbox{Var}^*(\thetahat)$$
+using the Law of Large Numbers which states that the sum of $iid$ converges to its expectation:
+$$\frac{1}{m}\sum_{i=1}^m \mbox{Var}_{B_i}^*(\thetahat) \xrightarrow{m\to \infty} \mbox{ EVar}^*_B(\thetahat)
+ =  Var^*(\thetahat).$$
+Note that this uses the distribution of the {\em sample given the observed data} so the expectation is conditional on the observed data.
+\item Establish the {\em consistency} of the estimator from the full bootstrap sample:
+$$\mbox{Var}^*(\thetahat)  \xrightarrow{n\to \infty}\mbox{Var}(\thetahat)$$
+(this part is more complicated depending on the setting because we must use the distribution of the data).
+\end{enumerate}
+\end{itemize}
+
+\subsubsection{Bootstrap confidence intervals}
+Bootstrap is useful for other inference than variance of estimators. For instance, we may want to obtain a bootstrap confidence interval. Suppose that $\thetahat$ is an estimator of a parameter $\theta$ which has a true unknown value $\theta_0$. Let $\Delta = \thetahat - \theta_0$. Suppose we know the distribution of $\Delta$. Then we can find $\delta_1$ and $\delta_2$ such that:
+$$P(\thetahat - \theta_0 \leq \delta_1) = \frac{\alpha}{2} \mbox{ and }  P(\thetahat - \theta_0 \leq \delta_2) = 1-  \frac{\alpha}{2} $$ so that
+$$P(\delta_1 \leq \thetahat - \theta_0 \leq \delta_2) = 1-\alpha$$
+and solving for $\theta_0$ we have
+$$P(\thetahat - \delta_2 \leq \theta_0 \leq \thetahat-\delta_1) = 1-\alpha.$$
+So we can find a $1-\alpha$ confidence interval for $\theta_0$ if we know the distribution of $\Delta$ which gives us the appropriate distribution cutoffs $\delta_1, \delta_2$. However, we often do not know the distribution fo $\Delta$.
+
+If $\theta_0$ were known, we can approximate this distribution arbitrarily well by simulation: many samples of observations could be randomly generated with the true value $\theta_0$ and we can calculate $\thetahat_i^*$ for each $i$th sample, thus we have many samples of $\thetahat^*-\theta_0$ which approximates the true distribution and we can estimate the $\delta_1, \delta_2$.
+
+However $\theta_0$ is usually unknown so we can instead use bootstrap to calculate $\thetahat_i^* - \thetahat$ for each $i$th sample. We can do this because the distribution of the boostrap samples converges in distribution to the distribution we need to estimate (given the observed data):
+$$\thetahat^* - \thetahat \xrightarrow{d} \thetahat - \theta_0.$$
+
+Hence, we approximate the distribution of $\thetahat - \theta_0$ with $\thetahat^* - \thetahat$ and find $\delta^*_1, \delta^*_2$ such that:
+$$\frac{1}{B}\sum_{i=1}^B I(\thetahat^*_i - \thetahat \leq \delta^*_1) = \frac{\alpha}{2} \mbox{ and }  \frac{1}{B}\sum_{i=1}^B I(\thetahat^*_i - \thetahat \leq \delta^*_2) = 1-  \frac{\alpha}{2} $$
+
+and so we can define the approximate $1-\alpha$ confidence interval for $\theta_0$ as:
+$$(\thetahat - \delta^*_2,\thetahat - \delta^*_1)$$
+since
+$$P(\thetahat - \delta^*_2 \leq \theta_0 \leq \thetahat-\delta^*_1) = 
+P(\delta^*_1 \leq \thetahat - \theta_0 \leq \delta^*_2)  \approx  P(\delta^*_1 \leq \thetahat^* - \thetahat \leq \delta^*_2)   = 1-\alpha.$$
